@@ -1,0 +1,19 @@
+﻿apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "outlook-integration.fullname" . }}
+  labels:
+    {{- include "outlook-integration.labels" . | nindent 4 }}
+data:
+  AzureAD.ApplicationId: {{ .Values.config.AzureAD.ApplicationId | quote }}
+  AzureAD.TenantId: {{ .Values.config.AzureAD.TenantId | quote }}
+  AzureAD.ClientSecret: {{ .Values.config.AzureAD.ClientSecret | quote }}
+  Ninox.TenantId: {{ .Values.config.Ninox.TenantId | quote }}
+  Ninox.TeamId: {{ .Values.config.Ninox.TeamId | quote }}
+  Ninox.DatabaseId: {{ .Values.config.Ninox.DatabaseId | quote }}
+  Ninox.ApiKey: {{ .Values.config.Ninox.ApiKey | quote }}
+  Ninox.Url: {{ .Values.config.Ninox.Url | quote }}
+  Oktopus.Url: {{ .Values.config.Oktopus.Url | quote }}
+  Oktopus.ApiKey: {{ .Values.config.Oktopus.ApiKey | quote }}
+  License.Key: {{ .Values.config.License.Key | quote }}
+  Api.EnableDetailedErrorMessages: {{ .Values.config.Api.EnableDetailedErrorMessages | quote }}

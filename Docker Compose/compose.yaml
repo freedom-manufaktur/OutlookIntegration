@@ -1,0 +1,42 @@
+name: outlook-integration
+
+services: # https://docs.docker.com/compose/compose-file/05-services/
+  init-app: # We allocate a directory and change the owner to "app" as a template for the actual volume mount.
+    image: busybox:1.36.1-musl
+    command:
+      - sh
+      - -c
+      - mkdir -p /app/data
+      - chown -R 1654:1654 /app/data
+  app:
+    depends_on:
+      init-app:
+        condition: service_completed_successfully
+    image: "outlook-integration:${ImageTag}"
+    ports:
+      - "${PublicPort}:8080"
+    volumes:
+      - app-data:/app/data
+    healthcheck: # https://docs.docker.com/compose/compose-file/05-services/#healthcheck
+      test: [ "CMD", "dotnet", "/app/OutlookIntegration.Server.dll", "--healthcheck", "http://localhost/healthcheck" ]
+      interval: 1m # Takes 1 minute for the first check, and then every minute
+      timeout: 1m
+    environment:
+      - AzureAD:ApplicationId=${AzureAD_ApplicationId}
+      - AzureAD:TenantId=${AzureAD_TenantId}
+      - AzureAD:ClientSecret=${AzureAD_ClientSecret}
+      - Ninox:TenantId=${Ninox_TenantId}
+      - Ninox:TeamId=${Ninox_TeamId}
+      - Ninox:DatabaseId=${Ninox_DatabaseId}
+      - Ninox:ApiKey=${Ninox_ApiKey}
+      - Ninox:Url=${Ninox_Url}
+      - Oktopus:Url=${Oktopus_Url}
+      - Oktopus:ApiKey=${Oktopus_ApiKey}
+      - License:Key=${License_Key}
+      - Api:EnableDetailedErrorMessages=${Api_EnableDetailedErrorMessages}
+
+volumes: # https://docs.docker.com/compose/compose-file/07-volumes/
+  app-data:
+    driver: local # Use the Docker Desktop default https://docs.docker.com/compose/compose-file/07-volumes/#driver
+    # Inspect data here (Docker Desktop Windows):
+    # \\wsl$\docker-desktop-data\data\docker\volumes\outlook-integration_app-data\_data

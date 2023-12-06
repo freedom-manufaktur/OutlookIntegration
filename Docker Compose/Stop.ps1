@@ -1,0 +1,1 @@
+docker compose --env-file ./compose.env --env-file ./compose.env.user down
