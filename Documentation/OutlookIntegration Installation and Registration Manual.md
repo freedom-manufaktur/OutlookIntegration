@@ -1,6 +1,6 @@
 ﻿OutlookIntegration - Add-in Installation and Registration Manual
 ---
-Version: `1.5.0-preview.1` - `2023-12-11` \
+Version: `1.8.0-preview.1` - `2024-02-12` \
 Author: martin@freedom-manufaktur.com \
 Link: [Documentation on GitHub](https://github.com/freedom-manufaktur/OutlookIntegration/tree/main/Documentation/Bot%20Installation%20and%20Registration%20Manual.md)
 
@@ -35,7 +35,7 @@ Table of contents
 5.  Under **API permissions** make sure that you have at least `Mail.Read` and `User.Read` delegated permissions.\
     Once you have added the permissions, use **Grant admin consent for MyCompany** and make sure all permissions have admin consent.\
     ![App registration permissions](Images/Entra%20ID%20App%20registration%20Permissions.png)
-    > Note: The `User.Read` permission can be replaced by `openid` which is even less permissive.
+    > Note: Microsoft states that the `User.Read` permission can be replaced by `openid` and `profile` which is even less permissive. We do **not** recommend this, as we had the most reliable results with `User.Read`.
 
 6.  Under **Manifest** change `accessTokenAcceptedVersion` to `2` (default: `null`).\
     ![App registration token version](Images/Entra%20ID%20App%20registration%20TokenVersion.png)
@@ -43,7 +43,7 @@ Table of contents
 7.  Under **Expose an API**
     > Note: If you do not know the addess yet, you can skip the following steps and return here later. But remember to do so or you will be not be able to authenticate when using the *Outlook add-in*.
     1.  Under **Application ID URI** click **Add**.\
-    You should see something like `api://4796b8e0-b713-42f7-9d9e-b5abb6dd49c2`. Replace the `api://` with the public base address of you *add-in* service (e.g. `https://addin.MyCompany.com/4796b8e0-b713-42f7-9d9e-b5abb6dd49c2`).
+    You should see something like `api://4796b8e0-b713-42f7-9d9e-b5abb6dd49c2`. Insert the public domain name of your *add-in* service between `api://` and the application ID (e.g. `api://addin.MyCompany.com/4796b8e0-b713-42f7-9d9e-b5abb6dd49c2`).
     2.  Under **Scopes defined by this API** click **Add a scope** and set
         - Scope name: `access_as_user`
         - Who can consent: `Admins and users`
@@ -57,7 +57,7 @@ Table of contents
 
 As a result of this chapter you should have the following information at your disposal:
 * Entra ID Application ID (e.g. `4796b8e0-b713-42f7-9d9e-b5abb6dd49c2`)
-* Entry ID Application ID URI (e.g. `https://addin.MyCompany.com/4796b8e0-b713-42f7-9d9e-b5abb6dd49c2`)
+* Entry ID Application ID URI (e.g. `api://addin.MyCompany.com/4796b8e0-b713-42f7-9d9e-b5abb6dd49c2`)
 * Entra ID Tenant ID (e.g. `9776b2ed-e415-439d-9582-85719af85979`)
 * Entra ID Client Secret (e.g. `UUC8Q[...]`)
 
@@ -85,7 +85,7 @@ There are different kinds of installation. You may choose the one best suiting y
 **Installation**
 
 1.  Download Installation from [OutlookIntegration Download](https://freedommanufaktur.sharepoint.com/:f:/g/El63_xb4uBZKt_uqMrKfeZoBRroSWVY6LvkpI3NymPsTwQ?e=qkZS75)
-1.  Install `OutlookIntegration Setup 1.5.0.exe`
+1.  Install `OutlookIntegration Setup 1.8.0.exe`
     > Note: This will automatically install .NET 8.0 if necessary
 1.  (Optional, verify running) Open a browser and navigate to \
     http://localhost:8010 \
@@ -224,7 +224,7 @@ Let's put all this together.
 
 3.  Restart the *OutlookIntegration* Service/Container.
 
-4.  (Optional) Open a browser and enter the URL of **your** bot and append `/healthcheck` \
+4.  (Optional) Open a browser and enter the URL of **your** *OutlookIntegration* service and append `/healthcheck` \
     For example **`https://addin.MyCompany.com/healthcheck`** \
     This should result in a page where everything has the status **Healthy**.
     ```
@@ -252,8 +252,8 @@ Let's put all this together.
     ```
     If that is not the case, please go back to the previous steps and try again.
 
-    > You now have a working Teams Bot that can be used in **any** Teams App.
-      Read the next chapter on how to create a Teams App.
+    > You now have a working *OutlookIntegration* service that can be used in **any** Office Add-in.
+      Read the next chapter on how to create an Office Add-in.
 
 # 4. Create a personalized Office Add-in using your add-in service
 
