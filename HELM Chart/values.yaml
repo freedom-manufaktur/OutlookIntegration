@@ -1,24 +1,17 @@
-# Default values for outlook-integration.
-#
-# Use this file to configure your app or use a second config file:
-# helm upgrade release-name . --install --values values.yaml --values values.customer.yaml
-# After install test the app with:
-# helm test release-name
-
 config:
   # Details for the Entra ID app registration https://entra.microsoft.com/#view/Microsoft_AAD_RegisteredApps/ApplicationsListBlade/quickStartType~/null/sourceType/Microsoft_AAD_IAM
   AzureAD:
     ApplicationId: ""
     TenantId: ""
     ClientSecret: ""
-  # (Optional) Outlook app for Ninox
+  # (Optional) Outlook Add-in for Ninox
   Ninox:
     TenantId: ""
     TeamId: ""
     DatabaseId: ""
     ApiKey: ""
     Url: ""
-  # (Optional) Outlook app for USU/USM via Oktopus
+  # (Optional) Outlook Add-in (Dispatcher) for USU/USM or Ivanti/ISM via Oktopus
   Oktopus:
     Url: ""
     ApiKey: ""

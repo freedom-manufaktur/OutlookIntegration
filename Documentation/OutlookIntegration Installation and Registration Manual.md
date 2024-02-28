@@ -16,6 +16,8 @@ Table of contents
 - [4. Create a personalized Office Add-in using your add-in service](#4-create-a-personalized-office-add-in-using-your-add-in-service)
 - [5. Publish your Office Add-in to your Organization/Users](#5-publish-your-office-add-in-to-your-organizationusers)
 - [8. Use the Add-in](#8-use-the-add-in)
+- [What's new?](#whats-new)
+  - [\[1.6.0\] - 2023-12-23](#160---2023-12-23)
 - [Need support?](#need-support)
 <!--/TOC-->
 
@@ -280,11 +282,22 @@ As a Microsoft Outlook user of your organization.
 3.  Done!
     > Congratulations on successfully installing, configuring, registering and using the **OutlookIntegration**.
 
+# What's new?
+This section lists **important** changes to the documentation and Docker files.
+Please read this list when upgrading an existing installation.
+> The full app changelog can be found in the [OutlookIntegration Download](https://freedommanufaktur.sharepoint.com/:f:/g/El63_xb4uBZKt_uqMrKfeZoBRroSWVY6LvkpI3NymPsTwQ?e=qkZS75)
+
+## [1.6.0] - 2023-12-23
+- Documentation, *Docker Compose* and *HELM Chart* have been updated with `Oktopus:Url` and `Oktopus:ApiKey` variables.
+  These can be left blank, unless you want to use the *Dispatcher* features.
+
 # Need support?
 If you have any questions regarding the installation and configuration of the OutlookIntegration, contact us at
-* All questions regarding the OutlookIntegration \
+* All questions regarding the *OutlookIntegration* \
     support@gentlemengroup.de (Gentlemen Group)
-* All questions around the *OutlookIntegration Microservice* / *Teams App Registration* \
+* All questions around the *OutlookIntegration Microservice* / *Outlook Add-in Registration* / *whoosh Oktopus* \
     support@freedom-manufaktur.com (freedom manufaktur)
-* All questions regarding the USU Knowledge Manager itself \
+* All questions regarding the *USU Service Manager* itself \
     support@usu.com (USU)
+* All questions regarding the *Ivanti Neurons for ITSM* / *Ivanti Service Manager* itself \
+    https://www.ivanti.com/support (Ivanti)
