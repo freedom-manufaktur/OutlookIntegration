@@ -110,7 +110,6 @@ The installation also creates a new Windows Event Log source `OutlookIntegration
 1. Download the Docker Compose YAML files from [OutlookIntegration Docker Compose Download](https://github.com/freedom-manufaktur/OutlookIntegration/tree/main/Docker%20Compose).
 
 1. Adjust the `compose.env` with the required settings.
-   > Note: Read the following chapters if you do not have all the required information.
 
 1. Use the command `docker compose --env-file .\compose.env up` to deploy the app.
 
@@ -133,7 +132,6 @@ For example in Docker Desktop \
 1. Download the HELM Chart files from [OutlookIntegration HELM Chart Download](https://github.com/freedom-manufaktur/OutlookIntegration/tree/main/HELM%20Chart).
 
 1. Adjust the `values.yaml` with the required settings.
-   > Note: Read the following chapters if you do not have all the required information.
 
 1. Use the command `helm upgrade outlook-integration . --install` to deploy the app.
 1. Use the command `helm test outlook-integration` to test the deployed app. \
