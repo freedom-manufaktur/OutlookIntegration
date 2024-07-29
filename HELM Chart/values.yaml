@@ -1,23 +1,4 @@
 config:
-  # Details for the Entra ID app registration https://entra.microsoft.com/#view/Microsoft_AAD_RegisteredApps/ApplicationsListBlade/quickStartType~/null/sourceType/Microsoft_AAD_IAM
-  AzureAD:
-    ApplicationId: ""
-    TenantId: ""
-    ClientSecret: ""
-  # (Optional) Outlook Add-in for Ninox
-  Ninox:
-    TenantId: ""
-    TeamId: ""
-    DatabaseId: ""
-    ApiKey: ""
-    Url: ""
-  # (Optional) Outlook Add-in (Dispatcher) for USU/USM or Ivanti/ISM via Oktopus
-  Oktopus:
-    Url: ""
-    ApiKey: ""
-  License:
-    # For example: eyJMaWNlbnNlIjp7Il[...]
-    Key: ""
   Api:
     # Enable to include the full stack trace when an error occurs while calling the API.
     EnableDetailedErrorMessages: false

@@ -1,17 +1,17 @@
 ﻿OutlookIntegration - Add-in Installation and Registration Manual
 ---
-Version: `1.8.0-preview.1` - `2024-02-12` \
+Version: `2.0.0` - `2024-07-29` \
 Author: martin@freedom-manufaktur.com \
 Link: [Documentation on GitHub](https://github.com/freedom-manufaktur/OutlookIntegration/tree/main/Documentation/Bot%20Installation%20and%20Registration%20Manual.md)
 
 Table of contents
 ---
 <!--TOC-->
-- [1. Entra ID (Azure AD) Application registration](#1-entra-id-azure-ad-application-registration)
-- [2. Add-in Service Installation](#2-add-in-service-installation)
+- [1. Add-in Service Installation](#1-add-in-service-installation)
   - [Installation as Windows Service](#installation-as-windows-service)
   - [Installation as Docker Container via Docker Compose](#installation-as-docker-container-via-docker-compose)
   - [Installation as Kubernetes Deployment via HELM Chart](#installation-as-kubernetes-deployment-via-helm-chart)
+- [2. Entra ID (Azure AD) Application registration](#2-entra-id-azure-ad-application-registration)
 - [3. Configure the Add-in microservice](#3-configure-the-add-in-microservice)
 - [4. Create a personalized Office Add-in using your add-in service](#4-create-a-personalized-office-add-in-using-your-add-in-service)
 - [5. Publish your Office Add-in to your Organization/Users](#5-publish-your-office-add-in-to-your-organizationusers)
@@ -21,49 +21,7 @@ Table of contents
 - [Need support?](#need-support)
 <!--/TOC-->
 
-# 1. Entra ID (Azure AD) Application registration
-
-1.  Open the [Entra ID - App registrations](https://entra.microsoft.com/#view/Microsoft_AAD_RegisteredApps/ApplicationsListBlade/quickStartType~/null/sourceType/Microsoft_AAD_IAM) portal.
-
-2.  Add a new registration and give it a fitting name.\
-    ![New App registration](Images/Entra%20ID%20App%20registration%20New.png)
-
-3.  Write down the *Application ID* (e.g. `4796b8e0-b713-42f7-9d9e-b5abb6dd49c2`) and  *Tenant ID* (e.g. `9776b2ed-e415-439d-9582-85719af85979`).\
-    ![App registration ID](Images/Entra%20ID%20App%20registration%20ID.png)
-
-4.  Under **Certificates & secrets** → **Client secrets** add a client secret and write it down (e.g. `UUC8Q[...]`).\
-    ![App registration secret](Images/Entra%20ID%20App%20registration%20Secret.png)
-
-5.  Under **API permissions** make sure that you have at least `Mail.Read` and `User.Read` delegated permissions.\
-    Once you have added the permissions, use **Grant admin consent for MyCompany** and make sure all permissions have admin consent.\
-    ![App registration permissions](Images/Entra%20ID%20App%20registration%20Permissions.png)
-    > Note: Microsoft states that the `User.Read` permission can be replaced by `openid` and `profile` which is even less permissive. We do **not** recommend this, as we had the most reliable results with `User.Read`.
-
-6.  Under **Manifest** change `accessTokenAcceptedVersion` to `2` (default: `null`).\
-    ![App registration token version](Images/Entra%20ID%20App%20registration%20TokenVersion.png)
-
-7.  Under **Expose an API**
-    > Note: If you do not know the addess yet, you can skip the following steps and return here later. But remember to do so or you will be not be able to authenticate when using the *Outlook add-in*.
-    1.  Under **Application ID URI** click **Add**.\
-    You should see something like `api://4796b8e0-b713-42f7-9d9e-b5abb6dd49c2`. Insert the public domain name of your *add-in* service between `api://` and the application ID (e.g. `api://addin.MyCompany.com/4796b8e0-b713-42f7-9d9e-b5abb6dd49c2`).
-    2.  Under **Scopes defined by this API** click **Add a scope** and set
-        - Scope name: `access_as_user`
-        - Who can consent: `Admins and users`
-        - Admin consent display name: `Read user email`
-        - Admin consent description: `Allows the app to read user's email.`
-        - User consent display name: `Read your email`
-        - User consent description: `Allows the app to read your email.`
-    3.  Under **Authorized client applications** click **Add a client application** and enter *Client ID*: `ea5a67f6-b6f3-4338-b240-c655ddc3cc8e` (Outlook) for the created scope.\
-    ![App registration expose an API](Images/Entra%20ID%20App%20registration%20Expose.png)
-    > If you want to know more about the process you can read the Microsoft article [Register an Office Add-in that uses single sign-on (SSO) with the Microsoft identity platform](https://learn.microsoft.com/en-us/office/dev/add-ins/develop/register-sso-add-in-aad-v2).
-
-As a result of this chapter you should have the following information at your disposal:
-* Entra ID Application ID (e.g. `4796b8e0-b713-42f7-9d9e-b5abb6dd49c2`)
-* Entry ID Application ID URI (e.g. `api://addin.MyCompany.com/4796b8e0-b713-42f7-9d9e-b5abb6dd49c2`)
-* Entra ID Tenant ID (e.g. `9776b2ed-e415-439d-9582-85719af85979`)
-* Entra ID Client Secret (e.g. `UUC8Q[...]`)
-
-# 2. Add-in Service Installation
+# 1. Add-in Service Installation
 There are different kinds of installation. You may choose the one best suiting your needs.
 * Windows Service \
    ✔ lightweight \
@@ -87,7 +45,7 @@ There are different kinds of installation. You may choose the one best suiting y
 **Installation**
 
 1.  Download Installation from [OutlookIntegration Download](https://freedommanufaktur.sharepoint.com/:f:/g/El63_xb4uBZKt_uqMrKfeZoBRroSWVY6LvkpI3NymPsTwQ?e=qkZS75)
-1.  Install `OutlookIntegration Setup 1.8.0.exe`
+1.  Install `OutlookIntegration Setup 2.0.0.exe`
     > Note: This will automatically install .NET 8.0 if necessary
 1.  (Optional, verify running) Open a browser and navigate to \
     http://localhost:8010 \
@@ -188,6 +146,48 @@ For example in Docker Desktop \
 Use your favorite Docker tools to check the status and logs of the app.
 For example in Kubernetes Dashboard \
 ![Docker Kubernetes Running](Images/Kubernetes%20Running.png)
+
+# 2. Entra ID (Azure AD) Application registration
+
+1.  Open the [Entra ID - App registrations](https://entra.microsoft.com/#view/Microsoft_AAD_RegisteredApps/ApplicationsListBlade/quickStartType~/null/sourceType/Microsoft_AAD_IAM) portal.
+
+2.  Add a new registration and give it a fitting name.\
+    ![New App registration](Images/Entra%20ID%20App%20registration%20New.png)
+
+3.  Write down the *Application ID* (e.g. `4796b8e0-b713-42f7-9d9e-b5abb6dd49c2`) and  *Tenant ID* (e.g. `9776b2ed-e415-439d-9582-85719af85979`).\
+    ![App registration ID](Images/Entra%20ID%20App%20registration%20ID.png)
+
+4.  Under **Certificates & secrets** → **Client secrets** add a client secret and write it down (e.g. `UUC8Q[...]`).\
+    ![App registration secret](Images/Entra%20ID%20App%20registration%20Secret.png)
+
+5.  Under **API permissions** make sure that you have at least `Mail.Read` and `User.Read` delegated permissions.\
+    Once you have added the permissions, use **Grant admin consent for MyCompany** and make sure all permissions have admin consent.\
+    ![App registration permissions](Images/Entra%20ID%20App%20registration%20Permissions.png)
+    > Note: Microsoft states that the `User.Read` permission can be replaced by `openid` and `profile` which is even less permissive. We do **not** recommend this, as we had the most reliable results with `User.Read`.
+
+6.  Under **Manifest** change `accessTokenAcceptedVersion` to `2` (default: `null`).\
+    ![App registration token version](Images/Entra%20ID%20App%20registration%20TokenVersion.png)
+
+7.  Under **Expose an API**
+    > Note: If you do not know the addess yet, you can skip the following steps and return here later. But remember to do so or you will be not be able to authenticate when using the *Outlook add-in*.
+    1.  Under **Application ID URI** click **Add**.\
+    You should see something like `api://4796b8e0-b713-42f7-9d9e-b5abb6dd49c2`. Insert the public domain name of your *add-in* service between `api://` and the application ID (e.g. `api://addin.MyCompany.com/4796b8e0-b713-42f7-9d9e-b5abb6dd49c2`).
+    2.  Under **Scopes defined by this API** click **Add a scope** and set
+        - Scope name: `access_as_user`
+        - Who can consent: `Admins and users`
+        - Admin consent display name: `Read user email`
+        - Admin consent description: `Allows the app to read user's email.`
+        - User consent display name: `Read your email`
+        - User consent description: `Allows the app to read your email.`
+    3.  Under **Authorized client applications** click **Add a client application** and enter *Client ID*: `ea5a67f6-b6f3-4338-b240-c655ddc3cc8e` (Outlook) for the created scope.\
+    ![App registration expose an API](Images/Entra%20ID%20App%20registration%20Expose.png)
+    > If you want to know more about the process you can read the Microsoft article [Register an Office Add-in that uses single sign-on (SSO) with the Microsoft identity platform](https://learn.microsoft.com/en-us/office/dev/add-ins/develop/register-sso-add-in-aad-v2).
+
+As a result of this chapter you should have the following information at your disposal:
+* Entra ID Application ID (e.g. `4796b8e0-b713-42f7-9d9e-b5abb6dd49c2`)
+* Entry ID Application ID URI (e.g. `api://addin.MyCompany.com/4796b8e0-b713-42f7-9d9e-b5abb6dd49c2`)
+* Entra ID Tenant ID (e.g. `9776b2ed-e415-439d-9582-85719af85979`)
+* Entra ID Client Secret (e.g. `UUC8Q[...]`)
 
 # 3. Configure the Add-in microservice
 As a result of the previous chapters you should have the following information at your disposal:

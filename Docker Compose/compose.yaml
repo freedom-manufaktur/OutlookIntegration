@@ -21,17 +21,6 @@ services: # https://docs.docker.com/compose/compose-file/05-services/
     healthcheck: # https://docs.docker.com/compose/compose-file/05-services/#healthcheck
       test: [ "CMD", "/app/OutlookIntegration.Server", "--healthcheck", "http://localhost:8080/livenesscheck" ]
     environment:
-      - AzureAD:ApplicationId=${AzureAD_ApplicationId}
-      - AzureAD:TenantId=${AzureAD_TenantId}
-      - AzureAD:ClientSecret=${AzureAD_ClientSecret}
-      - Ninox:TenantId=${Ninox_TenantId}
-      - Ninox:TeamId=${Ninox_TeamId}
-      - Ninox:DatabaseId=${Ninox_DatabaseId}
-      - Ninox:ApiKey=${Ninox_ApiKey}
-      - Ninox:Url=${Ninox_Url}
-      - Oktopus:Url=${Oktopus_Url}
-      - Oktopus:ApiKey=${Oktopus_ApiKey}
-      - License:Key=${License_Key}
       - Api:EnableDetailedErrorMessages=${Api_EnableDetailedErrorMessages}
 
 volumes: # https://docs.docker.com/compose/compose-file/07-volumes/
