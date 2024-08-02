@@ -1,0 +1,58 @@
+{
+  "Name": "SD 8.2) Get and store available Services",
+  "Description": null,
+  "GroupName": "1.0) SMAX Dispatcher",
+  "Steps": [
+    {
+      "Type": 1,
+      "Name": null,
+      "TechnologyKey": "Timer.v1",
+      "ActionKey": "oa://Timer.v1/Cron",
+      "Properties": [
+        {
+          "Key": "CronExpression",
+          "Value": "0 9 * * *"
+        }
+      ]
+    },
+    {
+      "Type": 2,
+      "Name": null,
+      "TechnologyKey": "IvantiServiceManager.v1",
+      "ActionKey": "oa://IvantiServiceManager.v1/FindObjectsByQuery",
+      "Connection": {
+        "Name": "ivanti.MyCompany.com"
+      },
+      "Properties": [
+        {
+          "Key": "AdvancedFieldsExpression",
+          "Value": "Status,=,Production"
+        },
+        {
+          "Key": "MaxResultCountExpression",
+          "Value": "10000"
+        },
+        {
+          "Key": "Oktopus.ObjectClass",
+          "Value": "CI#Service"
+        },
+        {
+          "Key": "Oktopus.ResultVariableName",
+          "Value": "Services"
+        }
+      ]
+    },
+    {
+      "Type": 2,
+      "Name": null,
+      "TechnologyKey": "Oktopus.v1",
+      "ActionKey": "oa://Oktopus.v1/EvaluateExpression",
+      "Properties": [
+        {
+          "Key": "Expression",
+          "Value": "func convertService(s)\r\n  ret {\r\n    Value: s.RecId,\r\n    DisplayName: s.Fields.Name\r\n  }\r\nend\r\n\r\nservices = Services | array.each @convertService | array.sort \u0022DisplayName\u0022\r\nservices | json.serialize | globalVariable.store \u0022Ivanti-Dispatcher-Services\u0022"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "Name": "ID 2.2) Get open Tickets for user",
+  "Description": null,
+  "GroupName": "1.0) Ivanti Dispatcher",
+  "Steps": [
+    {
+      "Type": 1,
+      "Name": null,
+      "TechnologyKey": "Webhook.v1",
+      "ActionKey": "oa://Webhook.v1/Receive",
+      "Properties": [
+        {
+          "Key": "Oktopus.JsonContentResultVariableName",
+          "Value": "Request"
+        },
+        {
+          "Key": "Oktopus.WebhookIdentifier",
+          "Value": "Ivanti-Dispatcher-GetOpenTickets"
+        }
+      ]
+    },
+    {
+      "Type": 2,
+      "Name": null,
+      "TechnologyKey": "IvantiServiceManager.v1",
+      "ActionKey": "oa://IvantiServiceManager.v1/FindObjectsByQuery",
+      "Connection": {
+        "Name": "ivanti.MyCompany.com"
+      },
+      "Properties": [
+        {
+          "Key": "AdvancedFieldsExpression",
+          "Value": "OwnerEmail,=,{{Request.MailboxUpn | convert.tocsv}}\r\nAND,Status,!=,Closed\r\nAND,Status,!=,Cancelled"
+        },
+        {
+          "Key": "MaxResultCountExpression",
+          "Value": "10000"
+        },
+        {
+          "Key": "Oktopus.ObjectClass",
+          "Value": "Incident#"
+        },
+        {
+          "Key": "Oktopus.ResultVariableName",
+          "Value": "RelevantTickets"
+        }
+      ]
+    },
+    {
+      "Type": 2,
+      "Name": null,
+      "TechnologyKey": "Webhook.v1",
+      "ActionKey": "oa://Webhook.v1/Response",
+      "Properties": [
+        {
+          "Key": "ContentExpression",
+          "Value": "{{\r\n# Mapping function\r\nfunc convertTicket(t)\r\n  ret {\r\n    Id: t.RecId,\r\n    Number: t.Fields.IncidentNumber | object.format \u00220\u0022,\r\n    Subject: t.Fields.Subject,\r\n    LastModDateTime: t.Fields.LastModDateTime\r\n  }\r\nend\r\n\r\nRelevantTickets | array.each @convertTicket | array.sort \u0022LastModDateTime\u0022 | array.reverse\r\n}}"
+        }
+      ]
+    }
+  ]
+}

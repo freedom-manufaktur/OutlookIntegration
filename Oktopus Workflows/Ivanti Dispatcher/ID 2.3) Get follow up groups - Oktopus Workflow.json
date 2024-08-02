@@ -1,0 +1,62 @@
+{
+  "Name": "ID 2.3) Get follow up groups",
+  "Description": null,
+  "GroupName": "1.0) Ivanti Dispatcher",
+  "Steps": [
+    {
+      "Type": 1,
+      "Name": null,
+      "TechnologyKey": "Webhook.v1",
+      "ActionKey": "oa://Webhook.v1/Receive",
+      "Properties": [
+        {
+          "Key": "Oktopus.WebhookIdentifier",
+          "Value": "Ivanti-Dispatcher-GetFollowUpGroups"
+        }
+      ]
+    },
+    {
+      "Type": 2,
+      "Name": null,
+      "TechnologyKey": "IvantiServiceManager.v1",
+      "ActionKey": "oa://IvantiServiceManager.v1/FindObjectsByField",
+      "Connection": {
+        "Name": "ivanti.MyCompany.com"
+      },
+      "Properties": [
+        {
+          "Key": "FieldName",
+          "Value": "IsServiceDesk"
+        },
+        {
+          "Key": "FieldValue",
+          "Value": "True"
+        },
+        {
+          "Key": "MaxResultCountExpression",
+          "Value": "10000"
+        },
+        {
+          "Key": "Oktopus.ObjectClass",
+          "Value": "StandardUserTeam#"
+        },
+        {
+          "Key": "Oktopus.ResultVariableName",
+          "Value": "OwnerTeams"
+        }
+      ]
+    },
+    {
+      "Type": 2,
+      "Name": null,
+      "TechnologyKey": "Webhook.v1",
+      "ActionKey": "oa://Webhook.v1/Response",
+      "Properties": [
+        {
+          "Key": "ContentExpression",
+          "Value": "{{\r\nif OwnerTeams != null\r\n  convertTeam(t) = { Value: t.RecId, DisplayName: t.Fields.Team } # Mapping function\r\n\r\n  ret OwnerTeams | array.each @convertTeam | array.sort \u0022DisplayName\u0022\r\nend\r\n}}"
+        }
+      ]
+    }
+  ]
+}

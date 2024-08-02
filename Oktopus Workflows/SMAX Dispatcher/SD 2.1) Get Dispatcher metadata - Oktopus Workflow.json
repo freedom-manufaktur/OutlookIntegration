@@ -1,0 +1,31 @@
+{
+  "Name": "SD 2.1) Get Dispatcher metadata",
+  "Description": null,
+  "GroupName": "1.0) SMAX Dispatcher",
+  "Steps": [
+    {
+      "Type": 1,
+      "Name": "Metadata request",
+      "TechnologyKey": "Webhook.v1",
+      "ActionKey": "oa://Webhook.v1/Receive",
+      "Properties": [
+        {
+          "Key": "Oktopus.WebhookIdentifier",
+          "Value": "SMAX-Dispatcher-GetDispatcherMetadata"
+        }
+      ]
+    },
+    {
+      "Type": 2,
+      "Name": "Return Metadata",
+      "TechnologyKey": "Webhook.v1",
+      "ActionKey": "oa://Webhook.v1/Response",
+      "Properties": [
+        {
+          "Key": "ContentExpression",
+          "Value": "{{\r\n{\r\n  TicketType: \u0022Request\u0022,\r\n  Impacts: globalVariable.load \u0022SMAX-Dispatcher-Impacts\u0022 | json.parse,\r\n  Urgencies: globalVariable.load \u0022SMAX-Dispatcher-Urgencies\u0022 | json.parse,\r\n  DefaultImpact: \u0022SingleUser\u0022,\r\n  DefaultUrgency: \u0022SlightDisruption\u0022,\r\n  TicketNumberRegex: \u0060.*?(Request|Incident|Problem|Change)?\\s*(?\u003CNumber\u003E\\d{5,20}).*\u0060\r\n}\r\n}}"
+        }
+      ]
+    }
+  ]
+}

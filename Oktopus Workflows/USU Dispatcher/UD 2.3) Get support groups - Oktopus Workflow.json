@@ -1,0 +1,58 @@
+{
+  "Name": "UD 2.3) Get support groups",
+  "Description": null,
+  "GroupName": "1.0) USU Dispatcher",
+  "Steps": [
+    {
+      "Type": 1,
+      "Name": null,
+      "TechnologyKey": "Webhook.v1",
+      "ActionKey": "oa://Webhook.v1/Receive",
+      "Properties": [
+        {
+          "Key": "Oktopus.WebhookIdentifier",
+          "Value": "USU-Dispatcher-GetSupportGroups"
+        }
+      ]
+    },
+    {
+      "Type": 2,
+      "Name": null,
+      "TechnologyKey": "USM.v1",
+      "ActionKey": "oa://USM.v1/FindObjectsByCondition",
+      "Connection": {
+        "Name": "usm.MyCompany.com"
+      },
+      "Properties": [
+        {
+          "Key": "ConditionsExpression",
+          "Value": ","
+        },
+        {
+          "Key": "FieldExpandExpression",
+          "Value": "supportgroup,\u0022Name\u0022"
+        },
+        {
+          "Key": "ObjectType",
+          "Value": "Supportgroup"
+        },
+        {
+          "Key": "ResultVariableName",
+          "Value": "SupportGroups"
+        }
+      ]
+    },
+    {
+      "Type": 2,
+      "Name": null,
+      "TechnologyKey": "Webhook.v1",
+      "ActionKey": "oa://Webhook.v1/Response",
+      "Properties": [
+        {
+          "Key": "ContentExpression",
+          "Value": "{{ SupportGroups ?? [] }}"
+        }
+      ]
+    }
+  ]
+}

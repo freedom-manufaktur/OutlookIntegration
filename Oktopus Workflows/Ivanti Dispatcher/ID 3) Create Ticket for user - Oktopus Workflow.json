@@ -1,0 +1,302 @@
+{
+  "Name": "ID 3) Create Ticket for user",
+  "Description": null,
+  "GroupName": "1.0) Ivanti Dispatcher",
+  "Steps": [
+    {
+      "Type": 1,
+      "Name": null,
+      "TechnologyKey": "Webhook.v1",
+      "ActionKey": "oa://Webhook.v1/Receive",
+      "Properties": [
+        {
+          "Key": "Oktopus.JsonContentResultVariableName",
+          "Value": "Request"
+        },
+        {
+          "Key": "Oktopus.WebhookIdentifier",
+          "Value": "Ivanti-Dispatcher-CreateTicket"
+        }
+      ]
+    },
+    {
+      "Type": 2,
+      "Name": "Create EML file",
+      "TechnologyKey": "Text.v1",
+      "ActionKey": "oa://Text.v1/CreateFileFromBase64",
+      "Properties": [
+        {
+          "Key": "ContentExpression",
+          "Value": "{{Request.EmlFile}}"
+        },
+        {
+          "Key": "FileNameExpression",
+          "Value": "Email.eml"
+        },
+        {
+          "Key": "ResultVariableName",
+          "Value": "MailFile"
+        }
+      ]
+    },
+    {
+      "Type": 2,
+      "Name": null,
+      "TechnologyKey": "Mail.v1",
+      "ActionKey": "oa://Mail.v1/ParseEml",
+      "Properties": [
+        {
+          "Key": "EmlExpression",
+          "Value": "{{MailFile}}"
+        },
+        {
+          "Key": "InlineHtmlAttachmentsExpression",
+          "Value": "True"
+        },
+        {
+          "Key": "ResultVariableName",
+          "Value": "Mail"
+        },
+        {
+          "Key": "ResultVariableName.Attachments",
+          "Value": "MailAttachments"
+        }
+      ]
+    },
+    {
+      "Type": 2,
+      "Name": "Get Person reported by",
+      "TechnologyKey": "IvantiServiceManager.v1",
+      "ActionKey": "oa://IvantiServiceManager.v1/Find",
+      "Connection": {
+        "Name": "ivanti.MyCompany.com"
+      },
+      "Properties": [
+        {
+          "Key": "FieldName",
+          "Value": "PrimaryEmail"
+        },
+        {
+          "Key": "FieldValue",
+          "Value": "{{Request.MailboxUpn}}"
+        },
+        {
+          "Key": "Oktopus.ItemNotFoundAction",
+          "Value": "Continue"
+        },
+        {
+          "Key": "Oktopus.ObjectClass",
+          "Value": "Employee#"
+        },
+        {
+          "Key": "Oktopus.ResultVariableName",
+          "Value": "PersonReportedBy"
+        }
+      ]
+    },
+    {
+      "Type": 2,
+      "Name": "Get Person reported for",
+      "TechnologyKey": "IvantiServiceManager.v1",
+      "ActionKey": "oa://IvantiServiceManager.v1/Find",
+      "Connection": {
+        "Name": "ivanti.MyCompany.com"
+      },
+      "Properties": [
+        {
+          "Key": "FieldName",
+          "Value": "PrimaryEmail"
+        },
+        {
+          "Key": "FieldValue",
+          "Value": "{{Mail.From[0].Address}}"
+        },
+        {
+          "Key": "Oktopus.ItemNotFoundAction",
+          "Value": "Continue"
+        },
+        {
+          "Key": "Oktopus.ObjectClass",
+          "Value": "Employee#"
+        },
+        {
+          "Key": "Oktopus.ResultVariableName",
+          "Value": "PersonReportedFor"
+        }
+      ]
+    },
+    {
+      "Type": 2,
+      "Name": "Prepare Ticket create",
+      "TechnologyKey": "Oktopus.v1",
+      "ActionKey": "oa://Oktopus.v1/EvaluateExpression",
+      "Properties": [
+        {
+          "Key": "Expression",
+          "Value": "personReportedBy = PersonReportedBy\r\npersonReportedFor = PersonReportedFor\r\nif personReportedBy == null\r\n  personReportedBy = globalVariable.load \u0022Ivanti-Dispatcher-DummyUser\u0022 | json.parse\r\nend\r\nif PersonReportedFor == null\r\n  personReportedFor = globalVariable.load \u0022Ivanti-Dispatcher-DummyUser\u0022 | json.parse\r\nend\r\n\r\nfunc getCategory(serviceName)\r\n  case serviceName\r\n  when \u0022Demo Service\u0022; ret \u0022Demo Category\u0022\r\n  when \u0022Desktop Service\u0022; ret \u0022Application Error\u0022\r\n  when \u0022Facilities Management\u0022; ret \u0022Capacity\u0022\r\n  when \u0022Service Desk\u0022; ret \u0022Service Desk\u0022\r\n  when \u0022QA\u0022; ret \u0022Performance\u0022\r\n  else; ret \u0022How-To\u0022\r\n  end\r\nend\r\n\r\ncreateTicketDetails = { }\r\n\r\nwith createTicketDetails\r\n  MailSubject = Mail.Subject\r\n  if Mail.Body | string.empty\r\n    MailBody = Mail.TextBody\r\n  else\r\n    MailBody = Mail.Body\r\n  end\r\n  Customer = personReportedFor.RecId\r\n  CustomerDisplayName = personReportedFor.Fields.DisplayName\r\n  Service = Request.Parameters.Service.DisplayName\r\n  if Request.Parameters.FollowUpAction == \u0022AssignToMe\u0022\r\n    Category = getCategory(Service)\r\n    Status = \u0022Active\u0022\r\n    OwnerTeam = personReportedBy.Fields.Team\r\n    Owner = personReportedBy.Fields.LoginID\r\n  else if Request.Parameters.FollowUpAction == \u0022Forward\u0022\r\n    Status = \u0022Logged\u0022\r\n    OwnerTeam = Request.Parameters.FollowUpGroup.DisplayName\r\n  else if Request.Parameters.FollowUpAction == \u0022Close\u0022\r\n    Category = getCategory(Service)\r\n    Status = \u0022Closed\u0022\r\n    OwnerTeam = personReportedBy.Fields.Team\r\n    Owner = personReportedBy.Fields.LoginID\r\n    CauseCode = \u0022Documentation Request\u0022\r\n    Resolution = \u0022See email body.\u0022\r\n  else\r\n    Status = \u0022Logged\u0022\r\n  end\r\n\r\n  if Request.Parameters.TimeTrack | string.HasContent\r\n    TimeBooking = (Request.Parameters.TimeTrack | timespan.parse)\r\n  end\r\n  Comment = Request.Parameters.Comment\r\n\r\n  SkipJournal = (createTicketDetails.Comment | string.Empty) \u0026\u0026 createTicketDetails.TimeBookingHours \u003C= 0\r\nend\r\n\r\ncreateTicketDetails | variable.store \u0022CreateTicketDetails\u0022"
+        }
+      ]
+    },
+    {
+      "Type": 2,
+      "Name": "Create Ticket",
+      "TechnologyKey": "IvantiServiceManager.v1",
+      "ActionKey": "oa://IvantiServiceManager.v1/Create",
+      "Connection": {
+        "Name": "ivanti.MyCompany.com"
+      },
+      "Properties": [
+        {
+          "Key": "ISM:Category",
+          "Value": "{{CreateTicketDetails.Category | variable.skipIfEmpty}}"
+        },
+        {
+          "Key": "ISM:CauseCode",
+          "Value": "{{CreateTicketDetails.CauseCode | variable.skipIfEmpty}}"
+        },
+        {
+          "Key": "ISM:Owner",
+          "Value": "{{CreateTicketDetails.Owner | variable.skipIfEmpty}}"
+        },
+        {
+          "Key": "ISM:OwnerTeam",
+          "Value": "{{CreateTicketDetails.OwnerTeam | variable.skipIfEmpty}}"
+        },
+        {
+          "Key": "ISM:ProfileLink",
+          "Value": "{{CreateTicketDetails.Customer | variable.skipIfEmpty}}"
+        },
+        {
+          "Key": "ISM:Resolution",
+          "Value": "{{CreateTicketDetails.Resolution | variable.skipIfEmpty}}"
+        },
+        {
+          "Key": "ISM:Service",
+          "Value": "{{CreateTicketDetails.Service}}"
+        },
+        {
+          "Key": "ISM:Source",
+          "Value": "Email"
+        },
+        {
+          "Key": "ISM:Status",
+          "Value": "{{CreateTicketDetails.Status | variable.skipIfEmpty}}"
+        },
+        {
+          "Key": "ISM:Subject",
+          "Value": "{{CreateTicketDetails.MailSubject}}"
+        },
+        {
+          "Key": "ISM:Symptom",
+          "Value": "{{CreateTicketDetails.MailBody}}"
+        },
+        {
+          "Key": "Oktopus.ObjectClass",
+          "Value": "Incident#"
+        },
+        {
+          "Key": "Oktopus.ResultVariableName",
+          "Value": "CreatedTicket"
+        }
+      ]
+    },
+    {
+      "Type": 2,
+      "Name": "Create Comment Note",
+      "TechnologyKey": "IvantiServiceManager.v1",
+      "ActionKey": "oa://IvantiServiceManager.v1/Create",
+      "Connection": {
+        "Name": "ivanti.MyCompany.com"
+      },
+      "Properties": [
+        {
+          "Key": "ISM:Category",
+          "Value": "Memo{{if CreateTicketDetails.SkipJournal; step.skip; end;}}"
+        },
+        {
+          "Key": "ISM:NotesBody",
+          "Value": "{{CreateTicketDetails.Comment | step.skipIfEmpty}}"
+        },
+        {
+          "Key": "ISM:ParentLink_Category",
+          "Value": "{{CreatedTicket.Name}}"
+        },
+        {
+          "Key": "ISM:ParentLink_RecID",
+          "Value": "{{CreatedTicket.RecId}}"
+        },
+        {
+          "Key": "ISM:Source",
+          "Value": "E-Mail"
+        },
+        {
+          "Key": "ISM:Subject",
+          "Value": "Dispatcher"
+        },
+        {
+          "Key": "ISM:TimeSpent",
+          "Value": "{{CreateTicketDetails.TimeBooking.total_minutes | math.round 0}}"
+        },
+        {
+          "Key": "Oktopus.ObjectClass",
+          "Value": "Journal#Notes"
+        },
+        {
+          "Key": "Oktopus.ResultVariableName",
+          "Value": "CreatedNote"
+        }
+      ]
+    },
+    {
+      "Type": 2,
+      "Name": "Add Attachment to Ticket",
+      "TechnologyKey": "IvantiServiceManager.v1",
+      "ActionKey": "oa://IvantiServiceManager.v1/AddAttachment",
+      "Connection": {
+        "Name": "ivanti.MyCompany.com"
+      },
+      "Properties": [
+        {
+          "Key": "Oktopus.ExtensionRestrictedAction",
+          "Value": "Continue"
+        },
+        {
+          "Key": "Oktopus.FileExpression",
+          "Value": "{{MailFile}}"
+        },
+        {
+          "Key": "Oktopus.FileNameAlternativeExpression",
+          "Value": "{{\r\nif step.item.Attempt \u003E 2\r\n  mailDate = date.now | object.format \u0022yyyy-MM-dd HH-mm-ss\u0022\r\nelse\r\n  mailDate = Mail.Date | object.format \u0022yyyy-MM-dd HH-mm\u0022\r\nend\r\n$\u0022{CreateTicketDetails.MailSubject} ({mailDate})\u0022 | string.GetFileName \u0022eml\u0022\r\n}}"
+        },
+        {
+          "Key": "Oktopus.FileNameExpression",
+          "Value": "{{CreateTicketDetails.MailSubject | string.GetFileName \u0022eml\u0022 \u0022Email\u0022}}"
+        },
+        {
+          "Key": "Oktopus.ObjectClassExpression",
+          "Value": "{{CreatedTicket.TableRef}}"
+        },
+        {
+          "Key": "Oktopus.ObjectIdExpression",
+          "Value": "{{CreatedTicket.RecId}}"
+        },
+        {
+          "Key": "Oktopus.ResultVariableName",
+          "Value": "CreatedAttachment"
+        }
+      ]
+    },
+    {
+      "Type": 2,
+      "Name": "Return Ticket info",
+      "TechnologyKey": "Webhook.v1",
+      "ActionKey": "oa://Webhook.v1/Response",
+      "Properties": [
+        {
+          "Key": "ContentExpression",
+          "Value": "{{\r\nbaseUrl = globalVariable.load \u0022Ivanti-Dispatcher-TicketBaseUrl\u0022\r\nlink = $\u0022{baseUrl}/Login.aspx?Scope=ObjectWorkspace\u0026CommandId=Search\u0026ObjectType=Incident%23\u0026CommandData=IncidentNumber,=,0,{CreatedTicket.Fields.IncidentNumber}\u0022\r\n{\r\n  Ticket: {\r\n    Id: CreatedTicket.RecId,\r\n    Number: CreatedTicket.Fields.IncidentNumber | object.format \u00220\u0022,\r\n    Subject: CreatedTicket.Fields.Subject,\r\n    Link: link\r\n  }\r\n} }}"
+        }
+      ]
+    }
+  ]
+}

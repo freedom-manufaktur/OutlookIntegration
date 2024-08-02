@@ -1,6 +1,6 @@
 ﻿OutlookIntegration - Add-in Installation and Registration Manual
 ---
-Version: `2.0.0` - `2024-07-29` \
+Version: `2.0.0` - `2024-08-02` \
 Author: martin@freedom-manufaktur.com \
 Link: [Documentation on GitHub](https://github.com/freedom-manufaktur/OutlookIntegration/tree/main/Documentation/Bot%20Installation%20and%20Registration%20Manual.md)
 
@@ -11,12 +11,21 @@ Table of contents
   - [Installation as Windows Service](#installation-as-windows-service)
   - [Installation as Docker Container via Docker Compose](#installation-as-docker-container-via-docker-compose)
   - [Installation as Kubernetes Deployment via HELM Chart](#installation-as-kubernetes-deployment-via-helm-chart)
+  - [Post Installation check](#post-installation-check)
 - [2. Entra ID (Azure AD) Application registration](#2-entra-id-azure-ad-application-registration)
-- [3. Configure the Add-in microservice](#3-configure-the-add-in-microservice)
-- [4. Create a personalized Office Add-in using your add-in service](#4-create-a-personalized-office-add-in-using-your-add-in-service)
-- [5. Publish your Office Add-in to your Organization/Users](#5-publish-your-office-add-in-to-your-organizationusers)
-- [8. Use the Add-in](#8-use-the-add-in)
+- [3. whoosh Oktopus installation](#3-whoosh-oktopus-installation)
+  - [Install whoosh Oktopus](#install-whoosh-oktopus)
+    - [Determin Oktopus API key](#determin-oktopus-api-key)
+  - [Import Dispatcher workflows](#import-dispatcher-workflows)
+  - [Post Installation check](#post-installation-check-1)
+- [4. Configure the Add-in microservice](#4-configure-the-add-in-microservice)
+- [5. Create a personalized Outlook Add-in using your Add-in service](#5-create-a-personalized-outlook-add-in-using-your-add-in-service)
+- [6. Publish your Outlook Add-in to your Organization/Users](#6-publish-your-outlook-add-in-to-your-organizationusers)
+  - [How to install (for personal use)](#how-to-install-for-personal-use)
+  - [How to install (for organization)](#how-to-install-for-organization)
+- [7. Use the Add-in](#7-use-the-add-in)
 - [What's new?](#whats-new)
+  - [\[2.0.0\] - 2024-07-30](#200---2024-07-30)
   - [\[1.6.0\] - 2023-12-23](#160---2023-12-23)
 - [Need support?](#need-support)
 <!--/TOC-->
@@ -145,7 +154,15 @@ Use your favorite Docker tools to check the status and logs of the app.
 For example in Kubernetes Dashboard \
 ![Docker Kubernetes Running](Images/Kubernetes%20Running.png)
 
+## Post Installation check
+As a result of this chapter you should have the following information at your disposal:
+* Outlook Integration Service URL (e.g. `https://addin.MyCompany.com`)
+
+You should be able to call `https://addin.MyCompany.com/healthcheck` from a users machine (use a regular browser) and get a `200 OK` response.
+
 # 2. Entra ID (Azure AD) Application registration
+
+> Note: Before you begin this chapter, you **should** know your *Outlook Integration Service URL* from the previous chapter.
 
 1.  Open the [Entra ID - App registrations](https://entra.microsoft.com/#view/Microsoft_AAD_RegisteredApps/ApplicationsListBlade/quickStartType~/null/sourceType/Microsoft_AAD_IAM) portal.
 
@@ -167,9 +184,8 @@ For example in Kubernetes Dashboard \
     ![App registration token version](Images/Entra%20ID%20App%20registration%20TokenVersion.png)
 
 7.  Under **Expose an API**
-    > Note: If you do not know the addess yet, you can skip the following steps and return here later. But remember to do so or you will be not be able to authenticate when using the *Outlook add-in*.
     1.  Under **Application ID URI** click **Add**.\
-    You should see something like `api://4796b8e0-b713-42f7-9d9e-b5abb6dd49c2`. Insert the public domain name of your *add-in* service between `api://` and the application ID (e.g. `api://addin.MyCompany.com/4796b8e0-b713-42f7-9d9e-b5abb6dd49c2`).
+    You should see something like `api://4796b8e0-b713-42f7-9d9e-b5abb6dd49c2`. Insert the public domain name of your *Add-in* service URL between `api://` and the application ID (e.g. `api://addin.MyCompany.com/4796b8e0-b713-42f7-9d9e-b5abb6dd49c2`).
     2.  Under **Scopes defined by this API** click **Add a scope** and set
         - Scope name: `access_as_user`
         - Who can consent: `Admins and users`
@@ -187,103 +203,143 @@ As a result of this chapter you should have the following information at your di
 * Entra ID Tenant ID (e.g. `9776b2ed-e415-439d-9582-85719af85979`)
 * Entra ID Client Secret (e.g. `UUC8Q[...]`)
 
-# 3. Configure the Add-in microservice
+# 3. whoosh Oktopus installation
+
+Every successful interaction with the Add-in service will result in a call to *whoosh Oktopus* which provides a standardised API to any kind of ITSM tool.
+
+## Install whoosh Oktopus
+The *whoosh Oktopus* installation is described in this document:
+[whoosh Oktopus Installation Manual.md](whoosh%20Oktopus%20Installation%20Manual.md)
+
+### Determin Oktopus API key
+1.  Go to `Settings` -> `Advanced settings` and write down the `Webhook base URL` and `Webhook API key`.
+
+## Import Dispatcher workflows
+1.  Download the `Oktopus Workflow.json` files from the corresponding Dispatcher folder and import them into Oktopus.
+2.  Add a connection to all of the steps requiring one.
+3.  Adjust the steps as required by your customization.
+
+## Post Installation check
+As a result of this chapter you should have the following information at your disposal:
+* Oktopus URL (e.g. `https://oktopus.MyCompany.com`)
+* Oktopus API key (e.g. `d2hvb3[...]`)
+* Dispatcher prefix (e.g. `USU-Dispatcher`, `Ivanti-Dispatcher`, `SMAX-Dispatcher`)
+
+# 4. Configure the Add-in microservice
 As a result of the previous chapters you should have the following information at your disposal:
 * Entra ID Application ID (e.g. `4796b8e0-b713-42f7-9d9e-b5abb6dd49c2`)
 * Entra ID Tenant ID (e.g. `9776b2ed-e415-439d-9582-85719af85979`)
 * Entra ID Client Secret (e.g. `UUC8Q[...]`)
 * Add-in Service URL (e.g. `https://addin.MyCompany.com`)
-* Integration Platform URL (e.g. `https://whoosh.oktopus`)
-  > We will not cover this here, please contact support@gentlemengroup.de.
+* Integration Platform URL (e.g. `https://oktopus.MyCompany.com`)
 * Integration Platform API Key (e.g. `d2hvb3[...]`)
+* Dispatcher prefix (e.g. `USU-Dispatcher`, `Ivanti-Dispatcher`, `SMAX-Dispatcher`)
 * (Optional) A License Key (e.g. `eyJMaWNlbnN[...]`)
   > You may enter your license later, but you will receive an unlicensed message. Acquire a license by contacting support@gentlemengroup.de.
 
 Let's put all this together.
 
-1.  Base on the type of installation you used, open your `appsettings.json`, `compose.env` or `values.yaml` file.
+1.  Start your favorite HTTP Request tool like [Postman](https://www.postman.com/).
 
-2.  Enter the information from above into the corresponding properties. *We use the Windows service as an example.*
+2.  (One time) Create a *Outlook Integration* tenant by sending the following request
+    ```
+    POST https://addin.MyCompany.com/api/Tenant/Create
+    Authorization: Basic VGVuY[...]
+    ```
+    and writing down the response like
     ```
     {
-      "AzureAD": {
-        "ApplicationId": "4796b8e0-b713-42f7-9d9e-b5abb6dd49c2",
-        "TenantId": "9776b2ed-e415-439d-9582-85719af85979",
-        "ClientSecret": "UUC8Q[...]"
-      },
-      "Oktopus": {
-        "Url": "https://whoosh.oktopus",
-        "ApiKey": "d2hvb3[...]"
-      },
-      "License": {
-        "Key": "eyJMaWNlbnN[...]"    
-      }
+      "Id": "3c4ba0e5-216b-411c-8aaa-765dec8b023f",
+      "EntraIdApplicationId": null,
+      "DispatcherId": null
     }
     ```
-    > Note: All non-relevant properties have been omitted for better readability.
 
-3.  Restart the *OutlookIntegration* Service/Container.
+    You should write down the *Outlook Integration* *Tenant ID* (e.g. `3c4ba0e5-216b-411c-8aaa-765dec8b023f`) for future reference. You will need to use it to initialize or update the settings of set tenant.
 
-4.  (Optional) Open a browser and enter the URL of **your** *OutlookIntegration* service and append `/healthcheck` \
-    For example **`https://addin.MyCompany.com/healthcheck`** \
-    This should result in a page where everything has the status **Healthy**.
+3.  Set or update *Outlook Integration* tenant settings.
+    ```
+    POST https://addin.MyCompany.com/api/Tenant/3c4ba0e5-216b-411c-8aaa-765dec8b023f/Update
+    Authorization: Basic VGVuY[...]
+    Content (application/json):
+    {
+      "DispatcherId": "USU-Dispatcher",
+      "EntraIdTenantId": "9776b2ed-e415-439d-9582-85719af85979",
+      "EntraIdApplicationId": "4796b8e0-b713-42f7-9d9e-b5abb6dd49c2",
+      "EntraIdClientSecret": "UUC8Q[...]",
+      "OktopusUrl": "https://oktopus.MyCompany.com",
+      "OktopusApiKey": "d2hvb3[...]",
+      "WorkflowPrefix": "USU-Dispatcher"
+    }
+    ```
+    with the informative response
     ```
     {
-      "status": "Healthy",
-      "components": [
-        {
-          "name": "AzureBot",
-          "status": "Healthy"
-        },
-        {
-          "name": "UsuBot",
-          "status": "Healthy"
-        },
-        {
-          "name": "UsuKnowledgeManager",
-          "status": "Healthy"
-        },
-        {
-          "name": "License",
-          "status": "Healthy"
-        }
-      ]
+      "DispatcherId": "USU-Dispatcher",
+      "EntraIdTenantId": "9776b2ed-e415-439d-9582-85719af85979",
+      "EntraIdApplicationId": "4796b8e0-b713-42f7-9d9e-b5abb6dd49c2",
+      "EntraIdClientSecret": "UUC***",
+      "OktopusUrl": "https://oktopus.MyCompany.com",
+      "OktopusApiKey": "d2h***",
+      "WorkflowPrefix": "USU-Dispatcher"
     }
     ```
-    If that is not the case, please go back to the previous steps and try again.
 
-    > You now have a working *OutlookIntegration* service that can be used in **any** Office Add-in.
-      Read the next chapter on how to create an Office Add-in.
+After successfully calling the settings API you can start using the Add-in.
+Read the next chapter on how to create your Outlook Add-in.
 
-# 4. Create a personalized Office Add-in using your add-in service
+# 5. Create a personalized Outlook Add-in using your Add-in service
+As a result of the previous chapters you should have the following information at your disposal:
+* Entra ID Application ID (e.g. `4796b8e0-b713-42f7-9d9e-b5abb6dd49c2`)
+* Entra ID Application ID URI (e.g. `api://addin.MyCompany.com/4796b8e0-b713-42f7-9d9e-b5abb6dd49c2`)
+* Add-in Service URL (e.g. `https://addin.MyCompany.com`)
+* Outlook Integration tenant ID (e.g. `3c4ba0e5-216b-411c-8aaa-765dec8b023f`)
+* Dispatcher type (e.g. `USU`, `Ivanti`, `SMAX`)
 
-1. TODO
+1.  Download `Dispatcher-Template.xml` [here](../Add-in%20Template/Dispatcher-Template.xml).
+2.  Edit the file and replace the following placeholders with **your** values.
+    - `{{OutlookIntegrationTenantId}}` -> `3c4ba0e5-216b-411c-8aaa-765dec8b023f`
+    - `{{AddInServiceUrl}}` -> `https://addin.MyCompany.com`
+    - `{{EntraIdApplicationId}}` -> `4796b8e0-b713-42f7-9d9e-b5abb6dd49c2`
+    - `{{EntraIdApplicationIdUri}}` -> `api://addin.MyCompany.com/4796b8e0-b713-42f7-9d9e-b5abb6dd49c2`
+    - `{{DispatcherType}}` -> `USU`
 
-1. Your Add-in is now ready!
+3.  Save file as `MyCompany.xml`.
 
-# 5. Publish your Office Add-in to your Organization/Users
+# 6. Publish your Outlook Add-in to your Organization/Users
+## How to install (for personal use)
+1.  Visit legacy Outlook add-in store https://outlook.office365.com/mail/inclientstore
+1.  Choose *My add-ins* -> *Custom Addins* -> *Add a custom add-in* -> *Add from File...*
+1.  Select the your Add-in manifest (e.g. `MyCompany.xml`)
 
-1.  TODO
+## How to install (for organization)
+1.  Visit https://admin.microsoft.com/#/Settings/IntegratedApps (as Microsoft 365 admin)
+1.  Select *Upload custom apps*
+1.  Choose *App type* = *Office Add-in*
+1.  Under *Choose how to upload app* select *Upload manifest file (.xml) from device* and upload your Add-in manifest file (e.g. `MyCompany.xml`)
+1.  Follow the instructions until the Add-in has been successfully deployed
+    > Note: It takes ~24h (yes, one day) until the Add-in will appear for users.
     
-    > Note: **The publish process usually takes about 1-5 minutes** without any visual indication. \
-      After successful submission, it should look like this. \
-      ![Published App](Images/Teams%20Admin%20Center%20Publish%20App%20Success.png)
-    
-    > Note: When deploying the app via policy, or submitting an update it will take **up to 24 hours** before your users will receive the app.
-    For testing, you may sign out/in of Teams to refresh your apps.
+    >Note: If anything fails, use the browser developer tools (F12) to get error messages (the UI typically  just shows generic fail messages).
 
-# 8. Use the Add-in
+# 7. Use the Add-in
 As a Microsoft Outlook user of your organization.
 
-1.  TODO
+1.  Open [Outlook for the Web](https://outlook.office.com) or the desktop application.
+1.  Select an email in your Inbox.
+1.  Click the Apps icon and choose your Dispatcher.
+    ![Outlook Add-in](<Images/Outlook Add-in open.png>)
 
-3.  Done!
-    > Congratulations on successfully installing, configuring, registering and using the **OutlookIntegration**.
+1.  Done!
+    > Congratulations on successfully installing, configuring, registering and using the **OutlookIntegration** and **Outlook Add-in**.
 
 # What's new?
 This section lists **important** changes to the documentation and Docker files.
 Please read this list when upgrading an existing installation.
 > The full app changelog can be found in the [OutlookIntegration Download](https://freedommanufaktur.sharepoint.com/:f:/g/El63_xb4uBZKt_uqMrKfeZoBRroSWVY6LvkpI3NymPsTwQ?e=qkZS75)
+
+## [2.0.0] - 2024-07-30
+- Documentation, *Docker Compose* and *HELM Chart* have been updated with the new tenant managment, removing the need for environment variables/`appsettings.json`.
 
 ## [1.6.0] - 2023-12-23
 - Documentation, *Docker Compose* and *HELM Chart* have been updated with `Oktopus:Url` and `Oktopus:ApiKey` variables.
@@ -291,7 +347,7 @@ Please read this list when upgrading an existing installation.
 
 # Need support?
 If you have any questions regarding the installation and configuration of the OutlookIntegration, contact us at
-* All questions regarding the *OutlookIntegration* \
+* All questions regarding the *Dispatcher* \
     support@gentlemengroup.de (Gentlemen Group)
 * All questions around the *OutlookIntegration Microservice* / *Outlook Add-in Registration* / *whoosh Oktopus* \
     support@freedom-manufaktur.com (freedom manufaktur)

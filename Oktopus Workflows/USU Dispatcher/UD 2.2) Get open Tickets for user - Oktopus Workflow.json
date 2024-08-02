@@ -1,0 +1,93 @@
+{
+  "Name": "UD 2.2) Get open Tickets for user",
+  "Description": null,
+  "GroupName": "1.0) USU Dispatcher",
+  "Steps": [
+    {
+      "Type": 1,
+      "Name": null,
+      "TechnologyKey": "Webhook.v1",
+      "ActionKey": "oa://Webhook.v1/Receive",
+      "Properties": [
+        {
+          "Key": "Oktopus.JsonContentResultVariableName",
+          "Value": "Request"
+        },
+        {
+          "Key": "Oktopus.WebhookIdentifier",
+          "Value": "USU-Dispatcher-GetOpenTickets"
+        }
+      ]
+    },
+    {
+      "Type": 2,
+      "Name": "Get mailbox person",
+      "TechnologyKey": "USM.v1",
+      "ActionKey": "oa://USM.v1/GetObjectByField",
+      "Connection": {
+        "Name": "usm.MyCompany.com"
+      },
+      "Properties": [
+        {
+          "Key": "FieldExpandExpression",
+          "Value": "persNo\r\npersonId\r\nName"
+        },
+        {
+          "Key": "FieldName",
+          "Value": "email"
+        },
+        {
+          "Key": "FieldValue",
+          "Value": "{{Request.MailboxUpn}}"
+        },
+        {
+          "Key": "ObjectType",
+          "Value": "Person"
+        },
+        {
+          "Key": "ResultVariableName",
+          "Value": "PersonReportedBy"
+        }
+      ]
+    },
+    {
+      "Type": 2,
+      "Name": "Find relevant tickets",
+      "TechnologyKey": "USM.v1",
+      "ActionKey": "oa://USM.v1/FindObjectsByCondition",
+      "Connection": {
+        "Name": "usm.MyCompany.com"
+      },
+      "Properties": [
+        {
+          "Key": "ConditionsExpression",
+          "Value": "personIdReqBy,==,{{PersonReportedBy.personId | convert.tocsv}}\r\nstatus,!=,IN_CLD"
+        },
+        {
+          "Key": "FieldExpandExpression",
+          "Value": "ticketno,\u0022Number\u0022\r\nstatus,\u0022Status\u0022\r\ntckShorttext,\u0022Subject\u0022\r\npersonaffected,\u0022PersonReportedFor (personaffected)\u0022\r\npersonrequestedby,\u0022PersonReportedBy (personrequestedby)\u0022"
+        },
+        {
+          "Key": "ObjectType",
+          "Value": "Ticket"
+        },
+        {
+          "Key": "ResultVariableName",
+          "Value": "OpenTickets"
+        }
+      ]
+    },
+    {
+      "Type": 2,
+      "Name": null,
+      "TechnologyKey": "Webhook.v1",
+      "ActionKey": "oa://Webhook.v1/Response",
+      "Properties": [
+        {
+          "Key": "ContentExpression",
+          "Value": "{{ OpenTickets ?? [] }}"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "Name": "SD 8.1) Get and store Dummy User",
+  "Description": null,
+  "GroupName": "1.0) SMAX Dispatcher",
+  "Steps": [
+    {
+      "Type": 1,
+      "Name": null,
+      "TechnologyKey": "Timer.v1",
+      "ActionKey": "oa://Timer.v1/Cron",
+      "Properties": [
+        {
+          "Key": "CronExpression",
+          "Value": "0 9 * * *"
+        }
+      ]
+    },
+    {
+      "Type": 2,
+      "Name": null,
+      "TechnologyKey": "SMAX.v1",
+      "ActionKey": "oa://SMAX.v1/FindRecordByQuery",
+      "Connection": {
+        "Name": "smax.MyCompany.com"
+      },
+      "Properties": [
+        {
+          "Key": "ObjectTypeExpression",
+          "Value": "Person"
+        },
+        {
+          "Key": "QueryExpression",
+          "Value": "Upn=\u0027Dispatcher-Dummy\u0027"
+        },
+        {
+          "Key": "ResultVariableName",
+          "Value": "DummyUser"
+        }
+      ]
+    },
+    {
+      "Type": 2,
+      "Name": null,
+      "TechnologyKey": "Oktopus.v1",
+      "ActionKey": "oa://Oktopus.v1/EvaluateExpression",
+      "Properties": [
+        {
+          "Key": "Expression",
+          "Value": "DummyUser | json.serialize | globalVariable.store \u0022SMAX-Dispatcher-DummyUser\u0022"
+        }
+      ]
+    }
+  ]
+}

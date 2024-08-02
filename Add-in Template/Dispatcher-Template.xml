@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+■ How to install (for personal use)
+■ 1. Visit legacy Outlook add-in store https://outlook.office365.com/mail/inclientstore
+■ 2. Choose *My add-ins* -> *Custom Addins* -> *Add a custom add-in* -> *Add from File...*
+■ 3. Select this file
+
+■ How to install (for organization)
+■ 1. Visit https://admin.microsoft.com/#/Settings/IntegratedApps (as Microsoft 365 admin)
+■ 2. Select *Upload custom apps*
+■ 3. Choose *App type* = *Office Add-in*
+■ 4. Under *Choose how to upload app* select *Upload manifest file (.xml) from device* and upload this file.
+■ 5. Follow the instructions until the add-in has been successfully deployed
+■    Note: It takes ~24h (yes, one day) until the add-in will appear for users.
+■    Note: If anything fails, use the browser developer tools (F12) to get error messages (the UI typically just shows generic fail messages).
+-->
+<!-- App-Documentation: https://learn.microsoft.com/en-us/javascript/api/manifest/officeapp?view=outlook-js-1.13 -->
+<OfficeApp
+  xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0"
+  xsi:type="MailApp">
+  <Id>{{OutlookIntegrationTenantId}}</Id>
+  <Version>2.0.0</Version>
+  <ProviderName>Gentlemen Group, powered by freedom manufaktur</ProviderName>
+  <DefaultLocale>de-DE</DefaultLocale>
+  <DisplayName DefaultValue="{{DispatcherType}} Dispatcher"/>
+  <Description DefaultValue="Erstellen eines Tickets aus einer E-Mail heraus. Version 2.0.0-Template"/>
+  <IconUrl DefaultValue="{{AddInServiceUrl}}/Assets/{{DispatcherType}}-Dispatcher/{{DispatcherType}}-Dispatcher-64.png"/>
+  <HighResolutionIconUrl DefaultValue="{{AddInServiceUrl}}/Assets/{{DispatcherType}}-Dispatcher/{{DispatcherType}}-Dispatcher-128.png"/>
+  <SupportUrl DefaultValue="https://freedom-manufaktur.com/kontakt"/>
+  <Hosts>
+    <Host Name="Mailbox"/>
+  </Hosts>
+  <Requirements>
+    <Sets>
+      <Set Name="Mailbox" MinVersion="1.5"/>
+    </Sets>
+  </Requirements>
+  <FormSettings>
+    <Form xsi:type="ItemRead">
+      <DesktopSettings>
+        <SourceLocation DefaultValue="{{AddInServiceUrl}}/{{DispatcherType}}-Dispatcher"/>
+        <RequestedHeight>250</RequestedHeight>
+      </DesktopSettings>
+    </Form>
+  </FormSettings>
+  <Permissions>ReadItem</Permissions>
+  <Rule xsi:type="RuleCollection" Mode="Or">
+    <Rule xsi:type="ItemIs" ItemType="Message" FormType="Read"/>
+  </Rule>
+  <VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides" xsi:type="VersionOverridesV1_0">
+    <VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides/1.1" xsi:type="VersionOverridesV1_1">
+      <Requirements>
+        <bt:Sets>
+          <bt:Set Name="Mailbox" MinVersion="1.5"/>
+        </bt:Sets>
+      </Requirements>
+      <Hosts>
+        <Host xsi:type="MailHost">
+          <DesktopFormFactor>
+            <ExtensionPoint xsi:type="MessageReadCommandSurface">
+              <OfficeTab id="TabDefault">
+                <Group id="groupReadDesktop">
+                  <Label resid="GroupLabel"/>
+                  <Control xsi:type="Button" id="buttonOpenTaskpaneDesktop">
+                    <Label resid="TaskpaneButton.Label"/>
+                    <Supertip>
+                      <Title resid="TaskpaneButton.Label"/>
+                      <Description resid="TaskpaneButton.Tooltip"/>
+                    </Supertip>
+                    <Icon>
+                      <bt:Image size="16" resid="{{DispatcherType}}-Dispatcher-16"/>
+                      <bt:Image size="20" resid="{{DispatcherType}}-Dispatcher-20"/>
+                      <bt:Image size="24" resid="{{DispatcherType}}-Dispatcher-24"/>
+                      <bt:Image size="32" resid="{{DispatcherType}}-Dispatcher-32"/>
+                      <bt:Image size="40" resid="{{DispatcherType}}-Dispatcher-40"/>
+                      <bt:Image size="48" resid="{{DispatcherType}}-Dispatcher-48"/>
+                      <bt:Image size="64" resid="{{DispatcherType}}-Dispatcher-64"/>
+                      <bt:Image size="80" resid="{{DispatcherType}}-Dispatcher-80"/>
+                    </Icon>
+                    <Action xsi:type="ShowTaskpane">
+                      <SourceLocation resid="Taskpane.Url"/>
+                    </Action>
+                  </Control>
+                </Group>
+              </OfficeTab>
+            </ExtensionPoint>
+          </DesktopFormFactor>
+          <MobileFormFactor>
+            <ExtensionPoint xsi:type="MobileMessageReadCommandSurface">
+              <Group id="groupReadMobile">
+                <Label resid="GroupLabel"/>
+                <Control xsi:type="MobileButton" id="buttonOpenTaskpaneMobile">
+                  <Label resid="TaskpaneButton.Label"/>
+                  <Icon>
+                    <bt:Image size="25" scale="1" resid="{{DispatcherType}}-Dispatcher-25"/>
+                    <bt:Image size="25" scale="2" resid="{{DispatcherType}}-Dispatcher-50"/>
+                    <bt:Image size="25" scale="3" resid="{{DispatcherType}}-Dispatcher-75"/>
+                    <bt:Image size="32" scale="1" resid="{{DispatcherType}}-Dispatcher-32"/>
+                    <bt:Image size="32" scale="2" resid="{{DispatcherType}}-Dispatcher-64"/>
+                    <bt:Image size="32" scale="3" resid="{{DispatcherType}}-Dispatcher-96"/>
+                    <bt:Image size="48" scale="1" resid="{{DispatcherType}}-Dispatcher-48"/>
+                    <bt:Image size="48" scale="2" resid="{{DispatcherType}}-Dispatcher-96"/>
+                    <bt:Image size="48" scale="3" resid="{{DispatcherType}}-Dispatcher-144"/>
+                  </Icon>
+                  <Action xsi:type="ShowTaskpane">
+                    <SourceLocation resid="Taskpane.Url"/>
+                  </Action>
+                </Control>
+              </Group>
+            </ExtensionPoint>
+          </MobileFormFactor>
+        </Host>
+      </Hosts>
+      <Resources>
+        <bt:Images>
+          <bt:Image id="{{DispatcherType}}-Dispatcher-16" DefaultValue="{{AddInServiceUrl}}/Assets/{{DispatcherType}}-Dispatcher/{{DispatcherType}}-Dispatcher-16.png"/>
+          <bt:Image id="{{DispatcherType}}-Dispatcher-20" DefaultValue="{{AddInServiceUrl}}/Assets/{{DispatcherType}}-Dispatcher/{{DispatcherType}}-Dispatcher-20.png"/>
+          <bt:Image id="{{DispatcherType}}-Dispatcher-24" DefaultValue="{{AddInServiceUrl}}/Assets/{{DispatcherType}}-Dispatcher/{{DispatcherType}}-Dispatcher-24.png"/>
+          <bt:Image id="{{DispatcherType}}-Dispatcher-25" DefaultValue="{{AddInServiceUrl}}/Assets/{{DispatcherType}}-Dispatcher/{{DispatcherType}}-Dispatcher-25.png"/>
+          <bt:Image id="{{DispatcherType}}-Dispatcher-32" DefaultValue="{{AddInServiceUrl}}/Assets/{{DispatcherType}}-Dispatcher/{{DispatcherType}}-Dispatcher-32.png"/>
+          <bt:Image id="{{DispatcherType}}-Dispatcher-40" DefaultValue="{{AddInServiceUrl}}/Assets/{{DispatcherType}}-Dispatcher/{{DispatcherType}}-Dispatcher-40.png"/>
+          <bt:Image id="{{DispatcherType}}-Dispatcher-48" DefaultValue="{{AddInServiceUrl}}/Assets/{{DispatcherType}}-Dispatcher/{{DispatcherType}}-Dispatcher-48.png"/>
+          <bt:Image id="{{DispatcherType}}-Dispatcher-50" DefaultValue="{{AddInServiceUrl}}/Assets/{{DispatcherType}}-Dispatcher/{{DispatcherType}}-Dispatcher-50.png"/>
+          <bt:Image id="{{DispatcherType}}-Dispatcher-64" DefaultValue="{{AddInServiceUrl}}/Assets/{{DispatcherType}}-Dispatcher/{{DispatcherType}}-Dispatcher-64.png"/>
+          <bt:Image id="{{DispatcherType}}-Dispatcher-75" DefaultValue="{{AddInServiceUrl}}/Assets/{{DispatcherType}}-Dispatcher/{{DispatcherType}}-Dispatcher-75.png"/>
+          <bt:Image id="{{DispatcherType}}-Dispatcher-80" DefaultValue="{{AddInServiceUrl}}/Assets/{{DispatcherType}}-Dispatcher/{{DispatcherType}}-Dispatcher-80.png"/>
+          <bt:Image id="{{DispatcherType}}-Dispatcher-96" DefaultValue="{{AddInServiceUrl}}/Assets/{{DispatcherType}}-Dispatcher/{{DispatcherType}}-Dispatcher-96.png"/>
+          <bt:Image id="{{DispatcherType}}-Dispatcher-144" DefaultValue="{{AddInServiceUrl}}/Assets/{{DispatcherType}}-Dispatcher/{{DispatcherType}}-Dispatcher-144.png"/>
+        </bt:Images>
+        <bt:Urls>
+          <bt:Url id="Taskpane.Url" DefaultValue="{{AddInServiceUrl}}/{{DispatcherType}}-Dispatcher"/>
+        </bt:Urls>
+        <bt:ShortStrings>
+          <bt:String id="GroupLabel" DefaultValue="{{DispatcherType}} Dispatcher"/>
+          <bt:String id="TaskpaneButton.Label" DefaultValue="{{DispatcherType}} Dispatcher"/>
+        </bt:ShortStrings>
+        <bt:LongStrings>
+          <bt:String id="TaskpaneButton.Tooltip" DefaultValue="E-Mail einem Ticket zuordnen."/>
+        </bt:LongStrings>
+      </Resources>
+
+      <WebApplicationInfo>
+        <Id>{{EntraIdApplicationId}}</Id>
+        <Resource>{{EntraIdApplicationIdUri}}</Resource>
+        <Scopes>
+          <Scope>User.Read</Scope>
+          <Scope>Mail.Read</Scope>
+        </Scopes>
+      </WebApplicationInfo>
+    </VersionOverrides>
+  </VersionOverrides>
+</OfficeApp>

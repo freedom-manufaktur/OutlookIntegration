@@ -1,0 +1,58 @@
+{
+  "Name": "ID 8.1) Get and store Dummy User",
+  "Description": null,
+  "GroupName": "1.0) Ivanti Dispatcher",
+  "Steps": [
+    {
+      "Type": 1,
+      "Name": null,
+      "TechnologyKey": "Timer.v1",
+      "ActionKey": "oa://Timer.v1/Cron",
+      "Properties": [
+        {
+          "Key": "CronExpression",
+          "Value": "0 3 * * *"
+        }
+      ]
+    },
+    {
+      "Type": 2,
+      "Name": null,
+      "TechnologyKey": "IvantiServiceManager.v1",
+      "ActionKey": "oa://IvantiServiceManager.v1/Find",
+      "Connection": {
+        "Name": "ivanti.MyCompany.com"
+      },
+      "Properties": [
+        {
+          "Key": "FieldName",
+          "Value": "LoginID"
+        },
+        {
+          "Key": "FieldValue",
+          "Value": "Dispatcher-Dummy"
+        },
+        {
+          "Key": "Oktopus.ObjectClass",
+          "Value": "Employee#"
+        },
+        {
+          "Key": "Oktopus.ResultVariableName",
+          "Value": "DummyUser"
+        }
+      ]
+    },
+    {
+      "Type": 2,
+      "Name": null,
+      "TechnologyKey": "Oktopus.v1",
+      "ActionKey": "oa://Oktopus.v1/EvaluateExpression",
+      "Properties": [
+        {
+          "Key": "Expression",
+          "Value": "DummyUser | json.serialize | globalVariable.store \u0022Ivanti-Dispatcher-DummyUser\u0022"
+        }
+      ]
+    }
+  ]
+}

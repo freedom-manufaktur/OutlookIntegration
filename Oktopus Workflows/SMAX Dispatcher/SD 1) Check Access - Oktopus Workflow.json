@@ -1,0 +1,35 @@
+{
+  "Name": "SD 1) Check Access",
+  "Description": null,
+  "GroupName": "1.0) SMAX Dispatcher",
+  "Steps": [
+    {
+      "Type": 1,
+      "Name": null,
+      "TechnologyKey": "Webhook.v1",
+      "ActionKey": "oa://Webhook.v1/Receive",
+      "Properties": [
+        {
+          "Key": "Oktopus.JsonContentResultVariableName",
+          "Value": "Request"
+        },
+        {
+          "Key": "Oktopus.WebhookIdentifier",
+          "Value": "SMAX-Dispatcher-CheckAccess"
+        }
+      ]
+    },
+    {
+      "Type": 2,
+      "Name": null,
+      "TechnologyKey": "Webhook.v1",
+      "ActionKey": "oa://Webhook.v1/Response",
+      "Properties": [
+        {
+          "Key": "ContentExpression",
+          "Value": "{{ {\r\n  Id: \u0022FakeId\u0022,\r\n  Email: Request.MailboxUpn,\r\n  DisplayName: \u0022Fake display name\u0022\r\n} }}"
+        }
+      ]
+    }
+  ]
+}
