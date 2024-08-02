@@ -1,0 +1,352 @@
+{
+  "Name": "UD 3) Create Ticket for user",
+  "Description": null,
+  "GroupName": "1.0) USU Dispatcher",
+  "Steps": [
+    {
+      "Type": 1,
+      "Name": null,
+      "TechnologyKey": "Webhook.v1",
+      "ActionKey": "oa://Webhook.v1/Receive",
+      "Properties": [
+        {
+          "Key": "Oktopus.JsonContentResultVariableName",
+          "Value": "Request"
+        },
+        {
+          "Key": "Oktopus.WebhookIdentifier",
+          "Value": "USU-Dispatcher-CreateTicket"
+        }
+      ]
+    },
+    {
+      "Type": 2,
+      "Name": null,
+      "TechnologyKey": "Mail.v1",
+      "ActionKey": "oa://Mail.v1/ParseEml",
+      "Properties": [
+        {
+          "Key": "EmlExpression",
+          "Value": "{{Request.EmlFile | string.base64_decode}}"
+        },
+        {
+          "Key": "InlineHtmlAttachmentsExpression",
+          "Value": "True"
+        },
+        {
+          "Key": "ResultVariableName",
+          "Value": "Mail"
+        },
+        {
+          "Key": "ResultVariableName.Attachments",
+          "Value": "MailAttachments"
+        }
+      ]
+    },
+    {
+      "Type": 2,
+      "Name": "Get Person reported by",
+      "TechnologyKey": "USM.v1",
+      "ActionKey": "oa://USM.v1/GetObjectByField",
+      "Connection": {
+        "Name": "usm.MyCompany.com"
+      },
+      "Properties": [
+        {
+          "Key": "FieldExpandExpression",
+          "Value": "persNo\r\npersonId\r\nName"
+        },
+        {
+          "Key": "FieldName",
+          "Value": "email"
+        },
+        {
+          "Key": "FieldValue",
+          "Value": "{{Request.MailboxUpn}}"
+        },
+        {
+          "Key": "ItemNotFoundAction",
+          "Value": "Continue"
+        },
+        {
+          "Key": "ObjectType",
+          "Value": "Person"
+        },
+        {
+          "Key": "ResultVariableName",
+          "Value": "PersonReportedBy"
+        }
+      ]
+    },
+    {
+      "Type": 2,
+      "Name": "Get Person reported for",
+      "TechnologyKey": "USM.v1",
+      "ActionKey": "oa://USM.v1/GetObjectByField",
+      "Connection": {
+        "Name": "usm.MyCompany.com"
+      },
+      "Properties": [
+        {
+          "Key": "FieldExpandExpression",
+          "Value": "persNo\r\npersonId\r\nName"
+        },
+        {
+          "Key": "FieldName",
+          "Value": "email"
+        },
+        {
+          "Key": "FieldValue",
+          "Value": "{{Mail.From[0].Address}}"
+        },
+        {
+          "Key": "ItemNotFoundAction",
+          "Value": "Continue"
+        },
+        {
+          "Key": "ObjectType",
+          "Value": "Person"
+        },
+        {
+          "Key": "ResultVariableName",
+          "Value": "PersonReportedFor"
+        }
+      ]
+    },
+    {
+      "Type": 2,
+      "Name": "Prepare Ticket create",
+      "TechnologyKey": "Oktopus.v1",
+      "ActionKey": "oa://Oktopus.v1/EvaluateExpression",
+      "Properties": [
+        {
+          "Key": "Expression",
+          "Value": "Mail.Subject | string.GetFileName \u0022eml\u0022 \u0022Email\u0022 | variable.store \u0022EmlFileName\u0022\r\nif PersonReportedBy == null\r\n  { id: \u0022Person-12173#\u0022, personId: 12173, Name: \u0022Dummy User\u0022, persNo: \u0022PE-000000000000000014\u0022 }  | variable.store \u0022PersonReportedBy\u0022\r\nend\r\nif PersonReportedFor == null\r\n  { id: \u0022Person-12173#\u0022, personId: 12173, Name: \u0022Dummy User\u0022, persNo: \u0022PE-000000000000000014\u0022 }  | variable.store \u0022PersonReportedFor\u0022\r\nend\r\n\r\nif Request.FollowUpAction == \u0022AssignToMe\u0022\r\n  \u0022IN_PGR\u0022 | variable.store \u0022DesiredStatus\u0022 # In Progress\r\n  PersonReportedBy.id | variable.store \u0022DesiredSupportPersonId\u0022\r\n  { personId: PersonReportedBy.personId } | variable.store \u0022DesiredSupportGroup\u0022\r\nelse if Request.FollowUpAction == \u0022Forward\u0022\r\n  \u0022IN_ASG\u0022 | variable.store \u0022DesiredStatus\u0022 # Assigned to (Weitergeleitet)\r\n  \u0022\u0022 | variable.store \u0022DesiredSupportPersonId\u0022 # Clear support person\r\n  [ { SupportGroupName: Request.SupportGroup } ] | variable.store \u0022DesiredSupportGroups\u0022\r\nelse if Request.FollowUpAction == \u0022Close\u0022\r\n  \u0022IN_CLD\u0022 | variable.store \u0022DesiredStatus\u0022 # Closed\r\nend\r\n\r\nif Request.TimeTrack | string.HasContent\r\n  duration = timespan.parse Request.TimeTrack\r\n  { DurationInHours: duration.total_hours } | variable.store \u0022TimeBooking\u0022\r\nend"
+        }
+      ]
+    },
+    {
+      "Type": 2,
+      "Name": "Get Default SupportGroup",
+      "TechnologyKey": "USM.v1",
+      "ActionKey": "oa://USM.v1/FindObjectsByCondition",
+      "Connection": {
+        "Name": "usm.MyCompany.com"
+      },
+      "Properties": [
+        {
+          "Key": "ConditionsExpression",
+          "Value": "personId,==,{{DesiredSupportGroup.personId | step.skipIfEmpty | convert.tocsv }}\r\nispersondefault,==,true"
+        },
+        {
+          "Key": "FieldExpandExpression",
+          "Value": "supportgroup.supportgroup,\u0022SupportGroupName\u0022"
+        },
+        {
+          "Key": "ObjectType",
+          "Value": "Personsupgroup"
+        },
+        {
+          "Key": "ResultVariableName",
+          "Value": "DesiredSupportGroups"
+        }
+      ]
+    },
+    {
+      "Type": 2,
+      "Name": null,
+      "TechnologyKey": "USM.v1",
+      "ActionKey": "oa://USM.v1/CreateTicket",
+      "Connection": {
+        "Name": "usm.MyCompany.com"
+      },
+      "Properties": [
+        {
+          "Key": "AttachmentsExpression",
+          "Value": "{{MailAttachments}}\r\n{{EmlFileName|convert.tocsv}},{{Request.EmlFile}}"
+        },
+        {
+          "Key": "FieldExpandExpression",
+          "Value": "ticketId\r\nticketno\r\ntckShorttext\r\nstatus\r\npersonaffected,\u0022PersonReportedFor (personaffected)\u0022\r\npersonrequestedby,\u0022PersonReportedBy (personrequestedby)\u0022\r\nsupportgroup,\u0022SupportGroup (supportgroup)\u0022\r\npersoncurrent,\u0022SupportPerson (personcurrent)\u0022"
+        },
+        {
+          "Key": "ResultVariableName",
+          "Value": "CreatedTicket"
+        },
+        {
+          "Key": "USM:description",
+          "Value": "{{Mail.Body}}"
+        },
+        {
+          "Key": "USM:impact",
+          "Value": "2 high"
+        },
+        {
+          "Key": "USM:impactUser",
+          "Value": "4 low"
+        },
+        {
+          "Key": "USM:personIdAffected",
+          "Value": "{{PersonReportedFor.id | variable.skipIfEmpty}}"
+        },
+        {
+          "Key": "USM:personIdCurrent",
+          "Value": "{{ DesiredSupportPersonId | variable.skipIfNull }}"
+        },
+        {
+          "Key": "USM:personIdReqBy",
+          "Value": "{{PersonReportedBy.id | variable.skipIfEmpty}}"
+        },
+        {
+          "Key": "USM:servicesId",
+          "Value": "Services-1#"
+        },
+        {
+          "Key": "USM:statementtype",
+          "Value": "Information"
+        },
+        {
+          "Key": "USM:status",
+          "Value": "{{DesiredStatus}}"
+        },
+        {
+          "Key": "USM:supportgroup",
+          "Value": "{{DesiredSupportGroups[0].SupportGroupName | variable.SkipIfEmpty}}"
+        },
+        {
+          "Key": "USM:tckShorttext",
+          "Value": "{{Mail.Subject}}"
+        },
+        {
+          "Key": "USM:ticketclass",
+          "Value": "Incident"
+        },
+        {
+          "Key": "USM:tickettype",
+          "Value": "{{Request.TicketType}}"
+        }
+      ]
+    },
+    {
+      "Type": 2,
+      "Name": "Prepare time booking",
+      "TechnologyKey": "Oktopus.v1",
+      "ActionKey": "oa://Oktopus.v1/EvaluateExpression",
+      "Properties": [
+        {
+          "Key": "Expression",
+          "Value": "if Request.TimeTrack | string.HasContent\r\n  duration = timespan.parse Request.TimeTrack\r\n  { DurationInHours: duration.total_hours } | variable.store \u0022TimeBooking\u0022\r\nend"
+        }
+      ]
+    },
+    {
+      "Type": 2,
+      "Name": "First Ticketdesc #1",
+      "TechnologyKey": "USM.v1",
+      "ActionKey": "oa://USM.v1/FindObjectsByCondition",
+      "Connection": {
+        "Name": "usm.MyCompany.com"
+      },
+      "Properties": [
+        {
+          "Key": "ConditionsExpression",
+          "Value": "ticketId,==,{{CreatedTicket.ticketId | string.remove \u0022,\u0022}}\r\ndescno,==,1"
+        },
+        {
+          "Key": "FieldExpandExpression",
+          "Value": "duration"
+        },
+        {
+          "Key": "ObjectType",
+          "Value": "Ticketdesc{{ if TimeBooking == null; step.skip; end }}"
+        },
+        {
+          "Key": "ResultVariableName",
+          "Value": "TicketDescriptions"
+        }
+      ]
+    },
+    {
+      "Type": 2,
+      "Name": "Update Ticketdesc #1 with time",
+      "TechnologyKey": "USM.v1",
+      "ActionKey": "oa://USM.v1/ChangeObject",
+      "Connection": {
+        "Name": "usm.MyCompany.com"
+      },
+      "Properties": [
+        {
+          "Key": "FieldExpandExpression",
+          "Value": "duration"
+        },
+        {
+          "Key": "ObjectIdExpression",
+          "Value": "{{TicketDescriptions[0].id | step.skipIfEmpty}}"
+        },
+        {
+          "Key": "ResultVariableName",
+          "Value": ""
+        },
+        {
+          "Key": "USM:duration",
+          "Value": "{{TimeBooking.DurationInHours}}"
+        }
+      ]
+    },
+    {
+      "Type": 2,
+      "Name": "Create Comment Ticketdesc",
+      "TechnologyKey": "USM.v1",
+      "ActionKey": "oa://USM.v1/CreateObject",
+      "Connection": {
+        "Name": "usm.MyCompany.com"
+      },
+      "Properties": [
+        {
+          "Key": "FieldExpandExpression",
+          "Value": ""
+        },
+        {
+          "Key": "ObjectTypeExpression",
+          "Value": "Ticketdesc"
+        },
+        {
+          "Key": "ResultVariableName",
+          "Value": ""
+        },
+        {
+          "Key": "USM:description",
+          "Value": "{{Request.Comment | step.SkipIfEmpty}}"
+        },
+        {
+          "Key": "USM:personcreate",
+          "Value": "{{PersonReportedBy.id}}"
+        },
+        {
+          "Key": "USM:statementtype",
+          "Value": "Statementtype-309#"
+        },
+        {
+          "Key": "USM:tckShorttext",
+          "Value": "Dispatcher"
+        },
+        {
+          "Key": "USM:ticket",
+          "Value": "{{CreatedTicket.id}}"
+        }
+      ]
+    },
+    {
+      "Type": 2,
+      "Name": "Return Ticket info",
+      "TechnologyKey": "Webhook.v1",
+      "ActionKey": "oa://Webhook.v1/Response",
+      "Properties": [
+        {
+          "Key": "ContentExpression",
+          "Value": "{{\r\n{\r\n  Ticket: {\r\n    Id: CreatedTicket.id,\r\n    Number: CreatedTicket.ticketno,\r\n    Subject: CreatedTicket.tckShorttext,\r\n    Link: CreatedTicket.runLink\r\n  }\r\n} }}"
+        }
+      ]
+    }
+  ]
+}

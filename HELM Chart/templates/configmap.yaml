@@ -1,0 +1,8 @@
+﻿apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "outlook-integration.fullname" . }}
+  labels:
+    {{- include "outlook-integration.labels" . | nindent 4 }}
+data:
+  Api.EnableDetailedErrorMessages: {{ .Values.config.Api.EnableDetailedErrorMessages | quote }}

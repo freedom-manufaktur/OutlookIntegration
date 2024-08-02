@@ -1,0 +1,125 @@
+# Default values for outlook-integration.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: outlook-integration
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+config:
+  Api:
+    # Enable to include the full stack trace when an error occurs while calling the API.
+    EnableDetailedErrorMessages: false
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Automatically mount a ServiceAccount's API credentials?
+  automount: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+podLabels: {}
+
+podSecurityContext:
+  runAsNonRoot: false # we need root to configure the Persistent Volume (PV)
+  # fsGroup: 2000
+
+securityContext:
+  runAsNonRoot: true # Our app runs as non-root user "app" (ID: 1654)
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 8080
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: outlook-integration.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+livenessProbe:
+  httpGet:
+    path: /livenesscheck
+    port: http
+  periodSeconds: 10
+  timeoutSeconds: 1
+readinessProbe:
+  httpGet:
+    path: /healthcheck
+    port: http
+  initialDelaySeconds: 3
+  periodSeconds: 60
+  timeoutSeconds: 60
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+# Additional volumes on the output Deployment definition.
+volumes:
+- name: outlook-integration-data
+  persistentVolumeClaim:
+    claimName: outlook-integration
+
+volume:
+  storageClassName: manual
+  capacity: 1Gi
+  # Windows Docker Desktop Kubernetes (1.30.2):
+  # C:\outlook-integration-data -> /run/desktop/mnt/host/c/outlook-integration-data
+  hostPath: /run/desktop/mnt/host/c/outlook-integration-data
+
+# Additional volumeMounts on the output Deployment definition.
+volumeMounts:
+- name: outlook-integration-data
+  mountPath: "/app/data"
+  readOnly: false
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

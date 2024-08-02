@@ -1,0 +1,54 @@
+{
+  "Name": "SD 2.3) Get follow up groups",
+  "Description": null,
+  "GroupName": "1.0) SMAX Dispatcher",
+  "Steps": [
+    {
+      "Type": 1,
+      "Name": null,
+      "TechnologyKey": "Webhook.v1",
+      "ActionKey": "oa://Webhook.v1/Receive",
+      "Properties": [
+        {
+          "Key": "Oktopus.WebhookIdentifier",
+          "Value": "SMAX-Dispatcher-GetFollowUpGroups"
+        }
+      ]
+    },
+    {
+      "Type": 2,
+      "Name": null,
+      "TechnologyKey": "SMAX.v1",
+      "ActionKey": "oa://SMAX.v1/FindRecordsByQuery",
+      "Connection": {
+        "Name": "smax.MyCompany.com"
+      },
+      "Properties": [
+        {
+          "Key": "ObjectTypeExpression",
+          "Value": "PersonGroup"
+        },
+        {
+          "Key": "QueryExpression",
+          "Value": "Status=\u0027Active\u0027"
+        },
+        {
+          "Key": "ResultVariableName",
+          "Value": "ServiceDeskGroups"
+        }
+      ]
+    },
+    {
+      "Type": 2,
+      "Name": null,
+      "TechnologyKey": "Webhook.v1",
+      "ActionKey": "oa://Webhook.v1/Response",
+      "Properties": [
+        {
+          "Key": "ContentExpression",
+          "Value": "{{\r\nif ServiceDeskGroups != null\r\n  convertGroup(g) = { Value: g.properties.Id, DisplayName: g.properties.Name } # Mapping function\r\n\r\n  ret ServiceDeskGroups | array.each @convertGroup | array.sort \u0022DisplayName\u0022\r\nend\r\n}}"
+        }
+      ]
+    }
+  ]
+}

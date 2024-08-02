@@ -1,0 +1,93 @@
+{
+  "Name": "SD 2.2) Get open Tickets for user",
+  "Description": null,
+  "GroupName": "1.0) SMAX Dispatcher",
+  "Steps": [
+    {
+      "Type": 1,
+      "Name": null,
+      "TechnologyKey": "Webhook.v1",
+      "ActionKey": "oa://Webhook.v1/Receive",
+      "Properties": [
+        {
+          "Key": "Oktopus.JsonContentResultVariableName",
+          "Value": "Request"
+        },
+        {
+          "Key": "Oktopus.WebhookIdentifier",
+          "Value": "SMAX-Dispatcher-GetOpenTickets"
+        }
+      ]
+    },
+    {
+      "Type": 2,
+      "Name": "Find mailbox person",
+      "TechnologyKey": "SMAX.v1",
+      "ActionKey": "oa://SMAX.v1/FindRecordByQuery",
+      "Connection": {
+        "Name": "smax.MyCompany.com"
+      },
+      "Properties": [
+        {
+          "Key": "ItemNotFoundAction",
+          "Value": "Fail"
+        },
+        {
+          "Key": "LayoutExpression",
+          "Value": "Id"
+        },
+        {
+          "Key": "ObjectTypeExpression",
+          "Value": "Person"
+        },
+        {
+          "Key": "QueryExpression",
+          "Value": "Email=\u0027{{Request.MailboxUpn}}\u0027"
+        },
+        {
+          "Key": "ResultVariableName",
+          "Value": "MailboxPerson"
+        }
+      ]
+    },
+    {
+      "Type": 2,
+      "Name": "Find open records for mailbox user",
+      "TechnologyKey": "SMAX.v1",
+      "ActionKey": "oa://SMAX.v1/FindRecordsByQuery",
+      "Connection": {
+        "Name": "smax.MyCompany.com"
+      },
+      "Properties": [
+        {
+          "Key": "LayoutExpression",
+          "Value": "Id,DisplayLabel,LastUpdateTime"
+        },
+        {
+          "Key": "ObjectTypeExpression",
+          "Value": "Request"
+        },
+        {
+          "Key": "QueryExpression",
+          "Value": "{{\r\nif Request.EmailTicketNumber | string.HasContent\r\n  $\u0022(Id={Request.EmailTicketNumber}) or \u0022\r\nend\r\n}}\r\n(PhaseId!=\u0027Close\u0027 and OwnedByPerson=\u0027{{MailboxPerson.properties.Id}}\u0027)"
+        },
+        {
+          "Key": "ResultVariableName",
+          "Value": "RelevantTickets"
+        }
+      ]
+    },
+    {
+      "Type": 2,
+      "Name": null,
+      "TechnologyKey": "Webhook.v1",
+      "ActionKey": "oa://Webhook.v1/Response",
+      "Properties": [
+        {
+          "Key": "ContentExpression",
+          "Value": "{{\r\n# Mapping function\r\nfunc convertTicket(t)\r\n  ret {\r\n    Id: t.properties.Id,\r\n    Number: t.properties.Id,\r\n    Subject: t.properties.DisplayLabel,\r\n    LastUpdateTime: t.properties.LastUpdateTime\r\n  }\r\nend\r\n\r\nRelevantTickets | array.each @convertTicket | array.sort \u0022LastUpdateTime\u0022 | array.reverse\r\n}}"
+        }
+      ]
+    }
+  ]
+}
