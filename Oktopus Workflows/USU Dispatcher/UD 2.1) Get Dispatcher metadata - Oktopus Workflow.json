@@ -23,7 +23,7 @@
       "Properties": [
         {
           "Key": "ContentExpression",
-          "Value": "{{\r\n{\r\n  TicketType: \u0022Incident\u0022,\r\n  TicketSubTypes: [\r\n    { Value: \u0022Complaint\u0022 },\r\n    { Value: \u0022Disturbance\u0022 },\r\n    { Value: \u0022Handling\u0022 },\r\n    { Value: \u0022Information\u0022 },\r\n    { Value: \u0022Other\u0022 },\r\n    { Value: \u0022Request\u0022 }\r\n  ],\r\n  DefaultTicketSubType: \u0022Request\u0022,\r\n  TicketNumberRegex: \u0060.*(?\u003CNumber\u003E(IN|PR|CH)-\\d{7}).*\u0060\r\n}\r\n}}"
+          "Value": "{{\r\n{\r\n  TicketType: \u0022Incident\u0022,\r\n  TicketSubTypes: [\r\n    { Value: \u0022Complaint\u0022 },\r\n    { Value: \u0022Disturbance\u0022 },\r\n    { Value: \u0022Handling\u0022 },\r\n    { Value: \u0022Information\u0022 },\r\n    { Value: \u0022Other\u0022 },\r\n    { Value: \u0022Request\u0022 }\r\n  ],\r\n  DefaultTicketSubType: \u0022Request\u0022,\r\n  TicketNumberRegex: \u0060.*(?\u003CNumber\u003E(IN|PR|CH)-\\d{7}).*\u0060,\r\n  EnableTimeTracking: true\r\n}\r\n}}"
         }
       ]
     }
