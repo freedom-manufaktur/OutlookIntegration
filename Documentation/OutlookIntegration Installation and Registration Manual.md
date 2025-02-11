@@ -1,6 +1,6 @@
 ﻿OutlookIntegration - Add-in Installation and Registration Manual
 ---
-Version: `2.0.0` - `2024-08-02` \
+Version: `2.3.0` - `2025-02-11` \
 Author: martin@freedom-manufaktur.com \
 Link: [Documentation on GitHub](https://github.com/freedom-manufaktur/OutlookIntegration/tree/main/Documentation/Bot%20Installation%20and%20Registration%20Manual.md)
 
@@ -25,6 +25,7 @@ Table of contents
   - [How to install (for organization)](#how-to-install-for-organization)
 - [7. Use the Add-in](#7-use-the-add-in)
 - [What's new?](#whats-new)
+  - [\[2.3.0\] - 2025-02-11](#230---2025-02-11)
   - [\[2.0.0\] - 2024-07-30](#200---2024-07-30)
   - [\[1.6.0\] - 2023-12-23](#160---2023-12-23)
 - [Need support?](#need-support)
@@ -54,8 +55,8 @@ There are different kinds of installation. You may choose the one best suiting y
 **Installation**
 
 1.  Download Installation from [OutlookIntegration Download](https://freedommanufaktur.sharepoint.com/:f:/g/El63_xb4uBZKt_uqMrKfeZoBRroSWVY6LvkpI3NymPsTwQ?e=qkZS75)
-1.  Install `OutlookIntegration Setup 2.0.0.exe`
-    > Note: This will automatically install .NET 8.0 if necessary
+1.  Install `OutlookIntegration Setup 2.3.0.exe`
+    > Note: This will automatically install .NET 9.0 if necessary
 1.  (Optional, verify running) Open a browser and navigate to \
     http://localhost:8010 \
     You should be greeted with the message\
@@ -235,7 +236,7 @@ As a result of the previous chapters you should have the following information a
 * Integration Platform API Key (e.g. `d2hvb3[...]`)
 * Dispatcher prefix (e.g. `USU-Dispatcher`, `Ivanti-Dispatcher`, `SMAX-Dispatcher`)
 * (Optional) A License Key (e.g. `eyJMaWNlbnN[...]`)
-  > You may enter your license later, but you will receive an unlicensed message. Acquire a license by contacting support@gentlemengroup.de.
+  > You may enter your license later, but you will receive an unlicensed message. Acquire a license by contacting [support@freedom-manufaktur.com](mailto:support@freedom-manufaktur.com).
 
 Let's put all this together.
 
@@ -338,6 +339,9 @@ This section lists **important** changes to the documentation and Docker files.
 Please read this list when upgrading an existing installation.
 > The full app changelog can be found in the [OutlookIntegration Download](https://freedommanufaktur.sharepoint.com/:f:/g/El63_xb4uBZKt_uqMrKfeZoBRroSWVY6LvkpI3NymPsTwQ?e=qkZS75)
 
+## [2.3.0] - 2025-02-11
+- Added `EnableTimeTracking` option to `Get Dispatcher metadata` workflow.
+
 ## [2.0.0] - 2024-07-30
 - Documentation, *Docker Compose* and *HELM Chart* have been updated with the new tenant managment, removing the need for environment variables/`appsettings.json`.
 
@@ -348,10 +352,10 @@ Please read this list when upgrading an existing installation.
 # Need support?
 If you have any questions regarding the installation and configuration of the OutlookIntegration, contact us at
 * All questions regarding the *Dispatcher* \
-    support@gentlemengroup.de (Gentlemen Group)
+    [support@gentlehuman.de](mailto:support@gentlehuman.de) (Gentlehuman Factory)
 * All questions around the *OutlookIntegration Microservice* / *Outlook Add-in Registration* / *whoosh Oktopus* \
-    support@freedom-manufaktur.com (freedom manufaktur)
+    [support@freedom-manufaktur.com](mailto:support@freedom-manufaktur.com) (freedom manufaktur)
 * All questions regarding the *USU Service Manager* itself \
-    support@usu.com (USU)
+    [support@usu.com](mailto:support@usu.com) (USU)
 * All questions regarding the *Ivanti Neurons for ITSM* / *Ivanti Service Manager* itself \
     https://www.ivanti.com/support (Ivanti)
