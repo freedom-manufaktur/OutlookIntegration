@@ -23,7 +23,7 @@
       "Properties": [
         {
           "Key": "ContentExpression",
-          "Value": "{{\r\n{\r\n  TicketType: \u0022Incident\u0022,\r\n  Services: globalVariable.load \u0022Ivanti-Dispatcher-Services\u0022 | json.parse,\r\n  DefaultService: \u0022Service Desk\u0022,\r\n  TicketNumberRegex: \u0060.*(Incident|Problem|Change)?\\s*#?\\s*(?\u003CNumber\u003E\\d{5,20}).*\u0060\r\n}\r\n}}"
+          "Value": "{{\r\n{\r\n  TicketType: \u0022Incident\u0022,\r\n  Services: globalVariable.load \u0022Ivanti-Dispatcher-Services\u0022 | json.parse,\r\n  DefaultService: \u0022Service Desk\u0022,\r\n  TicketNumberRegex: \u0060.*(Incident|Problem|Change)?\\s*#?\\s*(?\u003CNumber\u003E\\d{5,20}).*\u0060,\r\n  EnableTimeTracking: true\r\n}\r\n}}"
         }
       ]
     }

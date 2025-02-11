@@ -3,7 +3,7 @@
 # https://helm.sh/docs/topics/charts/#the-chartyaml-file
 apiVersion: v2
 name: outlook-integration
-description: OutlookIntegration by GentlemenGroup, powered by freedom manufaktur.
+description: OutlookIntegration by freedom manufaktur.
 
 # https://helm.sh/docs/topics/charts/#chart-types
 type: application
