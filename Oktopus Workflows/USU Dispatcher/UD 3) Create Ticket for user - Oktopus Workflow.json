@@ -1,4 +1,4 @@
-﻿{
+{
   "Name": "UD 3) Create Ticket for user",
   "Description": null,
   "GroupName": "1.0) USU Dispatcher",
@@ -115,18 +115,6 @@
     },
     {
       "Type": 2,
-      "Name": "Prepare Ticket create",
-      "TechnologyKey": "Oktopus.v1",
-      "ActionKey": "oa://Oktopus.v1/EvaluateExpression",
-      "Properties": [
-        {
-          "Key": "Expression",
-          "Value": "Mail.Subject | string.GetFileName \u0022eml\u0022 \u0022Email\u0022 | variable.store \u0022EmlFileName\u0022\r\n\r\nif PersonReportedBy == null\r\n  globalVariable.load \u0022USU-Dispatcher-DummyUser\u0022 | json.parse | variable.store \u0022PersonReportedBy\u0022\r\nend\r\nif PersonReportedFor == null\r\n  globalVariable.load \u0022USU-Dispatcher-DummyUser\u0022 | json.parse | variable.store \u0022PersonReportedFor\u0022\r\nend\r\n\r\nif Request.FollowUpAction == \u0022AssignToMe\u0022\r\n  \u0022IN_PGR\u0022 | variable.store \u0022DesiredStatus\u0022 # In Progress\r\n  PersonReportedBy.id | variable.store \u0022DesiredSupportPersonId\u0022\r\n  { personId: PersonReportedBy.personId } | variable.store \u0022DesiredSupportGroup\u0022\r\nelse if Request.FollowUpAction == \u0022Forward\u0022\r\n  \u0022IN_ASG\u0022 | variable.store \u0022DesiredStatus\u0022 # Assigned to (Weitergeleitet)\r\n  \u0022\u0022 | variable.store \u0022DesiredSupportPersonId\u0022 # Clear support person\r\n  [ { SupportGroupName: Request.SupportGroup } ] | variable.store \u0022DesiredSupportGroups\u0022\r\nelse if Request.FollowUpAction == \u0022Close\u0022\r\n  \u0022IN_CLD\u0022 | variable.store \u0022DesiredStatus\u0022 # Closed\r\nend\r\n\r\nif Request.TimeTrack | string.HasContent\r\n  duration = timespan.parse Request.TimeTrack\r\n  { DurationInHours: duration.total_hours } | variable.store \u0022TimeBooking\u0022\r\nend"
-        }
-      ]
-    },
-    {
-      "Type": 2,
       "Name": "Get Default SupportGroup",
       "TechnologyKey": "USM.v1",
       "ActionKey": "oa://USM.v1/FindObjectsByCondition",
@@ -136,11 +124,11 @@
       "Properties": [
         {
           "Key": "ConditionsExpression",
-          "Value": "personId,==,{{DesiredSupportGroup.personId | step.skipIfEmpty | convert.tocsv }}\r\nispersondefault,==,true"
+          "Value": "personId,==,{{\r\ncase Request.Parameters.FollowUpAction\r\nwhen \u0022AssignToMe\u0022\r\n  PersonReportedBy.personId | step.skipIfEmpty | string.remove \u0022,\u0022 | convert.tocsv\r\nelse\r\n  step.skip\r\nend }}\r\nispersondefault,==,true"
         },
         {
           "Key": "FieldExpandExpression",
-          "Value": "supportgroup.supportgroup,\u0022SupportGroupName\u0022"
+          "Value": "supportgroup.supportgroup,\u0022Name\u0022"
         },
         {
           "Key": "ObjectType",
@@ -148,7 +136,19 @@
         },
         {
           "Key": "ResultVariableName",
-          "Value": "DesiredSupportGroups"
+          "Value": "PersonReportedByDefaultSupportGroup"
+        }
+      ]
+    },
+    {
+      "Type": 2,
+      "Name": "Prepare Ticket create",
+      "TechnologyKey": "Oktopus.v1",
+      "ActionKey": "oa://Oktopus.v1/EvaluateExpression",
+      "Properties": [
+        {
+          "Key": "Expression",
+          "Value": "personReportedBy = PersonReportedBy\r\npersonReportedFor = PersonReportedFor\r\nif personReportedBy == null\r\n  personReportedBy = globalVariable.load \u0022USU-Dispatcher-DummyUser\u0022 | json.parse\r\nend\r\nif personReportedFor == null\r\n  personReportedFor = globalVariable.load \u0022USU-Dispatcher-DummyUser\u0022 | json.parse\r\nend\r\n\r\ncreateTicketDetails = { }\r\n\r\nwith createTicketDetails\r\n  MailSubject = Mail.Subject\r\n  if Mail.Body | string.empty\r\n    MailBody = Mail.TextBody\r\n  else\r\n    MailBody = Mail.Body\r\n  end\r\n  EmlFileName = Mail.Subject | string.GetFileName \u0022eml\u0022 \u0022Email\u0022\r\n  \r\n  PersonReportedBy = personReportedBy\r\n  PersonReportedFor = personReportedFor\r\n\r\n  case Request.Parameters.FollowUpAction\r\n  when \u0022AssignToMe\u0022\r\n    DesiredStatus = \u0022IN_PGR\u0022 # In Progress\r\n    DesiredSupportPersonId = personReportedBy.id\r\n    DesiredSupportGroupName = PersonReportedByDefaultSupportGroup[0].Name\r\n  when \u0022Forward\u0022\r\n    DesiredStatus = \u0022IN_ASG\u0022 # Assigned to (Weitergeleitet)\r\n    DesiredSupportPersonId = \u0022\u0022 # Clear support person\r\n    DesiredSupportGroupName = Request.Parameters.FollowUpGroup.DisplayName\r\n  when \u0022Close\u0022\r\n    DesiredStatus = \u0022IN_CLD\u0022 # Closed\r\n  end\r\n\r\n  if Request.Parameters.TimeTrack | string.HasContent\r\n    TimeBooking = (Request.Parameters.TimeTrack | timespan.parse)\r\n    if TimeBooking.total_minutes \u003C 1\r\n      TimeBooking = null\r\n    end\r\n  end\r\n  Comment = Request.Parameters.Comment\r\nend\r\n\r\ncreateTicketDetails | variable.store \u0022CreateTicketDetails\u0022"
         }
       ]
     },
@@ -163,7 +163,7 @@
       "Properties": [
         {
           "Key": "AttachmentsExpression",
-          "Value": "{{MailAttachments}}\r\n{{EmlFileName|convert.tocsv}},{{Request.EmlFile}}"
+          "Value": "{{MailAttachments}}\r\n{{CreateTicketDetails.EmlFileName|convert.tocsv}},{{Request.EmlFile}}"
         },
         {
           "Key": "FieldExpandExpression",
@@ -175,31 +175,19 @@
         },
         {
           "Key": "USM:description",
-          "Value": "{{Mail.Body}}"
-        },
-        {
-          "Key": "USM:impact",
-          "Value": "3 medium"
-        },
-        {
-          "Key": "USM:impactUser",
-          "Value": "3 medium"
+          "Value": "{{CreateTicketDetails.MailBody}}"
         },
         {
           "Key": "USM:personIdAffected",
-          "Value": "{{PersonReportedFor.id | variable.skipIfEmpty}}"
+          "Value": "{{CreateTicketDetails.PersonReportedFor.id | variable.skipIfEmpty}}"
         },
         {
           "Key": "USM:personIdCurrent",
-          "Value": "{{ DesiredSupportPersonId | variable.skipIfNull }}"
+          "Value": "{{ CreateTicketDetails.DesiredSupportPersonId | variable.skipIfNull }}"
         },
         {
           "Key": "USM:personIdReqBy",
-          "Value": "{{PersonReportedBy.id | variable.skipIfEmpty}}"
-        },
-        {
-          "Key": "USM:servicesId",
-          "Value": "Services-1#"
+          "Value": "{{CreateTicketDetails.PersonReportedBy.id | variable.skipIfEmpty}}"
         },
         {
           "Key": "USM:statementtype",
@@ -207,15 +195,15 @@
         },
         {
           "Key": "USM:status",
-          "Value": "{{DesiredStatus}}"
+          "Value": "{{CreateTicketDetails.DesiredStatus}}"
         },
         {
           "Key": "USM:supportgroup",
-          "Value": "{{DesiredSupportGroups[0].SupportGroupName | variable.SkipIfEmpty}}"
+          "Value": "{{CreateTicketDetails.DesiredSupportGroupName | variable.SkipIfEmpty}}"
         },
         {
           "Key": "USM:tckShorttext",
-          "Value": "{{Mail.Subject}}"
+          "Value": "{{CreateTicketDetails.MailSubject}}"
         },
         {
           "Key": "USM:ticketclass",
@@ -223,19 +211,7 @@
         },
         {
           "Key": "USM:tickettype",
-          "Value": "{{Request.TicketType}}"
-        }
-      ]
-    },
-    {
-      "Type": 2,
-      "Name": "Prepare time booking",
-      "TechnologyKey": "Oktopus.v1",
-      "ActionKey": "oa://Oktopus.v1/EvaluateExpression",
-      "Properties": [
-        {
-          "Key": "Expression",
-          "Value": "if Request.TimeTrack | string.HasContent\r\n  duration = timespan.parse Request.TimeTrack\r\n  { DurationInHours: duration.total_hours } | variable.store \u0022TimeBooking\u0022\r\nend"
+          "Value": "{{Request.Parameters.TicketType}}"
         }
       ]
     },
@@ -258,7 +234,7 @@
         },
         {
           "Key": "ObjectType",
-          "Value": "Ticketdesc{{ if TimeBooking == null; step.skip; end }}"
+          "Value": "Ticketdesc{{ if CreateTicketDetails.TimeBooking == null; step.skip; end }}"
         },
         {
           "Key": "ResultVariableName",
@@ -289,7 +265,7 @@
         },
         {
           "Key": "USM:duration",
-          "Value": "{{TimeBooking.DurationInHours}}"
+          "Value": "{{CreateTicketDetails.TimeBooking.total_hours}}"
         }
       ]
     },
@@ -316,7 +292,7 @@
         },
         {
           "Key": "USM:description",
-          "Value": "{{Request.Comment | step.SkipIfEmpty}}"
+          "Value": "{{CreateTicketDetails.Comment | step.SkipIfEmpty}}"
         },
         {
           "Key": "USM:personcreate",

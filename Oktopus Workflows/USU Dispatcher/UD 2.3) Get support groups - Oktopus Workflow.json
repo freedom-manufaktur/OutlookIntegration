@@ -1,4 +1,4 @@
-﻿{
+{
   "Name": "UD 2.3) Get support groups",
   "Description": null,
   "GroupName": "1.0) USU Dispatcher",
@@ -11,7 +11,7 @@
       "Properties": [
         {
           "Key": "Oktopus.WebhookIdentifier",
-          "Value": "USU-Dispatcher-GetSupportGroups"
+          "Value": "USU-Dispatcher-GetFollowUpGroups"
         }
       ]
     },
@@ -30,7 +30,7 @@
         },
         {
           "Key": "FieldExpandExpression",
-          "Value": "supportgroup,\u0022Name\u0022"
+          "Value": "supportgroup,\u0022DisplayName\u0022"
         },
         {
           "Key": "ObjectType",
@@ -50,7 +50,7 @@
       "Properties": [
         {
           "Key": "ContentExpression",
-          "Value": "{{ SupportGroups ?? [] }}"
+          "Value": "{{\r\nif SupportGroups != null\r\n  convertGroup(g) = { Value: g.id, DisplayName: g.DisplayName } # Mapping function\r\n\r\n  ret SupportGroups | array.each @convertGroup | array.sort \u0022DisplayName\u0022\r\nend\r\n}}"
         }
       ]
     }
