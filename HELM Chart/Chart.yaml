@@ -1,4 +1,4 @@
-# Make sure to fill out 'values.yaml' to properly set up the app.
+﻿# Make sure to fill out 'values.yaml' to properly set up the app.
 
 # https://helm.sh/docs/topics/charts/#the-chartyaml-file
 apiVersion: v2
@@ -9,9 +9,9 @@ description: OutlookIntegration by freedom manufaktur.
 type: application
 
 # Version of this Chart - https://helm.sh/docs/topics/charts/#charts-and-versioning
-version: 2.0.0
+version: 2.4.0
 
 # The version of the app that this contains (optional). - https://helm.sh/docs/topics/charts/#the-appversion-field
-appVersion: "2.0.0" # or latest
+appVersion: "2.4.0" # or latest
 
 icon: https://static.freedom-manufaktur.com/outlook-integration-helm.svg

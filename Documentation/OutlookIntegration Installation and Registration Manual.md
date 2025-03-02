@@ -56,7 +56,7 @@ There are different kinds of installation. You may choose the one best suiting y
 **Installation**
 
 1.  Download Installation from [OutlookIntegration Download](https://freedommanufaktur.sharepoint.com/:f:/g/El63_xb4uBZKt_uqMrKfeZoBRroSWVY6LvkpI3NymPsTwQ?e=qkZS75)
-1.  Install `OutlookIntegration Setup 2.3.0.exe`
+1.  Install `OutlookIntegration Setup 2.4.0.exe`
     > Note: This will automatically install .NET 9.0 if necessary
 1.  (Optional, verify running) Open a browser and navigate to \
     http://localhost:8010 \
