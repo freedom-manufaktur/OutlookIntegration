@@ -344,6 +344,7 @@ Please read this list when upgrading an existing installation.
 
 ## [2.4.0] - 2025-03-02
 - Due to changes by Microsoft, you must use at least version 2.4.0 of the *OutlookIntegration Microservice*.
+- *HELM Chart* has been updated for HELM 3.17.1.
 
 ## [2.3.0] - 2025-02-11
 - Added `EnableTimeTracking` option to `Get Dispatcher metadata` workflow.
