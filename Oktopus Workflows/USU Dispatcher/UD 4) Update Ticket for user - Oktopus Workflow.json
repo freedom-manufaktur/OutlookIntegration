@@ -86,7 +86,7 @@
       "Properties": [
         {
           "Key": "Expression",
-          "Value": "Mail.Subject | string.GetFileName \u0022eml\u0022 \u0022Email\u0022 | variable.store \u0022EmlFileName\u0022\r\nif PersonReportedBy == null\r\n  { id: \u0022Person-12173#\u0022, personId: 12173, Name: \u0022Dummy User\u0022, persNo: \u0022PE-000000000000000014\u0022 }  | variable.store \u0022PersonReportedBy\u0022\r\nend\r\n\r\nif Request.TimeTrack | string.HasContent\r\n  duration = timespan.parse Request.TimeTrack\r\n  { DurationInHours: duration.total_hours } | variable.store \u0022TimeBooking\u0022\r\nend"
+          "Value": "personReportedBy = PersonReportedBy\r\nif personReportedBy == null\r\n  personReportedBy = globalVariable.load \u0022USU-Dispatcher-DummyUser\u0022 | json.parse\r\nend\r\n\r\ncreateTicketDetails = { }\r\n\r\nwith createTicketDetails\r\n  MailSubject = Mail.Subject\r\n  if Mail.Body | string.empty\r\n    MailBody = Mail.TextBody\r\n  else\r\n    MailBody = Mail.Body\r\n  end\r\n  EmlFileName = Mail.Subject | string.GetFileName \u0022eml\u0022 \u0022Email\u0022\r\n  \r\n  PersonReportedBy = personReportedBy\r\n\r\n  if Request.TimeTrack | string.HasContent\r\n    TimeBooking = (Request.TimeTrack | timespan.parse)\r\n    if TimeBooking.total_minutes \u003C 1\r\n      TimeBooking = null\r\n    end\r\n  end\r\n  Comment = Request.Comment\r\nend\r\n\r\ncreateTicketDetails | variable.store \u0022CreateTicketDetails\u0022"
         }
       ]
     },
@@ -113,15 +113,15 @@
         },
         {
           "Key": "USM:descriptionRich",
-          "Value": "{{Mail.Body}}"
+          "Value": "{{CreateTicketDetails.MailBody}}"
         },
         {
           "Key": "USM:duration",
-          "Value": "{{TimeBooking.DurationInHours | variable.skipIfNull}}"
+          "Value": "{{CreateTicketDetails.TimeBooking.total_minutes | variable.skipIfNull}}"
         },
         {
           "Key": "USM:personcreate",
-          "Value": "{{PersonReportedBy.id}}"
+          "Value": "{{CreateTicketDetails.PersonReportedBy.id}}"
         },
         {
           "Key": "USM:statementtype",
@@ -129,7 +129,7 @@
         },
         {
           "Key": "USM:tckShorttext",
-          "Value": "{{Mail.Subject}}"
+          "Value": "{{CreateTicketDetails.MailSubject}}"
         },
         {
           "Key": "USM:ticket",
@@ -160,11 +160,11 @@
         },
         {
           "Key": "USM:description",
-          "Value": "{{Request.Comment | step.SkipIfEmpty}}"
+          "Value": "{{CreateTicketDetails.Comment | step.SkipIfEmpty}}"
         },
         {
           "Key": "USM:personcreate",
-          "Value": "{{PersonReportedBy.id}}"
+          "Value": "{{CreateTicketDetails.PersonReportedBy.id}}"
         },
         {
           "Key": "USM:statementtype",

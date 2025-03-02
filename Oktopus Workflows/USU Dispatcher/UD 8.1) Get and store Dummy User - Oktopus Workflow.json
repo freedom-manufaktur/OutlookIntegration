@@ -1,0 +1,62 @@
+{
+  "Name": "UD 8.1) Get and store Dummy User",
+  "Description": null,
+  "GroupName": "1.0) USU Dispatcher",
+  "Steps": [
+    {
+      "Type": 1,
+      "Name": null,
+      "TechnologyKey": "Timer.v1",
+      "ActionKey": "oa://Timer.v1/Cron",
+      "Properties": [
+        {
+          "Key": "CronExpression",
+          "Value": "0 3 * * *"
+        }
+      ]
+    },
+    {
+      "Type": 2,
+      "Name": null,
+      "TechnologyKey": "USM.v1",
+      "ActionKey": "oa://USM.v1/GetObjectByField",
+      "Connection": {
+        "Name": "usm.MyCompany.com"
+      },
+      "Properties": [
+        {
+          "Key": "FieldExpandExpression",
+          "Value": "Name\r\npersNo\r\npersonId"
+        },
+        {
+          "Key": "FieldName",
+          "Value": "email"
+        },
+        {
+          "Key": "FieldValue",
+          "Value": "dispatcher@email.invalid"
+        },
+        {
+          "Key": "ObjectType",
+          "Value": "Person"
+        },
+        {
+          "Key": "ResultVariableName",
+          "Value": "DummyUser"
+        }
+      ]
+    },
+    {
+      "Type": 2,
+      "Name": "Store user as global variable",
+      "TechnologyKey": "Oktopus.v1",
+      "ActionKey": "oa://Oktopus.v1/EvaluateExpression",
+      "Properties": [
+        {
+          "Key": "Expression",
+          "Value": "dummyUser = {\r\n  id: DummyUser.id,\r\n  Name: DummyUser.Name,\r\n  persNo: DummyUser.persNo,\r\n  personId: DummyUser.personId | string.remove \u0022,\u0022 | string.to_int\r\n}\r\ndummyUser | json.serialize | globalVariable.store \u0022USU-Dispatcher-DummyUser\u0022"
+        }
+      ]
+    }
+  ]
+}

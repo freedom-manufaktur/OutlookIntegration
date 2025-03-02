@@ -44,7 +44,7 @@
     },
     {
       "Type": 2,
-      "Name": null,
+      "Name": "Store user as global variable",
       "TechnologyKey": "Oktopus.v1",
       "ActionKey": "oa://Oktopus.v1/EvaluateExpression",
       "Properties": [

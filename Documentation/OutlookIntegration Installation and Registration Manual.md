@@ -1,6 +1,6 @@
 ﻿OutlookIntegration - Add-in Installation and Registration Manual
 ---
-Version: `2.3.0` - `2025-02-11` \
+Version: `2.4.0` - `2025-03-02` \
 Author: martin@freedom-manufaktur.com \
 Link: [Documentation on GitHub](https://github.com/freedom-manufaktur/OutlookIntegration/tree/main/Documentation/Bot%20Installation%20and%20Registration%20Manual.md)
 
@@ -25,6 +25,7 @@ Table of contents
   - [How to install (for organization)](#how-to-install-for-organization)
 - [7. Use the Add-in](#7-use-the-add-in)
 - [What's new?](#whats-new)
+  - [\[2.4.0\] - 2025-03-02](#240---2025-03-02)
   - [\[2.3.0\] - 2025-02-11](#230---2025-02-11)
   - [\[2.0.0\] - 2024-07-30](#200---2024-07-30)
   - [\[1.6.0\] - 2023-12-23](#160---2023-12-23)
@@ -55,7 +56,7 @@ There are different kinds of installation. You may choose the one best suiting y
 **Installation**
 
 1.  Download Installation from [OutlookIntegration Download](https://freedommanufaktur.sharepoint.com/:f:/g/El63_xb4uBZKt_uqMrKfeZoBRroSWVY6LvkpI3NymPsTwQ?e=qkZS75)
-1.  Install `OutlookIntegration Setup 2.3.0.exe`
+1.  Install `OutlookIntegration Setup 2.4.0.exe`
     > Note: This will automatically install .NET 9.0 if necessary
 1.  (Optional, verify running) Open a browser and navigate to \
     http://localhost:8010 \
@@ -180,8 +181,10 @@ You should be able to call `https://addin.MyCompany.com/healthcheck` from a user
     Once you have added the permissions, use **Grant admin consent for MyCompany** and make sure all permissions have admin consent.\
     ![App registration permissions](Images/Entra%20ID%20App%20registration%20Permissions.png)
     > Note: Microsoft states that the `User.Read` permission can be replaced by `openid` and `profile` which is even less permissive. We do **not** recommend this, as we had the most reliable results with `User.Read`.
+      
+    > Note: Microsoft states that the `Files.ReadWrite` permission is required. We do **not** need this permission.
 
-6.  Under **Manifest** change `accessTokenAcceptedVersion` to `2` (default: `null`).\
+6.  Under **Manifest** choose **Microsoft Graph App Manifest** and change `api` → `accessTokenAcceptedVersion` to `2` (default: `null`) and **Save**.\
     ![App registration token version](Images/Entra%20ID%20App%20registration%20TokenVersion.png)
 
 7.  Under **Expose an API**
@@ -210,7 +213,7 @@ Every successful interaction with the Add-in service will result in a call to *w
 
 ## Install whoosh Oktopus
 The *whoosh Oktopus* installation is described in this document:
-[whoosh Oktopus Installation Manual.md](whoosh%20Oktopus%20Installation%20Manual.md)
+[whoosh Oktopus Installation Manual](https://github.com/freedom-manufaktur/Oktopus/blob/main/Documentation/Oktopus%20Installation%20Manual.md)
 
 ### Determin Oktopus API key
 1.  Go to `Settings` -> `Advanced settings` and write down the `Webhook base URL` and `Webhook API key`.
@@ -338,6 +341,10 @@ As a Microsoft Outlook user of your organization.
 This section lists **important** changes to the documentation and Docker files.
 Please read this list when upgrading an existing installation.
 > The full app changelog can be found in the [OutlookIntegration Download](https://freedommanufaktur.sharepoint.com/:f:/g/El63_xb4uBZKt_uqMrKfeZoBRroSWVY6LvkpI3NymPsTwQ?e=qkZS75)
+
+## [2.4.0] - 2025-03-02
+- Due to changes by Microsoft, you must use at least version 2.4.0 of the *OutlookIntegration Microservice*.
+- *HELM Chart* has been updated for HELM 3.17.1.
 
 ## [2.3.0] - 2025-02-11
 - Added `EnableTimeTracking` option to `Get Dispatcher metadata` workflow.

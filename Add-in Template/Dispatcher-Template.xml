@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!--
 ■ How to install (for personal use)
 ■ 1. Visit legacy Outlook add-in store https://outlook.office365.com/mail/inclientstore
@@ -21,11 +21,11 @@
   xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0"
   xsi:type="MailApp">
   <Id>{{OutlookIntegrationTenantId}}</Id>
-  <Version>2.3.0</Version>
+  <Version>2.4.0</Version>
   <ProviderName>freedom manufaktur</ProviderName>
   <DefaultLocale>de-DE</DefaultLocale>
   <DisplayName DefaultValue="{{DispatcherType}} Dispatcher"/>
-  <Description DefaultValue="Erstellen eines Tickets aus einer E-Mail heraus. Version 2.3.0-Template"/>
+  <Description DefaultValue="Erstellen eines Tickets aus einer E-Mail heraus. Version 2.4.0-Template"/>
   <IconUrl DefaultValue="{{AddInServiceUrl}}/Assets/{{DispatcherType}}-Dispatcher/{{DispatcherType}}-Dispatcher-64.png"/>
   <HighResolutionIconUrl DefaultValue="{{AddInServiceUrl}}/Assets/{{DispatcherType}}-Dispatcher/{{DispatcherType}}-Dispatcher-128.png"/>
   <SupportUrl DefaultValue="https://freedom-manufaktur.com/kontakt"/>
