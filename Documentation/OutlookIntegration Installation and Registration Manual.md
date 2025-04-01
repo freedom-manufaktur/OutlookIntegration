@@ -358,11 +358,11 @@ Please read this list when upgrading an existing installation.
 
 # Need support?
 If you have any questions regarding the installation and configuration of the OutlookIntegration, contact us at
-* All questions regarding the *Dispatcher* \
-    [support@gentlehuman.de](mailto:support@gentlehuman.de) (Gentlehuman Factory)
-* All questions around the *OutlookIntegration Microservice* / *Outlook Add-in Registration* / *whoosh Oktopus* \
-    [support@freedom-manufaktur.com](mailto:support@freedom-manufaktur.com) (freedom manufaktur)
-* All questions regarding the *USU Service Manager* itself \
-    [support@usu.com](mailto:support@usu.com) (USU)
-* All questions regarding the *Ivanti Neurons for ITSM* / *Ivanti Service Manager* itself \
-    https://www.ivanti.com/support (Ivanti)
+- All questions regarding the *Dispatcher* \
+  [services@gentlehuman.de](mailto:services@gentlehuman.de) (Gentlehuman Factory)
+- All questions around the *OutlookIntegration Microservice* / *Outlook Add-in Registration* / *whoosh Oktopus* \
+  [support@freedom-manufaktur.com](mailto:support@freedom-manufaktur.com) (freedom manufaktur)
+- All questions regarding the *USU Service Manager* itself \
+  [support@usu.com](mailto:support@usu.com) (USU)
+- All questions regarding the *Ivanti Neurons for ITSM* / *Ivanti Service Manager* itself \
+  https://www.ivanti.com/support (Ivanti)
