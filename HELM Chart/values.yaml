@@ -122,9 +122,10 @@ volumes:
     claimName: outlook-integration
 
 volume:
+  volumeEnabled: true
   storageClassName: manual
   capacity: 1Gi
-  # Windows Docker Desktop Kubernetes (1.31.1):
+  # Windows Docker Desktop Kubernetes (1.32.2):
   # C:\outlook-integration-data -> /run/desktop/mnt/host/c/outlook-integration-data
   hostPath: /run/desktop/mnt/host/c/outlook-integration-data
 

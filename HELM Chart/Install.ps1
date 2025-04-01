@@ -7,5 +7,5 @@
 else
 {
   #            ReleaseName         Folder
-  helm upgrade outlook-integration . --install --values values.yaml --values values.yaml.user
+  helm upgrade outlook-integration . --install --values values.yaml
 }
