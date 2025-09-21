@@ -55,7 +55,7 @@ There are different kinds of installation. You may choose the one best suiting y
 
 **Installation**
 
-1.  Download Installation from [OutlookIntegration Download](https://freedommanufaktur.sharepoint.com/:f:/g/El63_xb4uBZKt_uqMrKfeZoBRroSWVY6LvkpI3NymPsTwQ?e=qkZS75)
+1.  Download Installation from [OutlookIntegration Download](https://freedommanufaktur.sharepoint.com/:f:/g/El63_xb4uBZKt_uqMrKfeZoBneAXDiuF-EDpPlknhli9yA?e=55Cd6k)
 1.  Install `OutlookIntegration Setup 2.4.0.exe`
     > Note: This will automatically install .NET 9.0 if necessary
 1.  (Optional, verify running) Open a browser and navigate to \
@@ -116,7 +116,7 @@ The installation also creates a new Windows Event Log source `OutlookIntegration
 
 **Installation and Configuration**
 
-1. Download the **outlook-integration** Docker image from [OutlookIntegration Download](https://freedommanufaktur.sharepoint.com/:f:/g/El63_xb4uBZKt_uqMrKfeZoBRroSWVY6LvkpI3NymPsTwQ?e=qkZS75) and register it with your image repository.
+1. Download the **outlook-integration** Docker image from [OutlookIntegration Download](https://freedommanufaktur.sharepoint.com/:f:/g/El63_xb4uBZKt_uqMrKfeZoBneAXDiuF-EDpPlknhli9yA?e=55Cd6k) and register it with your image repository.
 
 1. Download the Docker Compose YAML files from [OutlookIntegration Docker Compose Download](https://github.com/freedom-manufaktur/OutlookIntegration/tree/main/Docker%20Compose).
 
@@ -138,7 +138,7 @@ For example in Docker Desktop \
 
 **Installation and Configuration**
 
-1. Download the **outlook-integration** Docker image from [OutlookIntegration Download](https://freedommanufaktur.sharepoint.com/:f:/g/El63_xb4uBZKt_uqMrKfeZoBRroSWVY6LvkpI3NymPsTwQ?e=qkZS75) and register it with your image repository.
+1. Download the **outlook-integration** Docker image from [OutlookIntegration Download](https://freedommanufaktur.sharepoint.com/:f:/g/El63_xb4uBZKt_uqMrKfeZoBneAXDiuF-EDpPlknhli9yA?e=55Cd6k) and register it with your image repository.
 
 1. Download the HELM Chart files from [OutlookIntegration HELM Chart Download](https://github.com/freedom-manufaktur/OutlookIntegration/tree/main/HELM%20Chart).
 
@@ -340,7 +340,7 @@ As a Microsoft Outlook user of your organization.
 # What's new?
 This section lists **important** changes to the documentation and Docker files.
 Please read this list when upgrading an existing installation.
-> The full app changelog can be found in the [OutlookIntegration Download](https://freedommanufaktur.sharepoint.com/:f:/g/El63_xb4uBZKt_uqMrKfeZoBRroSWVY6LvkpI3NymPsTwQ?e=qkZS75)
+> The full app changelog can be found in the [OutlookIntegration Download](https://freedommanufaktur.sharepoint.com/:f:/g/El63_xb4uBZKt_uqMrKfeZoBneAXDiuF-EDpPlknhli9yA?e=55Cd6k)
 
 ## [2.4.0] - 2025-03-02
 - Due to changes by Microsoft, you must use at least version 2.4.0 of the *OutlookIntegration Microservice*.
