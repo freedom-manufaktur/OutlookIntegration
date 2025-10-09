@@ -168,9 +168,9 @@ You should be able to call `https://addin.MyCompany.com/healthcheck` from a user
 > You **should** know your *Outlook Integration Service URL* from the previous chapter.
 
 > [!TIP] Are you using Exchange Server (On-Premises)?
-> Read [this manual](TODO) on how to.
+> Read the [Exchange Server Registration Manual](<Exchange Server Registration Manual.md>) on how to.
 
-Read the [Entra Registration Manual](<Documentation/Entra Registration Manual.md>) on how to register your *Microsoft Entra* app.
+Read the [Entra Registration Manual](<Entra Registration Manual.md>) on how to register your *Microsoft Entra* app.
 
 # 3. whoosh Oktopus installation
 
@@ -196,8 +196,8 @@ As a result of this chapter you should have the following information at your di
 
 # 4. Configure the Add-in microservice
 As a result of the previous chapters you should have the following information at your disposal:
-- Entra ID Application ID (e.g. `577b6e4c-c8a2-4d93-98d2-284e8fb55622`)
-- Entra ID Tenant ID (e.g. `9776b2ed-e415-439d-9582-85719af85979`)
+- Entra Application ID (e.g. `577b6e4c-c8a2-4d93-98d2-284e8fb55622`)
+- Entra Tenant ID (e.g. `9776b2ed-e415-439d-9582-85719af85979`)
 - Add-in Service URL (e.g. `https://addin.MyCompany.com`)
 - Integration Platform URL (e.g. `https://oktopus.MyCompany.com`)
 - Integration Platform API Key (e.g. `d2hvb3[...]`)
@@ -257,7 +257,7 @@ Read the next chapter on how to create your Outlook Add-in.
 
 # 5. Create a personalized Outlook Add-in using your Add-in service
 As a result of the previous chapters you should have the following information at your disposal:
-* Entra ID Application ID (e.g. `577b6e4c-c8a2-4d93-98d2-284e8fb55622`)
+* Entra Application ID (e.g. `577b6e4c-c8a2-4d93-98d2-284e8fb55622`)
 * Add-in Service URL (e.g. `https://addin.MyCompany.com`)
 * Outlook Integration tenant ID (e.g. `3c4ba0e5-216b-411c-8aaa-765dec8b023f`)
 * Dispatcher type (e.g. `USU`, `Ivanti`, `SMAX`)
@@ -294,7 +294,8 @@ As a Microsoft Outlook user of your organization.
 1.  Click the Apps icon and choose your Dispatcher.
     ![Outlook Add-in](<Images/Outlook Add-in open.png>)
 
-1.  > [!TIP] Done!
+1.  > [!TIP]
+    > Done!
     > Congratulations on successfully installing, configuring, registering and using the **OutlookIntegration** and **Outlook Add-in**.
 
 # What's new?
@@ -305,8 +306,8 @@ Please read this list when upgrading an existing installation.
 ## [3.0.0] - 2025-10-09
 - Nested app authentication (NAA) is now used by default.
   > [!IMPORTANT] Breaking
-  > Existing installations must change their Entra ID app registration.
-  > See [Entra ID (Azure AD) Application registration](#2-entra-id-azure-ad-application-registration).
+  > Existing installations must change their Entra app registration.
+  > See [Microsoft Entra (Azure AD) Application registration](#2-microsoft-entra-azure-ad-application-registration).
   > 
   > You may temporarily disable NAA by setting `Advanced:DisableNestedAppAuth` to `true` in `appsettings.json`. This setting will be removed in a future version of the app.
 - Added `TicketNumber` (in addition to `TicketNumberRegex`) option to `Get Dispatcher metadata` workflow response.
