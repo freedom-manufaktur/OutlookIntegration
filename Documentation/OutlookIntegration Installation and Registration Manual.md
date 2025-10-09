@@ -164,10 +164,10 @@ As a result of this chapter you should have the following information at your di
 You should be able to call `https://addin.MyCompany.com/healthcheck` from a users machine (use a regular browser) and get a `200 OK` response.
 
 # 2. Microsoft Entra (Azure AD) Application registration
-> [!IMPORTANT] Before you begin
+> ❗ Before you begin\
 > You **should** know your *Outlook Integration Service URL* from the previous chapter.
 
-> [!TIP] Are you using Exchange Server (On-Premises)?
+> ❓ Are you using Exchange Server (On-Premises)?\
 > Read the [Exchange Server Registration Manual](<Exchange Server Registration Manual.md>) on how to.
 
 Read the [Entra Registration Manual](<Entra Registration Manual.md>) on how to register your *Microsoft Entra* app.
@@ -271,6 +271,9 @@ As a result of the previous chapters you should have the following information a
 3.  Save file as `MyCompany.xml`.
 
 # 6. Publish your Outlook Add-in to your Organization/Users
+> ❓ Are you using Exchange Server (On-Premises)?\
+> Read the [Exchange Server Registration Manual](<Exchange Server Registration Manual.md>) on how to install your add-in.
+
 ## How to install (for personal use)
 1.  Visit legacy Outlook add-in store https://outlook.office365.com/mail/inclientstore
 1.  Choose *My add-ins* -> *Custom Addins* -> *Add a custom add-in* -> *Add from File...*
@@ -294,8 +297,7 @@ As a Microsoft Outlook user of your organization.
 1.  Click the Apps icon and choose your Dispatcher.
     ![Outlook Add-in](<Images/Outlook Add-in open.png>)
 
-1.  > [!TIP]
-    > Done!
+1.  ✅ Done!
     > Congratulations on successfully installing, configuring, registering and using the **OutlookIntegration** and **Outlook Add-in**.
 
 # What's new?
