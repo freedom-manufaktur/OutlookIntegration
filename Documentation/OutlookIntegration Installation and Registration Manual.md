@@ -166,7 +166,7 @@ You should be able to call `https://addin.MyCompany.com/healthcheck` from a user
 
 # 2. Microsoft Entra (Azure AD) Application registration
 > ❓ Are you using Exchange Server (On-Premises)?\
-> Read the [Exchange Server Registration Manual](<Exchange Server Registration Manual.md#exchange-server-registration>) instead.
+> Read the [Exchange Server Manual](<Exchange Server Registration Manual.md#exchange-server-registration>) instead.
 
 > ❗ Before you begin\
 > You **should** know your *Outlook Integration Service URL* from the previous chapter.
@@ -287,17 +287,17 @@ As a result of the previous chapters you should have the following information a
 * Outlook Integration tenant ID (e.g. `3c4ba0e5-216b-411c-8aaa-765dec8b023f`)
 * Dispatcher type (e.g. `USU`, `Ivanti`, `SMAX`)
 
+Now we can create your Add-in manifest.
 1.  Download `Dispatcher-Template.xml` [here](<../Add-in Template/Dispatcher-Template.xml>).
 2.  Edit the file and replace the following placeholders with **your** values.
     - `{{OutlookIntegrationTenantId}}` -> `3c4ba0e5-216b-411c-8aaa-765dec8b023f`
     - `{{AddInServiceUrl}}` -> `https://addin.MyCompany.com`
     - `{{DispatcherType}}` -> `USU`
-
 3.  Save file as `MyCompany.xml`.
 
 # 6. Publish your Outlook Add-in to your Organization/Users
 > ❓ Are you using Exchange Server (On-Premises)?\
-> Read the [Exchange Server Registration Manual](<Exchange Server Registration Manual.md#add-in-installation>) instead.
+> Read the [Exchange Server Manual](<Exchange Server Registration Manual.md#add-in-installation>) instead.
 
 ## How to install (for personal use)
 1.  Visit legacy Outlook add-in store https://outlook.office365.com/mail/inclientstore
@@ -337,6 +337,7 @@ Please read this list when upgrading an existing installation.
   > 
   > You may temporarily disable NAA by setting `Advanced:DisableNestedAppAuth` to `true` in `appsettings.json`. This setting will be removed in a future version of the app.
 - Added `TicketNumber` (in addition to `TicketNumberRegex`) option to `Get Dispatcher metadata` workflow response.
+- *HELM Chart* has been updated for HELM 3.19.0.
 
 ## [2.4.0] - 2025-03-02
 - Due to changes by Microsoft, you must use at least version 2.4.0 of the *OutlookIntegration Microservice*.
