@@ -13,6 +13,7 @@ Table of contents
   - [Installation as Kubernetes Deployment via HELM Chart](#installation-as-kubernetes-deployment-via-helm-chart)
   - [Post Installation check](#post-installation-check)
 - [2. Microsoft Entra (Azure AD) Application registration](#2-microsoft-entra-azure-ad-application-registration)
+  - [Summary](#summary)
 - [3. whoosh Oktopus installation](#3-whoosh-oktopus-installation)
   - [Install whoosh Oktopus](#install-whoosh-oktopus)
     - [Determin Oktopus API key](#determin-oktopus-api-key)
@@ -23,7 +24,7 @@ Table of contents
 - [6. Publish your Outlook Add-in to your Organization/Users](#6-publish-your-outlook-add-in-to-your-organizationusers)
   - [How to install (for personal use)](#how-to-install-for-personal-use)
   - [How to install (for organization)](#how-to-install-for-organization)
-- [7. Use the Add-in](#7-use-the-add-in)
+  - [Use the Add-in](#use-the-add-in)
 - [What's new?](#whats-new)
   - [\[3.0.0\] - 2025-10-09](#300---2025-10-09)
   - [\[2.4.0\] - 2025-03-02](#240---2025-03-02)
@@ -164,13 +165,37 @@ As a result of this chapter you should have the following information at your di
 You should be able to call `https://addin.MyCompany.com/healthcheck` from a users machine (use a regular browser) and get a `200 OK` response.
 
 # 2. Microsoft Entra (Azure AD) Application registration
+> ❓ Are you using Exchange Server (On-Premises)?\
+> Read the [Exchange Server Registration Manual](<Exchange Server Registration Manual.md#exchange-server-registration>) instead.
+
 > ❗ Before you begin\
 > You **should** know your *Outlook Integration Service URL* from the previous chapter.
 
-> ❓ Are you using Exchange Server (On-Premises)?\
-> Read the [Exchange Server Registration Manual](<Exchange Server Registration Manual.md>) on how to.
+1.  Open the [Entra admin center - App registrations](https://entra.microsoft.com/#view/Microsoft_AAD_RegisteredApps/ApplicationsListBlade/quickStartType~/null/sourceType/Microsoft_AAD_IAM) portal.
 
-Read the [Entra Registration Manual](<Entra Registration Manual.md>) on how to register your *Microsoft Entra* app.
+2.  Add a **new registration** and give it a fitting **name**.\
+    Under **Redirect URI** choose **Single-page application (SPA)** as platform and enter an URI in the form of\
+    `brk-multihub://addin.MyCompany.com`.\
+    Insert the domain name of **your** *Outlook Integration Service URL* after the `brk-multihub://`.\
+    If your port number is non-standard, then also include it.\
+    **Do not** include any path segments after the domain name.
+    
+    ![New App registration](Images/Entra%20App%20registration%20New.png)
+
+3.  Write down the *Application ID* (e.g. `577b6e4c-c8a2-4d93-98d2-284e8fb55622`) and  *Tenant ID* (e.g. `9776b2ed-e415-439d-9582-85719af85979`).\
+    ![App registration ID](Images/Entra%20App%20registration%20ID.png)
+
+4.  Under **API permissions** make sure that you have at least `Mail.Read` and `User.Read` delegated permissions.\
+    Once you have added the permissions, use **Grant admin consent for MyCompany** and make sure all permissions have admin consent.\
+    ![App registration permissions](Images/Entra%20App%20registration%20Permissions.png)
+    > ℹ️ Microsoft states that the `User.Read` permission can be replaced by `openid` and `profile` which is even less permissive. We do **not** recommend this, as we had the most reliable results with `User.Read`.
+    >
+    > ℹ️ Microsoft also states that the `Files.ReadWrite` permission is required. We do **not** need this permission.
+
+## Summary
+As a result of this chapter you should have the following information at your disposal:
+* Entra Application ID (e.g. `577b6e4c-c8a2-4d93-98d2-284e8fb55622`)
+* Entra Tenant ID (e.g. `9776b2ed-e415-439d-9582-85719af85979`)
 
 # 3. whoosh Oktopus installation
 
@@ -272,7 +297,7 @@ As a result of the previous chapters you should have the following information a
 
 # 6. Publish your Outlook Add-in to your Organization/Users
 > ❓ Are you using Exchange Server (On-Premises)?\
-> Read the [Exchange Server Registration Manual](<Exchange Server Registration Manual.md>) on how to install your add-in.
+> Read the [Exchange Server Registration Manual](<Exchange Server Registration Manual.md#add-in-installation>) instead.
 
 ## How to install (for personal use)
 1.  Visit legacy Outlook add-in store https://outlook.office365.com/mail/inclientstore
@@ -285,11 +310,11 @@ As a result of the previous chapters you should have the following information a
 1.  Choose *App type* = *Office Add-in*
 1.  Under *Choose how to upload app* select *Upload manifest file (.xml) from device* and upload your Add-in manifest file (e.g. `MyCompany.xml`)
 1.  Follow the instructions until the Add-in has been successfully deployed
-    > Note: It takes ~24h (yes, one day) until the Add-in will appear for users.
-    
-    > Note: If anything fails, use the browser developer tools (F12) to get error messages (the UI typically  just shows generic fail messages).
+    > ℹ️ It takes ~24h (yes, one day) until the Add-in will appear for users.
+    >
+    > ℹ️ If anything fails, use the browser developer tools (F12) to get error messages (the UI typically  just shows generic fail messages).
 
-# 7. Use the Add-in
+## Use the Add-in
 As a Microsoft Outlook user of your organization.
 
 1.  Open [Outlook for the Web](https://outlook.office.com) or the desktop application.
@@ -297,8 +322,7 @@ As a Microsoft Outlook user of your organization.
 1.  Click the Apps icon and choose your Dispatcher.
     ![Outlook Add-in](<Images/Outlook Add-in open.png>)
 
-1.  ✅ Done!
-    > Congratulations on successfully installing, configuring, registering and using the **OutlookIntegration** and **Outlook Add-in**.
+> 🎉 Congratulations on successfully installing, configuring, registering and using the **OutlookIntegration** and **Outlook Add-in**.
 
 # What's new?
 This section lists **important** changes to the documentation and Docker files.
@@ -307,7 +331,7 @@ Please read this list when upgrading an existing installation.
 
 ## [3.0.0] - 2025-10-09
 - Nested app authentication (NAA) is now used by default.
-  > [!IMPORTANT] Breaking
+  > ⚠️ **Breaking**\
   > Existing installations must change their Entra app registration.
   > See [Microsoft Entra (Azure AD) Application registration](#2-microsoft-entra-azure-ad-application-registration).
   > 
