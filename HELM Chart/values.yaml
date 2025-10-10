@@ -95,7 +95,7 @@ httpRoute:
     # namespace: default
   # Hostnames matching HTTP header.
   hostnames:
-  - chart-example.local
+  - outlook-integration.local
   # List of rules and filters applied.
   rules:
   - matches:
