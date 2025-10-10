@@ -8,11 +8,12 @@ Link: [Documentation on GitHub](<https://github.com/freedom-manufaktur/OutlookIn
 # Exchange Server Registration
 1.  On Exchange Server we assume that the application ID is `00000002-0000-0ff1-ce00-000000000000`. No registration is required.
 2.  When the [OutlookIntegration Manual](<OutlookIntegration Installation and Registration Manual.md>) talks about the **Entra Application ID**, just use this GUID.
-3.  Now continue with the [OutlookIntegration Manual](<OutlookIntegration Installation and Registration Manual.md>).
 
 ## Summary
 As a result of this chapter you should have the following information at your disposal:
 - Entra Application ID (e.g. `00000002-0000-0ff1-ce00-000000000000`)
+
+> ℹ️ Now continue with the [OutlookIntegration Manual](<OutlookIntegration Installation and Registration Manual.md>).
 
 
 # Add-in installation
