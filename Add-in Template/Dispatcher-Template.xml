@@ -1,31 +1,33 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!--
+■ Documentation: https://github.com/freedom-manufaktur/OutlookIntegration
+
 ■ How to install (for personal use)
-■ 1. Visit legacy Outlook add-in store https://outlook.office365.com/mail/inclientstore
-■ 2. Choose *My add-ins* -> *Custom Addins* -> *Add a custom add-in* -> *Add from File...*
-■ 3. Select this file
+1. Visit legacy Outlook add-in store https://outlook.office365.com/mail/inclientstore
+2. Choose *My add-ins* -> *Custom Addins* -> *Add a custom add-in* -> *Add from File...*
+3. Select this file
 
 ■ How to install (for organization)
-■ 1. Visit https://admin.microsoft.com/#/Settings/IntegratedApps (as Microsoft 365 admin)
-■ 2. Select *Upload custom apps*
-■ 3. Choose *App type* = *Office Add-in*
-■ 4. Under *Choose how to upload app* select *Upload manifest file (.xml) from device* and upload this file.
-■ 5. Follow the instructions until the add-in has been successfully deployed
-■    Note: It takes ~24h (yes, one day) until the add-in will appear for users.
-■    Note: If anything fails, use the browser developer tools (F12) to get error messages (the UI typically just shows generic fail messages).
+1. Visit https://admin.microsoft.com/#/Settings/IntegratedApps (as Microsoft 365 admin)
+2. Select *Upload custom apps*
+3. Choose *App type* = *Office Add-in*
+4. Under *Choose how to upload app* select *Upload manifest file (.xml) from device* and upload this file.
+5. Follow the instructions until the add-in has been successfully deployed
+   Note: It takes ~24h (yes, one day) until the add-in will appear for users.
+   Note: If anything fails, use the browser developer tools (F12) to get error messages (the UI typically just shows generic fail messages).
 -->
-<!-- App-Documentation: https://learn.microsoft.com/en-us/javascript/api/manifest/officeapp?view=outlook-js-1.13 -->
+<!-- App-Documentation: https://learn.microsoft.com/en-us/javascript/api/manifest/officeapp?view=outlook-js-1.15 -->
 <OfficeApp
   xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0"
   xsi:type="MailApp">
   <Id>{{OutlookIntegrationTenantId}}</Id>
-  <Version>2.4.0</Version>
+  <Version>3.0.0</Version>
   <ProviderName>freedom manufaktur</ProviderName>
   <DefaultLocale>de-DE</DefaultLocale>
   <DisplayName DefaultValue="{{DispatcherType}} Dispatcher"/>
-  <Description DefaultValue="Erstellen eines Tickets aus einer E-Mail heraus. Version 2.4.0-Template"/>
+  <Description DefaultValue="Erstellen eines Tickets aus einer E-Mail heraus. Version 3.0.0-Template"/>
   <IconUrl DefaultValue="{{AddInServiceUrl}}/Assets/{{DispatcherType}}-Dispatcher/{{DispatcherType}}-Dispatcher-64.png"/>
   <HighResolutionIconUrl DefaultValue="{{AddInServiceUrl}}/Assets/{{DispatcherType}}-Dispatcher/{{DispatcherType}}-Dispatcher-128.png"/>
   <SupportUrl DefaultValue="https://freedom-manufaktur.com/kontakt"/>
