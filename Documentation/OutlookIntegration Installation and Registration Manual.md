@@ -2,7 +2,7 @@
 ---
 Version: `3.0.0` - `2025-10-09` \
 Author: martin@freedom-manufaktur.com \
-Link: [Documentation on GitHub](https://github.com/freedom-manufaktur/OutlookIntegration/tree/main/Documentation/Bot%20Installation%20and%20Registration%20Manual.md)
+Link: [Documentation on GitHub](<https://github.com/freedom-manufaktur/OutlookIntegration/tree/main/Documentation/Bot Installation and Registration Manual.md>)
 
 Table of contents
 ---
@@ -106,11 +106,11 @@ Editing `appsettings.json` will show something like
 
 The installation creates a new Windows Service that should be running for the service to be available
 
-![Windows Service](Images/Windows%20Service.png)
+![Windows Service](<Images/Windows Service.png>)
 
 The installation also creates a new Windows Event Log source `OutlookIntegration`. Please start the *Event Viewer* or any other Event Log monitoring tool to view the application logs.
 
-![Event Viewer](Images/Windows%20Service%20Event%20Log.png)
+![Event Viewer](<Images/Windows Service Event Log.png>)
 
 ---
 
@@ -120,7 +120,7 @@ The installation also creates a new Windows Event Log source `OutlookIntegration
 
 1. Download the **outlook-integration** Docker image from [OutlookIntegration Download](https://freedommanufaktur.sharepoint.com/:f:/g/El63_xb4uBZKt_uqMrKfeZoBneAXDiuF-EDpPlknhli9yA?e=55Cd6k) and register it with your image repository.
 
-1. Download the Docker Compose YAML files from [OutlookIntegration Docker Compose Download](https://github.com/freedom-manufaktur/OutlookIntegration/tree/main/Docker%20Compose).
+1. Download the Docker Compose YAML files from [OutlookIntegration Docker Compose Download](<https://github.com/freedom-manufaktur/OutlookIntegration/tree/main/Docker Compose>).
 
 1. Adjust the `compose.env` with the required settings.
 
@@ -128,11 +128,11 @@ The installation also creates a new Windows Event Log source `OutlookIntegration
 
 **Monitoring / Debugging**
 
-> The Docker Compose file contains a [healthcheck](https://docs.docker.com/compose/compose-file/05-services/#healthcheck) definition that includes basic configuration checks.
+> The Docker Compose file contains a [healthcheck](<https://docs.docker.com/compose/compose-file/05-services/#healthcheck>) definition that includes basic configuration checks.
 
 Use your favorite Docker tools to check the status and logs of the app.
 For example in Docker Desktop \
-![Docker Compose Container Running](Images/Docker%20Compose%20Running.png)
+![Docker Compose Container Running](<Images/Docker Compose Running.png>)
 
 ---
 
@@ -142,7 +142,7 @@ For example in Docker Desktop \
 
 1. Download the **outlook-integration** Docker image from [OutlookIntegration Download](https://freedommanufaktur.sharepoint.com/:f:/g/El63_xb4uBZKt_uqMrKfeZoBneAXDiuF-EDpPlknhli9yA?e=55Cd6k) and register it with your image repository.
 
-1. Download the HELM Chart files from [OutlookIntegration HELM Chart Download](https://github.com/freedom-manufaktur/OutlookIntegration/tree/main/HELM%20Chart).
+1. Download the HELM Chart files from [OutlookIntegration HELM Chart Download](<https://github.com/freedom-manufaktur/OutlookIntegration/tree/main/HELM Chart>).
 
 1. Adjust the `values.yaml` with the required settings.
 
@@ -156,7 +156,7 @@ For example in Docker Desktop \
 
 Use your favorite Docker tools to check the status and logs of the app.
 For example in Kubernetes Dashboard \
-![Docker Kubernetes Running](Images/Kubernetes%20Running.png)
+![Docker Kubernetes Running](<Images/Kubernetes Running.png>)
 
 ## Post Installation check
 As a result of this chapter you should have the following information at your disposal:
@@ -180,14 +180,14 @@ You should be able to call `https://addin.MyCompany.com/healthcheck` from a user
     If your port number is non-standard, then also include it.\
     **Do not** include any path segments after the domain name.
     
-    ![New App registration](Images/Entra%20App%20registration%20New.png)
+    ![New App registration](<Images/Entra App registration New.png>)
 
 3.  Write down the *Application ID* (e.g. `577b6e4c-c8a2-4d93-98d2-284e8fb55622`) and  *Tenant ID* (e.g. `9776b2ed-e415-439d-9582-85719af85979`).\
-    ![App registration ID](Images/Entra%20App%20registration%20ID.png)
+    ![App registration ID](<Images/Entra App registration ID.png>)
 
 4.  Under **API permissions** make sure that you have at least `Mail.Read` and `User.Read` delegated permissions.\
     Once you have added the permissions, use **Grant admin consent for MyCompany** and make sure all permissions have admin consent.\
-    ![App registration permissions](Images/Entra%20App%20registration%20Permissions.png)
+    ![App registration permissions](<Images/Entra App registration Permissions.png>)
     > ℹ️ Microsoft states that the `User.Read` permission can be replaced by `openid` and `profile` which is even less permissive. We do **not** recommend this, as we had the most reliable results with `User.Read`.
     >
     > ℹ️ Microsoft also states that the `Files.ReadWrite` permission is required. We do **not** need this permission.
@@ -203,7 +203,7 @@ Every successful interaction with the Add-in service will result in a call to *w
 
 ## Install whoosh Oktopus
 The *whoosh Oktopus* installation is described in this document:
-[whoosh Oktopus Installation Manual](https://github.com/freedom-manufaktur/Oktopus/blob/main/Documentation/Oktopus%20Installation%20Manual.md)
+[whoosh Oktopus Installation Manual](<https://github.com/freedom-manufaktur/Oktopus/blob/main/Documentation/Oktopus Installation Manual.md>)
 
 ### Determin Oktopus API key
 1.  Go to `Settings` -> `Advanced settings` and write down the `Webhook base URL` and `Webhook API key`.
@@ -287,7 +287,7 @@ As a result of the previous chapters you should have the following information a
 * Outlook Integration tenant ID (e.g. `3c4ba0e5-216b-411c-8aaa-765dec8b023f`)
 * Dispatcher type (e.g. `USU`, `Ivanti`, `SMAX`)
 
-1.  Download `Dispatcher-Template.xml` [here](../Add-in%20Template/Dispatcher-Template.xml).
+1.  Download `Dispatcher-Template.xml` [here](<../Add-in Template/Dispatcher-Template.xml>).
 2.  Edit the file and replace the following placeholders with **your** values.
     - `{{OutlookIntegrationTenantId}}` -> `3c4ba0e5-216b-411c-8aaa-765dec8b023f`
     - `{{AddInServiceUrl}}` -> `https://addin.MyCompany.com`
