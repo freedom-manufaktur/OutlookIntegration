@@ -1,6 +1,6 @@
 ﻿OutlookIntegration - Add-in Installation and Registration Manual
 ---
-Version: `3.0.0` - `2025-10-09` \
+Version: `3.1.0` - `2025-10-13` \
 Author: martin@freedom-manufaktur.com \
 Link: [Documentation on GitHub](<https://github.com/freedom-manufaktur/OutlookIntegration/blob/main/Documentation/OutlookIntegration Installation and Registration Manual.md>)
 
