@@ -1,19 +1,28 @@
 ﻿OutlookIntegration - Exchange Server Registration Manual
 ===
-Version: `3.0.0` - `2025-10-09` \
+Version: `3.1.0` - `2025-10-13` \
 Author: martin@freedom-manufaktur.com \
-Link: [Documentation on GitHub](<https://github.com/freedom-manufaktur/OutlookIntegration/tree/main/Documentation/Exchange Server Registration Manual.md>)
+Link: [Documentation on GitHub](<https://github.com/freedom-manufaktur/OutlookIntegration/blob/main/Documentation/Exchange Server Registration Manual.md>)
 
 
 # Exchange Server Registration
-1.  On Exchange Server we assume that the application ID is `00000002-0000-0ff1-ce00-000000000000`. No registration is required.
-2.  When the [OutlookIntegration Manual](<OutlookIntegration Installation and Registration Manual.md>) talks about the **Entra Application ID**, just use this GUID.
+1.  (Optional) Open the **Exchange Management Shell** and run the command `Get-AuthConfig | Select ServiceName`.\
+    You should see the following output:
+    ```
+    PS> Get-AuthConfig | Select ServiceName
+    
+    ServiceName
+    -----------
+    00000002-0000-0ff1-ce00-000000000000
+    ```
+2.  Write down the **ServiceName** value. On Exchange Server the default should be `00000002-0000-0ff1-ce00-000000000000`.
+3.  When the [OutlookIntegration Manual](<OutlookIntegration Installation and Registration Manual.md>)  ID*talks about the **Entra Application*, use this **ServiceName**.
 
 ## Summary
 As a result of this chapter you should have the following information at your disposal:
 - Entra Application ID (e.g. `00000002-0000-0ff1-ce00-000000000000`)
 
-> ℹ️ Now continue with the [OutlookIntegration Manual](<OutlookIntegration Installation and Registration Manual.md>).
+> ➡️ Now continue with the [OutlookIntegration Manual](<OutlookIntegration Installation and Registration Manual.md#3-whoosh-oktopus-installation>).
 
 
 # Add-in installation
@@ -41,4 +50,7 @@ As a Microsoft Outlook user of your organization.
 1.  Click on your Dispatcher app icon.
     ![Outlook Add-in](<Images/Exchange Server Add-in open.png>)
 
-> 🎉 Congratulations on successfully installing, configuring, registering and using the **OutlookIntegration** and **Outlook Add-in**.
+> 🎉 **Congratulations**\
+> You have successfully installed, configured and registered the **OutlookIntegration** and **Outlook Add-in**.
+
+> ℹ️ You may continue to look at the [OutlookIntegration Manual](<OutlookIntegration Installation and Registration Manual.md#whats-new>).
