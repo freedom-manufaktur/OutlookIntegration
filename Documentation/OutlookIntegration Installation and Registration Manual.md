@@ -2,7 +2,7 @@
 ---
 Version: `3.0.0` - `2025-10-09` \
 Author: martin@freedom-manufaktur.com \
-Link: [Documentation on GitHub](<https://github.com/freedom-manufaktur/OutlookIntegration/tree/main/Documentation/Bot Installation and Registration Manual.md>)
+Link: [Documentation on GitHub](<https://github.com/freedom-manufaktur/OutlookIntegration/blob/main/Documentation/OutlookIntegration Installation and Registration Manual.md>)
 
 Table of contents
 ---
@@ -194,11 +194,11 @@ You should be able to call `https://addin.MyCompany.com/healthcheck` from a user
 
 ## Summary
 As a result of this chapter you should have the following information at your disposal:
-* Entra Application ID (e.g. `577b6e4c-c8a2-4d93-98d2-284e8fb55622`)
-* Entra Tenant ID (e.g. `9776b2ed-e415-439d-9582-85719af85979`)
+- Entra Application ID (e.g. `577b6e4c-c8a2-4d93-98d2-284e8fb55622`)
+- Entra Tenant ID (e.g. `9776b2ed-e415-439d-9582-85719af85979`)
+
 
 # 3. whoosh Oktopus installation
-
 Every successful interaction with the Add-in service will result in a call to *whoosh Oktopus* which provides a standardised API to any kind of ITSM tool.
 
 ## Install whoosh Oktopus
@@ -218,6 +218,7 @@ As a result of this chapter you should have the following information at your di
 - Oktopus URL (e.g. `https://oktopus.MyCompany.com`)
 - Oktopus API key (e.g. `d2hvb3[...]`)
 - Dispatcher prefix (e.g. `USU-Dispatcher`, `Ivanti-Dispatcher`, `SMAX-Dispatcher`)
+
 
 # 4. Configure the Add-in microservice
 As a result of the previous chapters you should have the following information at your disposal:
@@ -280,12 +281,13 @@ Let's put all this together.
 After successfully calling the settings API you can start using the Add-in.
 Read the next chapter on how to create your Outlook Add-in.
 
+
 # 5. Create a personalized Outlook Add-in using your Add-in service
 As a result of the previous chapters you should have the following information at your disposal:
-* Entra Application ID (e.g. `577b6e4c-c8a2-4d93-98d2-284e8fb55622`)
-* Add-in Service URL (e.g. `https://addin.MyCompany.com`)
-* Outlook Integration tenant ID (e.g. `3c4ba0e5-216b-411c-8aaa-765dec8b023f`)
-* Dispatcher type (e.g. `USU`, `Ivanti`, `SMAX`)
+- Entra Application ID (e.g. `577b6e4c-c8a2-4d93-98d2-284e8fb55622`)
+- Add-in Service URL (e.g. `https://addin.MyCompany.com`)
+- Outlook Integration tenant ID (e.g. `3c4ba0e5-216b-411c-8aaa-765dec8b023f`)
+- Dispatcher type (e.g. `USU`, `Ivanti`, `SMAX`)
 
 Now we can create your Add-in manifest.
 1.  Download `Dispatcher-Template.xml` [here](<../Add-in Template/Dispatcher-Template.xml>).
@@ -294,6 +296,7 @@ Now we can create your Add-in manifest.
     - `{{AddInServiceUrl}}` -> `https://addin.MyCompany.com`
     - `{{DispatcherType}}` -> `USU`
 3.  Save file as `MyCompany.xml`.
+
 
 # 6. Publish your Outlook Add-in to your Organization/Users
 > ❓ Are you using Exchange Server (On-Premises)?\
@@ -322,7 +325,9 @@ As a Microsoft Outlook user of your organization.
 1.  Click the Apps icon and choose your Dispatcher.
     ![Outlook Add-in](<Images/Outlook Add-in open.png>)
 
-> 🎉 Congratulations on successfully installing, configuring, registering and using the **OutlookIntegration** and **Outlook Add-in**.
+> 🎉 **Congratulations**\
+> You have successfully installed, configured and registered the **OutlookIntegration** and **Outlook Add-in**.
+
 
 # What's new?
 This section lists **important** changes to the documentation and Docker files.
@@ -352,6 +357,7 @@ Please read this list when upgrading an existing installation.
 ## [1.6.0] - 2023-12-23
 - Documentation, *Docker Compose* and *HELM Chart* have been updated with `Oktopus:Url` and `Oktopus:ApiKey` variables.
   These can be left blank, unless you want to use the *Dispatcher* features.
+
 
 # Need support?
 If you have any questions regarding the installation and configuration of the OutlookIntegration, contact us at
