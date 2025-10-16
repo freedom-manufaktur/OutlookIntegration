@@ -16,11 +16,14 @@ Link: [Documentation on GitHub](<https://github.com/freedom-manufaktur/OutlookIn
     00000002-0000-0ff1-ce00-000000000000
     ```
 2.  Write down the **ServiceName** value. On Exchange Server the default should be `00000002-0000-0ff1-ce00-000000000000`.
-3.  When the [OutlookIntegration Manual](<OutlookIntegration Installation and Registration Manual.md>)  ID*talks about the **Entra Application*, use this **ServiceName**.
+3.  When the [OutlookIntegration Manual](<OutlookIntegration Installation and Registration Manual.md>) talks about the **Entra Application ID**, use this **ServiceName**.
+4.  When the [OutlookIntegration Manual](<OutlookIntegration Installation and Registration Manual.md>) talks about the **Entra Tenant ID**, use your *Active Directory* domain name.
 
 ## Summary
 As a result of this chapter you should have the following information at your disposal:
 - Entra Application ID (e.g. `00000002-0000-0ff1-ce00-000000000000`)
+- Entra Tenant ID (e.g. `MyCompany.com`)
+
 
 > ➡️ Now continue with the [OutlookIntegration Manual](<OutlookIntegration Installation and Registration Manual.md#3-whoosh-oktopus-installation>).
 
