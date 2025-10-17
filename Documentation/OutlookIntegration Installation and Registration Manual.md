@@ -1,6 +1,6 @@
 ﻿OutlookIntegration - Add-in Installation and Registration Manual
 ---
-Version: `3.0.0` - `2025-10-09` \
+Version: `3.1.0` - `2025-10-17` \
 Author: martin@freedom-manufaktur.com \
 Link: [Documentation on GitHub](<https://github.com/freedom-manufaktur/OutlookIntegration/blob/main/Documentation/OutlookIntegration Installation and Registration Manual.md>)
 
@@ -277,6 +277,9 @@ Let's put all this together.
       "WorkflowPrefix": "USU-Dispatcher"
     }
     ```
+
+4.  (Only when using Exchange Server (On-Premises))
+    Perform an additional step, see [Exchange Server Manual](<Exchange Server Registration Manual.md#configure-the-add-in-microservice-for-exchange-web-services-ews>).
 
 After successfully calling the settings API you can start using the Add-in.
 Read the next chapter on how to create your Outlook Add-in.

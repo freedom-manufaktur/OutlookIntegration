@@ -1,6 +1,6 @@
 ﻿OutlookIntegration - Exchange Server Registration Manual
 ===
-Version: `3.1.0` - `2025-10-13` \
+Version: `3.1.0` - `2025-10-17` \
 Author: martin@freedom-manufaktur.com \
 Link: [Documentation on GitHub](<https://github.com/freedom-manufaktur/OutlookIntegration/blob/main/Documentation/Exchange Server Registration Manual.md>)
 
@@ -16,13 +16,41 @@ Link: [Documentation on GitHub](<https://github.com/freedom-manufaktur/OutlookIn
     00000002-0000-0ff1-ce00-000000000000
     ```
 2.  Write down the **ServiceName** value. On Exchange Server the default should be `00000002-0000-0ff1-ce00-000000000000`.
-3.  When the [OutlookIntegration Manual](<OutlookIntegration Installation and Registration Manual.md>)  ID*talks about the **Entra Application*, use this **ServiceName**.
+3.  When the [OutlookIntegration Manual](<OutlookIntegration Installation and Registration Manual.md>) talks about the **Entra Application ID**, use this **ServiceName**.
+4.  When the [OutlookIntegration Manual](<OutlookIntegration Installation and Registration Manual.md>) talks about the **Entra Tenant ID**, use your *Active Directory* domain name.
 
 ## Summary
 As a result of this chapter you should have the following information at your disposal:
 - Entra Application ID (e.g. `00000002-0000-0ff1-ce00-000000000000`)
+- Entra Tenant ID (e.g. `MyCompany.com`)
+
 
 > ➡️ Now continue with the [OutlookIntegration Manual](<OutlookIntegration Installation and Registration Manual.md#3-whoosh-oktopus-installation>).
+
+
+# Configure the Add-in microservice for Exchange Web Services (EWS)
+If you are using you using Exchange Server (On-Premises), you must specify the address of the EWS API.
+
+1.  Navigate to the directory \
+    `%ProgramData%\freedom manufaktur\OutlookIntegration` \
+    This directory contains the configuration for the app `appsettings.json` as well as some other app files.
+2.  Edit `appsettings.json` and add the `Ews` section as follows:
+    ```
+    {
+      "$Note": "Please refer to https://github.com/freedom-manufaktur/OutlookIntegration for how and where to edit this file.",
+      [...]
+      "Ews": {
+        "EwsUrl": "https://exchange.MyCompany.com/EWS/Exchange.asmx",
+        "DisableTlsValidation": false
+      },
+      [...]
+    }
+    ```
+    As seen in the example, the URL has been configured to use `https://exchange.MyCompany.com/EWS/Exchange.asmx` as address and TLS validation is enabled.\
+    *After changing `appsettings.json` you must restart the `OutlookIntegration` Service.*
+
+
+> ➡️ Now continue with the [OutlookIntegration Manual](<OutlookIntegration Installation and Registration Manual.md#5-create-a-personalized-outlook-add-in-using-your-add-in-service>).
 
 
 # Add-in installation
