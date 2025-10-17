@@ -1,6 +1,6 @@
 ﻿OutlookIntegration - Exchange Server Registration Manual
 ===
-Version: `3.1.0` - `2025-10-13` \
+Version: `3.1.0` - `2025-10-17` \
 Author: martin@freedom-manufaktur.com \
 Link: [Documentation on GitHub](<https://github.com/freedom-manufaktur/OutlookIntegration/blob/main/Documentation/Exchange Server Registration Manual.md>)
 
@@ -26,6 +26,31 @@ As a result of this chapter you should have the following information at your di
 
 
 > ➡️ Now continue with the [OutlookIntegration Manual](<OutlookIntegration Installation and Registration Manual.md#3-whoosh-oktopus-installation>).
+
+
+# Configure the Add-in microservice for Exchange Web Services (EWS)
+If you are using you using Exchange Server (On-Premises), you must specify the address of the EWS API.
+
+1.  Navigate to the directory \
+    `%ProgramData%\freedom manufaktur\OutlookIntegration` \
+    This directory contains the configuration for the app `appsettings.json` as well as some other app files.
+2.  Edit `appsettings.json` and add the `Ews` section as follows:
+    ```
+    {
+      "$Note": "Please refer to https://github.com/freedom-manufaktur/OutlookIntegration for how and where to edit this file.",
+      [...]
+      "Ews": {
+        "EwsUrl": "https://exchange.MyCompany.com/EWS/Exchange.asmx",
+        "DisableTlsValidation": false
+      },
+      [...]
+    }
+    ```
+    As seen in the example, the URL has been configured to use `https://exchange.MyCompany.com/EWS/Exchange.asmx` as address and TLS validation is enabled.\
+    *After changing `appsettings.json` you must restart the `OutlookIntegration` Service.*
+
+
+> ➡️ Now continue with the [OutlookIntegration Manual](<OutlookIntegration Installation and Registration Manual.md#5-create-a-personalized-outlook-add-in-using-your-add-in-service>).
 
 
 # Add-in installation
