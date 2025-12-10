@@ -142,15 +142,6 @@
           <bt:String id="TaskpaneButton.Tooltip" DefaultValue="E-Mail einem Ticket zuordnen."/>
         </bt:LongStrings>
       </Resources>
-
-      <WebApplicationInfo>
-        <Id>{{EntraIdApplicationId}}</Id>
-        <Resource>{{EntraIdApplicationIdUri}}</Resource>
-        <Scopes>
-          <Scope>User.Read</Scope>
-          <Scope>Mail.Read</Scope>
-        </Scopes>
-      </WebApplicationInfo>
     </VersionOverrides>
   </VersionOverrides>
 </OfficeApp>
