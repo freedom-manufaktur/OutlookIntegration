@@ -1,6 +1,6 @@
 ﻿OutlookIntegration - Add-in Installation and Registration Manual
 ---
-Version: `3.1.0` - `2025-10-17` \
+Version: `3.3.0` - `2026-01-07` \
 Author: martin@freedom-manufaktur.com \
 Link: [Documentation on GitHub](<https://github.com/freedom-manufaktur/OutlookIntegration/blob/main/Documentation/OutlookIntegration Installation and Registration Manual.md>)
 
@@ -26,6 +26,7 @@ Table of contents
   - [How to install (for organization)](#how-to-install-for-organization)
   - [Use the Add-in](#use-the-add-in)
 - [What's new?](#whats-new)
+  - [\[3.3.0\] - 2026-01-07](#330---2026-01-07)
   - [\[3.0.0\] - 2025-10-09](#300---2025-10-09)
   - [\[2.4.0\] - 2025-03-02](#240---2025-03-02)
   - [\[2.3.0\] - 2025-02-11](#230---2025-02-11)
@@ -58,8 +59,8 @@ There are different kinds of installation. You may choose the one best suiting y
 **Installation**
 
 1.  Download Installation from [OutlookIntegration Download](https://freedommanufaktur.sharepoint.com/:f:/g/El63_xb4uBZKt_uqMrKfeZoBneAXDiuF-EDpPlknhli9yA?e=55Cd6k)
-1.  Install `OutlookIntegration Setup 3.0.0.exe`
-    > Note: This will automatically install .NET 9.0 if necessary
+1.  Install `OutlookIntegration Setup 3.3.0.exe`
+    > Note: This will automatically install .NET 10.0 if necessary
 1.  (Optional, verify running) Open a browser and navigate to \
     http://localhost:8010 \
     You should be greeted with the message\
@@ -336,6 +337,9 @@ As a Microsoft Outlook user of your organization.
 This section lists **important** changes to the documentation and Docker files.
 Please read this list when upgrading an existing installation.
 > The full app changelog can be found in the [OutlookIntegration Download](https://freedommanufaktur.sharepoint.com/:f:/g/El63_xb4uBZKt_uqMrKfeZoBneAXDiuF-EDpPlknhli9yA?e=55Cd6k)
+
+## [3.3.0] - 2026-01-07
+- Added `Advanced:EnableOfflineMode` *Docker Compose* and *HELM Chart* (default: false).
 
 ## [3.0.0] - 2025-10-09
 - Nested app authentication (NAA) is now used by default.
