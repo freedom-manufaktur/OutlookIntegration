@@ -156,7 +156,7 @@ For example in Docker Desktop \
 > The Kubernetes Deployment contains [readiness and liveness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) that include basic configuration checks.
 
 Use your favorite Docker tools to check the status and logs of the app.
-For example in Kubernetes Dashboard \
+For example in [Headlamp](https://headlamp.dev/). \
 ![Docker Kubernetes Running](<Images/Kubernetes Running.png>)
 
 ## Post Installation check
