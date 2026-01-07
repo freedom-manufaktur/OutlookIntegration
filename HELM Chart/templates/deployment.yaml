@@ -64,12 +64,9 @@ spec:
           readinessProbe:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          env:
-            - name: Api__EnableDetailedErrorMessages
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ include "outlook-integration.fullname" . }}
-                  key: Api.EnableDetailedErrorMessages
+          envFrom:
+            - configMapRef:
+                name: {{ include "outlook-integration.fullname" . }}
           {{- with .Values.resources }}
           resources:
             {{- toYaml . | nindent 12 }}

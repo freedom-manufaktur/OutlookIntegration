@@ -22,6 +22,7 @@ services: # https://docs.docker.com/compose/compose-file/05-services/
       test: [ "CMD", "/app/OutlookIntegration.Server", "--healthcheck", "http://localhost:8080/livenesscheck" ]
     environment:
       - Api:EnableDetailedErrorMessages=${Api_EnableDetailedErrorMessages}
+      - Advanced:EnableOfflineMode=${Advanced_EnableOfflineMode}
 
 volumes: # https://docs.docker.com/compose/compose-file/07-volumes/
   app-data:
