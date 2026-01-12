@@ -258,7 +258,7 @@ Let's put all this together.
     Authorization: Basic VGVuY[...]
     Content (application/json):
     {
-      "DispatcherId": "USU-Dispatcher",
+      "DispatcherId": "USU",
       "EntraIdTenantId": "9776b2ed-e415-439d-9582-85719af85979",
       "EntraIdApplicationId": "577b6e4c-c8a2-4d93-98d2-284e8fb55622",
       "OktopusUrl": "https://oktopus.MyCompany.com",
@@ -269,7 +269,7 @@ Let's put all this together.
     with the informative response
     ```
     {
-      "DispatcherId": "USU-Dispatcher",
+      "DispatcherId": "USU",
       "EntraIdTenantId": "9776b2ed-e415-439d-9582-85719af85979",
       "EntraIdApplicationId": "577b6e4c-c8a2-4d93-98d2-284e8fb55622",
       "EntraIdClientSecret": "",

@@ -23,13 +23,13 @@
   xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0"
   xsi:type="MailApp">
   <Id>{{OutlookIntegrationTenantId}}</Id>
-  <Version>3.0.0</Version>
+  <Version>3.3.0</Version>
   <ProviderName>freedom manufaktur</ProviderName>
   <DefaultLocale>de-DE</DefaultLocale>
   <DisplayName DefaultValue="{{DispatcherType}} Dispatcher"/>
   <Description DefaultValue="Erstellen eines Tickets aus einer E-Mail heraus. Version 3.0.0-Template"/>
-  <IconUrl DefaultValue="{{AddInServiceUrl}}/Assets/{{DispatcherType}}-Dispatcher/{{DispatcherType}}-Dispatcher-64.png"/>
-  <HighResolutionIconUrl DefaultValue="{{AddInServiceUrl}}/Assets/{{DispatcherType}}-Dispatcher/{{DispatcherType}}-Dispatcher-128.png"/>
+  <IconUrl DefaultValue="{{AddInServiceUrl}}/assets/{{DispatcherType}}-Dispatcher/{{DispatcherType}}-Dispatcher-64.png"/>
+  <HighResolutionIconUrl DefaultValue="{{AddInServiceUrl}}/assets/{{DispatcherType}}-Dispatcher/{{DispatcherType}}-Dispatcher-128.png"/>
   <SupportUrl DefaultValue="https://freedom-manufaktur.com/kontakt"/>
   <Hosts>
     <Host Name="Mailbox"/>
@@ -117,19 +117,19 @@
       </Hosts>
       <Resources>
         <bt:Images>
-          <bt:Image id="{{DispatcherType}}-Dispatcher-16" DefaultValue="{{AddInServiceUrl}}/Assets/{{DispatcherType}}-Dispatcher/{{DispatcherType}}-Dispatcher-16.png"/>
-          <bt:Image id="{{DispatcherType}}-Dispatcher-20" DefaultValue="{{AddInServiceUrl}}/Assets/{{DispatcherType}}-Dispatcher/{{DispatcherType}}-Dispatcher-20.png"/>
-          <bt:Image id="{{DispatcherType}}-Dispatcher-24" DefaultValue="{{AddInServiceUrl}}/Assets/{{DispatcherType}}-Dispatcher/{{DispatcherType}}-Dispatcher-24.png"/>
-          <bt:Image id="{{DispatcherType}}-Dispatcher-25" DefaultValue="{{AddInServiceUrl}}/Assets/{{DispatcherType}}-Dispatcher/{{DispatcherType}}-Dispatcher-25.png"/>
-          <bt:Image id="{{DispatcherType}}-Dispatcher-32" DefaultValue="{{AddInServiceUrl}}/Assets/{{DispatcherType}}-Dispatcher/{{DispatcherType}}-Dispatcher-32.png"/>
-          <bt:Image id="{{DispatcherType}}-Dispatcher-40" DefaultValue="{{AddInServiceUrl}}/Assets/{{DispatcherType}}-Dispatcher/{{DispatcherType}}-Dispatcher-40.png"/>
-          <bt:Image id="{{DispatcherType}}-Dispatcher-48" DefaultValue="{{AddInServiceUrl}}/Assets/{{DispatcherType}}-Dispatcher/{{DispatcherType}}-Dispatcher-48.png"/>
-          <bt:Image id="{{DispatcherType}}-Dispatcher-50" DefaultValue="{{AddInServiceUrl}}/Assets/{{DispatcherType}}-Dispatcher/{{DispatcherType}}-Dispatcher-50.png"/>
-          <bt:Image id="{{DispatcherType}}-Dispatcher-64" DefaultValue="{{AddInServiceUrl}}/Assets/{{DispatcherType}}-Dispatcher/{{DispatcherType}}-Dispatcher-64.png"/>
-          <bt:Image id="{{DispatcherType}}-Dispatcher-75" DefaultValue="{{AddInServiceUrl}}/Assets/{{DispatcherType}}-Dispatcher/{{DispatcherType}}-Dispatcher-75.png"/>
-          <bt:Image id="{{DispatcherType}}-Dispatcher-80" DefaultValue="{{AddInServiceUrl}}/Assets/{{DispatcherType}}-Dispatcher/{{DispatcherType}}-Dispatcher-80.png"/>
-          <bt:Image id="{{DispatcherType}}-Dispatcher-96" DefaultValue="{{AddInServiceUrl}}/Assets/{{DispatcherType}}-Dispatcher/{{DispatcherType}}-Dispatcher-96.png"/>
-          <bt:Image id="{{DispatcherType}}-Dispatcher-144" DefaultValue="{{AddInServiceUrl}}/Assets/{{DispatcherType}}-Dispatcher/{{DispatcherType}}-Dispatcher-144.png"/>
+          <bt:Image id="{{DispatcherType}}-Dispatcher-16" DefaultValue="{{AddInServiceUrl}}/assets/{{DispatcherType}}-Dispatcher/{{DispatcherType}}-Dispatcher-16.png"/>
+          <bt:Image id="{{DispatcherType}}-Dispatcher-20" DefaultValue="{{AddInServiceUrl}}/assets/{{DispatcherType}}-Dispatcher/{{DispatcherType}}-Dispatcher-20.png"/>
+          <bt:Image id="{{DispatcherType}}-Dispatcher-24" DefaultValue="{{AddInServiceUrl}}/assets/{{DispatcherType}}-Dispatcher/{{DispatcherType}}-Dispatcher-24.png"/>
+          <bt:Image id="{{DispatcherType}}-Dispatcher-25" DefaultValue="{{AddInServiceUrl}}/assets/{{DispatcherType}}-Dispatcher/{{DispatcherType}}-Dispatcher-25.png"/>
+          <bt:Image id="{{DispatcherType}}-Dispatcher-32" DefaultValue="{{AddInServiceUrl}}/assets/{{DispatcherType}}-Dispatcher/{{DispatcherType}}-Dispatcher-32.png"/>
+          <bt:Image id="{{DispatcherType}}-Dispatcher-40" DefaultValue="{{AddInServiceUrl}}/assets/{{DispatcherType}}-Dispatcher/{{DispatcherType}}-Dispatcher-40.png"/>
+          <bt:Image id="{{DispatcherType}}-Dispatcher-48" DefaultValue="{{AddInServiceUrl}}/assets/{{DispatcherType}}-Dispatcher/{{DispatcherType}}-Dispatcher-48.png"/>
+          <bt:Image id="{{DispatcherType}}-Dispatcher-50" DefaultValue="{{AddInServiceUrl}}/assets/{{DispatcherType}}-Dispatcher/{{DispatcherType}}-Dispatcher-50.png"/>
+          <bt:Image id="{{DispatcherType}}-Dispatcher-64" DefaultValue="{{AddInServiceUrl}}/assets/{{DispatcherType}}-Dispatcher/{{DispatcherType}}-Dispatcher-64.png"/>
+          <bt:Image id="{{DispatcherType}}-Dispatcher-75" DefaultValue="{{AddInServiceUrl}}/assets/{{DispatcherType}}-Dispatcher/{{DispatcherType}}-Dispatcher-75.png"/>
+          <bt:Image id="{{DispatcherType}}-Dispatcher-80" DefaultValue="{{AddInServiceUrl}}/assets/{{DispatcherType}}-Dispatcher/{{DispatcherType}}-Dispatcher-80.png"/>
+          <bt:Image id="{{DispatcherType}}-Dispatcher-96" DefaultValue="{{AddInServiceUrl}}/assets/{{DispatcherType}}-Dispatcher/{{DispatcherType}}-Dispatcher-96.png"/>
+          <bt:Image id="{{DispatcherType}}-Dispatcher-144" DefaultValue="{{AddInServiceUrl}}/assets/{{DispatcherType}}-Dispatcher/{{DispatcherType}}-Dispatcher-144.png"/>
         </bt:Images>
         <bt:Urls>
           <bt:Url id="Taskpane.Url" DefaultValue="{{AddInServiceUrl}}/{{DispatcherType}}-Dispatcher"/>
