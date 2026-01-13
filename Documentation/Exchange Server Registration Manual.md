@@ -31,6 +31,7 @@ As a result of this chapter you should have the following information at your di
 # Configure the Add-in microservice for Exchange Web Services (EWS)
 If you are using you using Exchange Server (On-Premises), you must specify the address of the EWS API.
 
+## Windows Installation
 1.  Navigate to the directory \
     `%ProgramData%\freedom manufaktur\OutlookIntegration` \
     This directory contains the configuration for the app `appsettings.json` as well as some other app files.
@@ -49,6 +50,11 @@ If you are using you using Exchange Server (On-Premises), you must specify the a
     As seen in the example, the URL has been configured to use `https://exchange.MyCompany.com/EWS/Exchange.asmx` as address and TLS validation is enabled.\
     *After changing `appsettings.json` you must restart the `OutlookIntegration` Service.*
 
+## Docker environment
+### Docker Compose
+Set `Ews_EwsUrl=https://exchange.MyCompany.com/EWS/Exchange.asmx`.
+### HELM Chart
+Set `config.Ews.EwsUrl: "https://exchange.MyCompany.com/EWS/Exchange.asmx"`.
 
 > ➡️ Now continue with the [OutlookIntegration Manual](<OutlookIntegration Installation and Registration Manual.md#5-create-a-personalized-outlook-add-in-using-your-add-in-service>).
 
