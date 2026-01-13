@@ -6,4 +6,6 @@ metadata:
     {{- include "outlook-integration.labels" . | nindent 4 }}
 data:
   Api__EnableDetailedErrorMessages: {{ .Values.config.Api.EnableDetailedErrorMessages | quote }}
+  Ews__EwsUrl: {{ .Values.config.Ews.EwsUrl | quote }}
+  Ews__DisableTlsValidation: {{ .Values.config.Ews.DisableTlsValidation | quote }}
   Advanced__EnableOfflineMode: {{ .Values.config.Advanced.EnableOfflineMode | quote }}
