@@ -17,6 +17,12 @@ config:
   Api:
     # Enable to include the full stack trace when an error occurs while calling the API.
     EnableDetailedErrorMessages: false
+  # EWS settings - https://github.com/freedom-manufaktur/OutlookIntegration/blob/main/Documentation/Exchange%20Server%20Registration%20Manual.md
+  Ews:
+    # The EWS url. Should end with '/EWS/Exchange.asmx'. E.g. https://outlook.office365.com/EWS/Exchange.asmx
+    EwsUrl: ""
+    # Disable TLS validation for EWS connections. Not recommended.
+    DisableTlsValidation: false
   # Advanced settings, use with care!
   Advanced:
     # Enables an Offline mode by using an offline version of the Microsoft "Office JavaScript API" library. Not recommended.
@@ -30,14 +36,14 @@ fullnameOverride: ""
 
 # This section builds out the service account more information can be found here: https://kubernetes.io/docs/concepts/security/service-accounts/
 serviceAccount:
-  # Specifies whether a service account should be created
+  # Specifies whether a service account should be created.
   create: true
   # Automatically mount a ServiceAccount's API credentials?
   automount: true
-  # Annotations to add to the service account
+  # Annotations to add to the service account.
   annotations: {}
   # The name of the service account to use.
-  # If not set and create is true, a name is generated using the fullname template
+  # If not set and create is true, a name is generated using the fullname template.
   name: ""
 
 # This is for setting Kubernetes Annotations to a Pod.
@@ -80,9 +86,9 @@ ingress:
         - path: /
           pathType: ImplementationSpecific
   tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
+    # - secretName: chart-example-tls
+    #   hosts:
+    #     - chart-example.local
 
 # -- Expose the service via gateway-api HTTPRoute
 # Requires Gateway API resources and suitable controller installed within the cluster
@@ -165,11 +171,11 @@ volumes:
 
 volume:
   volumeEnabled: true
-  storageClassName: manual
+  storageClassName: hostpath
   capacity: 1Gi
-  # Windows Docker Desktop Kubernetes (1.32.2):
-  # C:\outlook-integration-data -> /run/desktop/mnt/host/c/outlook-integration-data
-  hostPath: /run/desktop/mnt/host/c/outlook-integration-data
+  # Windows Docker Desktop Kubernetes (v1.34.1):
+  # C:\Kubernetes\outlook-integration-data -> /run/desktop/mnt/host/c/Kubernetes/outlook-integration-data
+  hostPath: /run/desktop/mnt/host/c/Kubernetes/outlook-integration-data
 
 # Additional volumeMounts on the output Deployment definition.
 volumeMounts:
