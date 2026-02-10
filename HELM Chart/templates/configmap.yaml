@@ -8,4 +8,6 @@ data:
   Api__EnableDetailedErrorMessages: {{ .Values.config.Api.EnableDetailedErrorMessages | quote }}
   Ews__EwsUrl: {{ .Values.config.Ews.EwsUrl | quote }}
   Ews__DisableTlsValidation: {{ .Values.config.Ews.DisableTlsValidation | quote }}
+  Advanced__DisableNestedAppAuth: {{ .Values.config.Advanced.DisableNestedAppAuth | quote }}
+  Advanced__DisableIdentityApi: {{ .Values.config.Advanced.DisableIdentityApi | quote }}
   Advanced__EnableOfflineMode: {{ .Values.config.Advanced.EnableOfflineMode | quote }}
