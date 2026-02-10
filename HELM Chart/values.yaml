@@ -25,6 +25,10 @@ config:
     DisableTlsValidation: false
   # Advanced settings, use with care!
   Advanced:
+    # Disables the use of nested app authentication (NAA). Not recommended. Use this to keep using the Identity API from version 2.x.
+    DisableNestedAppAuth: false
+    # Disables the use of Identity API. Not recommended. Forces the use of EWS as fallback (when NAA is disabled).
+    DisableIdentityApi: false
     # Enables an Offline mode by using an offline version of the Microsoft "Office JavaScript API" library. Not recommended.
     EnableOfflineMode: false
 

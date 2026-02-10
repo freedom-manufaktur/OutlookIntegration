@@ -24,6 +24,8 @@ services: # https://docs.docker.com/compose/compose-file/05-services/
       - Api:EnableDetailedErrorMessages=${Api_EnableDetailedErrorMessages}
       - Ews:EwsUrl=${Ews_EwsUrl}
       - Ews:DisableTlsValidation=${Ews_DisableTlsValidation}
+      - Advanced:DisableNestedAppAuth=${Advanced_DisableNestedAppAuth}
+      - Advanced:DisableIdentityApi=${Advanced_DisableIdentityApi}
       - Advanced:EnableOfflineMode=${Advanced_EnableOfflineMode}
 
 volumes: # https://docs.docker.com/compose/compose-file/07-volumes/
