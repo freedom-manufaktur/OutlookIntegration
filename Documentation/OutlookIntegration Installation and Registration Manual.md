@@ -16,7 +16,7 @@ Table of contents
   - [Summary](#summary)
 - [3. whoosh Oktopus installation](#3-whoosh-oktopus-installation)
   - [Install whoosh Oktopus](#install-whoosh-oktopus)
-    - [Determin Oktopus API key](#determin-oktopus-api-key)
+    - [Determine Oktopus API key](#determine-oktopus-api-key)
   - [Import Dispatcher workflows](#import-dispatcher-workflows)
   - [Post Installation check](#post-installation-check-1)
 - [4. Configure the Add-in microservice](#4-configure-the-add-in-microservice)
@@ -212,7 +212,7 @@ Every successful interaction with the Add-in service will result in a call to *w
 The *whoosh Oktopus* installation is described in this document:
 [whoosh Oktopus Installation Manual](<https://github.com/freedom-manufaktur/Oktopus/blob/main/Documentation/Oktopus Installation Manual.md>)
 
-### Determin Oktopus API key
+### Determine Oktopus API key
 1.  Go to `Settings` -> `Advanced settings` and write down the `Webhook base URL` and `Webhook API key`.
 
 ## Import Dispatcher workflows
@@ -315,7 +315,7 @@ Now we can create your Add-in manifest.
 ## How to install (for personal use)
 1.  Visit legacy Outlook add-in store https://outlook.office365.com/mail/inclientstore
 1.  Choose *My add-ins* -> *Custom Addins* -> *Add a custom add-in* -> *Add from File...*
-1.  Select the your Add-in manifest (e.g. `MyCompany.xml`)
+1.  Select your Add-in manifest (e.g. `MyCompany.xml`)
 
 ## How to install (for organization)
 1.  Visit https://admin.microsoft.com/#/Settings/IntegratedApps (as Microsoft 365 admin)

@@ -29,7 +29,7 @@ As a result of this chapter you should have the following information at your di
 
 
 # Configure the Add-in microservice for Exchange Web Services (EWS)
-If you are using you using Exchange Server (On-Premises), you must specify the address of the EWS API.
+If you are using Exchange Server (On-Premises), you must specify the address of the EWS API.
 
 ## Windows Installation
 1.  Navigate to the directory \
