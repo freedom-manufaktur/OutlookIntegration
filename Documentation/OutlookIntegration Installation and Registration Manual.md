@@ -64,7 +64,7 @@ There are different kinds of installation. You may choose the one best suiting y
     > Note: This will automatically install .NET 10.0 if necessary.
 
 2.  (Recommended) Configure HTTPS over TLS \
-    Unless you are using some kind of reverse proxy to expose SMConnector to the internet, you **should** secure your instance with TLS (SSL). \
+    Unless you are using some kind of reverse proxy to expose OutlookIntegration to the internet, you **should** secure your instance with TLS (SSL). \
     Please follow the **[HTTPS Configuration Manual](<HTTPS Configuration Manual.md>)** and continue here.
 
 3.  (Optional) Open a browser and navigate to \
@@ -256,7 +256,7 @@ Let's put all this together.
     }
     ```
 
-    You should write down the *Outlook Integration* *Tenant ID* (e.g. `3c4ba0e5-216b-411c-8aaa-765dec8b023f`) for future reference. You will need to use it to initialize or update the settings of set tenant.
+    You should write down the *Outlook Integration* *Tenant ID* (e.g. `3c4ba0e5-216b-411c-8aaa-765dec8b023f`) for future reference. You will need to use it to initialize or update the settings of the tenant.
 
 3.  Set or update *Outlook Integration* tenant settings.
     ```
@@ -368,7 +368,7 @@ Please read this list when upgrading an existing installation.
 - Added `EnableTimeTracking` option to `Get Dispatcher metadata` workflow response.
 
 ## [2.0.0] - 2024-07-30
-- Documentation, *Docker Compose* and *HELM Chart* have been updated with the new tenant managment, removing the need for environment variables/`appsettings.json`.
+- Documentation, *Docker Compose* and *HELM Chart* have been updated with the new tenant management, removing the need for environment variables/`appsettings.json`.
 
 ## [1.6.0] - 2023-12-23
 - Documentation, *Docker Compose* and *HELM Chart* have been updated with `Oktopus:Url` and `Oktopus:ApiKey` variables.

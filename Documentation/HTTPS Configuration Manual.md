@@ -10,7 +10,7 @@ Table of contents
 - [1. Acquire a certificate](#1-acquire-a-certificate)
 - [2. Set permissions](#2-set-permissions)
 - [3. Configure application settings](#3-configure-application-settings)
-- [4. Restart SMConnector](#4-restart-smconnector)
+- [4. Restart Microservice](#4-restart-microservice)
 - [Need support?](#need-support)
 <!--/TOC-->
 
@@ -78,7 +78,7 @@ In our example, we would end up with the following settings:
 
 > There are other ways to configure HTTPS, e.g. through `.pfx`, `.pem` or `.crt` files. Learn more about those methods [here](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/servers/kestrel/endpoints?view=aspnetcore-10.0#configure-https-in-appsettingsjson).
 
-# 4. Restart SMConnector
+# 4. Restart Microservice
 After any modifications to `appsettings.json`, you need to restart the OutlookIntegration service for the changes to take effect.
 
 Test the changes by visiting https://addin.MyCompany.com
