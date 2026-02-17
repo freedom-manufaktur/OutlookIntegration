@@ -4,6 +4,7 @@ Contains documentation and setup scripts for the **OutlookIntegration** microser
 
 # Documentation
 - [OutlookIntegration Installation and Registration](<Documentation/OutlookIntegration Installation and Registration Manual.md>) 🚀 - Install OutlookIntegration on your server or in your Docker environment. Then register it with Microsoft 365 or Exchange Server.
+- [HTTPS Configuration](<Documentation/HTTPS Configuration Manual.md>) - How to configure HTTPS for OutlookIntegration.
 
 ## Additional documentation
 - [Exchange Server Registration](<Documentation/Exchange Server Registration Manual.md>) - How to integrate with [Microsoft Exchange Server](https://www.microsoft.com/en-us/microsoft-365/exchange/email).
