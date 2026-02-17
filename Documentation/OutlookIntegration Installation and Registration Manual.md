@@ -1,6 +1,6 @@
 ﻿OutlookIntegration - Add-in Installation and Registration Manual
 ---
-Version: `3.3.0` - `2026-01-07` \
+Version: `3.4.0` - `2026-02-10` \
 Author: martin@freedom-manufaktur.com \
 Link: [Documentation on GitHub](<https://github.com/freedom-manufaktur/OutlookIntegration/blob/main/Documentation/OutlookIntegration Installation and Registration Manual.md>)
 
@@ -16,7 +16,7 @@ Table of contents
   - [Summary](#summary)
 - [3. whoosh Oktopus installation](#3-whoosh-oktopus-installation)
   - [Install whoosh Oktopus](#install-whoosh-oktopus)
-    - [Determin Oktopus API key](#determin-oktopus-api-key)
+    - [Determine Oktopus API key](#determine-oktopus-api-key)
   - [Import Dispatcher workflows](#import-dispatcher-workflows)
   - [Post Installation check](#post-installation-check-1)
 - [4. Configure the Add-in microservice](#4-configure-the-add-in-microservice)
@@ -60,21 +60,26 @@ There are different kinds of installation. You may choose the one best suiting y
 **Installation**
 
 1.  Download Installation from [OutlookIntegration Download](https://freedommanufaktur.sharepoint.com/:f:/g/El63_xb4uBZKt_uqMrKfeZoBneAXDiuF-EDpPlknhli9yA?e=55Cd6k)
-1.  Install `OutlookIntegration Setup 3.3.0.exe`
-    > Note: This will automatically install .NET 10.0 if necessary
-1.  (Optional, verify running) Open a browser and navigate to \
-    http://localhost:8010 \
-    You should be greeted with the message\
+1.  Install `OutlookIntegration Setup 3.4.0.exe`
+    > Note: This will automatically install .NET 10.0 if necessary.
+
+2.  (Recommended) Configure HTTPS over TLS \
+    Unless you are using some kind of reverse proxy to expose OutlookIntegration to the internet, you **should** secure your instance with TLS (SSL). \
+    Please follow the **[HTTPS Configuration Manual](<HTTPS Configuration Manual.md>)** and continue here.
+
+3.  (Optional) Open a browser and navigate to \
+    https://localhost:8010 \
+    You should be greeted with the message: \
     `Welcome to the OutlookIntegration Microservice`
+
 1.	Allow inbound traffic to the service.
     > The default port used is `8010`. You may change the port number at any time.
+    - Configure your Windows Firewall to allow inbound traffic on port `8010`.
+
+    **OR**
+
     - Use a Reverse Proxy, like IIS [Application Request Routing](https://www.iis.net/downloads/microsoft/application-request-routing) to redirect traffic to port `8010`.
-        > This is the **recommended** option, as you can perform TLS/SSL termination before hitting the service and running the service in combination with other apps.
-
-    *OR*
-
-    - Configure your Windows Firewall to allow inbound traffic to port `8010`
-        > Note: You must configure a certificate to use TLS/SSL (see *Configuration*).
+      > You may use this option to perform TLS/SSL termination before hitting the service and running the service in combination with other apps.
 
 1.  As a result of the previous steps you should have a publically accessible and TLS secured endpoint like **https://addin.MyCompany.com**. \
     We will use this address in the next steps.
@@ -89,7 +94,7 @@ There are different kinds of installation. You may choose the one best suiting y
 If port `8010` (default) is already in use or you want to set any other option, then navigate to the directory \
 `%ProgramData%\freedom manufaktur\OutlookIntegration` \
 This directory contains the configuration for the app `appsettings.json` as well as some other app files.
-Editing `appsettings.json` will show something like
+Editing `appsettings.json` will show something like:
 ```
 {
   "$Note": "Please refer to https://github.com/freedom-manufaktur/OutlookIntegration for how and where to edit this file.",
@@ -207,7 +212,7 @@ Every successful interaction with the Add-in service will result in a call to *w
 The *whoosh Oktopus* installation is described in this document:
 [whoosh Oktopus Installation Manual](<https://github.com/freedom-manufaktur/Oktopus/blob/main/Documentation/Oktopus Installation Manual.md>)
 
-### Determin Oktopus API key
+### Determine Oktopus API key
 1.  Go to `Settings` -> `Advanced settings` and write down the `Webhook base URL` and `Webhook API key`.
 
 ## Import Dispatcher workflows
@@ -251,7 +256,7 @@ Let's put all this together.
     }
     ```
 
-    You should write down the *Outlook Integration* *Tenant ID* (e.g. `3c4ba0e5-216b-411c-8aaa-765dec8b023f`) for future reference. You will need to use it to initialize or update the settings of set tenant.
+    You should write down the *Outlook Integration* *Tenant ID* (e.g. `3c4ba0e5-216b-411c-8aaa-765dec8b023f`) for future reference. You will need to use it to initialize or update the settings of the tenant.
 
 3.  Set or update *Outlook Integration* tenant settings.
     ```
@@ -310,7 +315,7 @@ Now we can create your Add-in manifest.
 ## How to install (for personal use)
 1.  Visit legacy Outlook add-in store https://outlook.office365.com/mail/inclientstore
 1.  Choose *My add-ins* -> *Custom Addins* -> *Add a custom add-in* -> *Add from File...*
-1.  Select the your Add-in manifest (e.g. `MyCompany.xml`)
+1.  Select your Add-in manifest (e.g. `MyCompany.xml`)
 
 ## How to install (for organization)
 1.  Visit https://admin.microsoft.com/#/Settings/IntegratedApps (as Microsoft 365 admin)
@@ -363,7 +368,7 @@ Please read this list when upgrading an existing installation.
 - Added `EnableTimeTracking` option to `Get Dispatcher metadata` workflow response.
 
 ## [2.0.0] - 2024-07-30
-- Documentation, *Docker Compose* and *HELM Chart* have been updated with the new tenant managment, removing the need for environment variables/`appsettings.json`.
+- Documentation, *Docker Compose* and *HELM Chart* have been updated with the new tenant management, removing the need for environment variables/`appsettings.json`.
 
 ## [1.6.0] - 2023-12-23
 - Documentation, *Docker Compose* and *HELM Chart* have been updated with `Oktopus:Url` and `Oktopus:ApiKey` variables.
